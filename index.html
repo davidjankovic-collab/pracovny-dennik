@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="sk"><head><meta charset="utf-8"><title>Pracovný denník</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#07090d"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Denník"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="apple-touch-icon.png">
+<style>
+:root{--bg:#07090d;--card:rgba(255,255,255,.055);--card2:rgba(255,255,255,.04);--bd:rgba(255,255,255,.09);--tx:#f5f7fa;--mu:#8b95a3;--g:#34d399;--o:#fb923c;--y:#f1c40f;color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--tx);font-family:-apple-system,"Segoe UI",Roboto,sans-serif}
+.app{max-width:440px;margin:0 auto;padding:14px 14px 24px}
+header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+header h1{font-size:22px;margin:0}
+.ic{background:none;border:0;color:var(--g);font-size:26px;cursor:pointer;width:34px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:18px;padding:14px;margin-bottom:12px}
+.date{display:flex;align-items:center;gap:12px;font-weight:600;font-size:17px}
+.badge{margin-left:auto;background:#124d2c;color:var(--g);border-radius:20px;padding:6px 12px;font-size:13px}
+.shift{display:flex;align-items:center;gap:12px;font-weight:800;font-size:20px;margin-bottom:10px}
+.dot{width:46px;height:46px;border-radius:50%;background:#1fa65a;display:grid;place-items:center;font-size:22px}
+.times{display:flex;justify-content:space-between;align-items:center;text-align:center}
+.times small{display:block;color:var(--mu);font-size:13px;letter-spacing:.5px}
+.times b{font-size:38px}.mid{color:var(--mu);font-size:14px;border-left:1px solid var(--bd);border-right:1px solid var(--bd);padding:0 18px}
+.bar{height:10px;border-radius:6px;margin:14px 0 8px}
+.leg{display:flex;justify-content:center;gap:20px;font-size:13px;color:var(--mu);margin-bottom:12px}
+.leg i{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:6px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.stat{background:var(--card2);border:1px solid var(--bd);border-radius:14px;padding:12px;text-align:center}
+.stat b{font-size:30px}.stat div{color:var(--mu);font-size:14px;margin-top:4px}
+h2{font-size:18px;margin:0 0 8px}.row{display:flex;justify-content:space-between;padding:8px 6px;font-size:17px;align-items:center}
+.row+.row{border-top:1px solid var(--bd)}.list{background:var(--card2);border-radius:12px;padding:2px 8px}
+.earn{background:linear-gradient(135deg,#0f3a22,#0b2a19);border-color:#1f6b40;display:flex;justify-content:space-between;align-items:center}
+.earn b.big{font-size:34px;color:var(--g)}.earn small{color:var(--mu)}
+.ord b{display:block}.ord small{color:var(--mu)}.h{color:var(--g);font-weight:700;font-size:20px}
+.abs{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px}
+.abs button{background:var(--card);border:1px solid var(--bd);border-radius:14px;color:var(--tx);padding:12px 2px;cursor:pointer;font-size:13px}
+.abs button span{display:block;font-size:26px}.abs button small{color:var(--mu);font-size:11px}
+.abs button.on{border-color:var(--g)}.abs button.on small{color:var(--g)}
+.act{display:grid;grid-template-columns:1fr;gap:12px}
+.act button{height:54px;border-radius:30px;font-size:18px;font-weight:700;cursor:pointer;color:#fff}
+.edit{background:none;border:2px solid #fff}.add{background:linear-gradient(#2ecc71,#1fa65a);border:0}
+dialog{background:var(--card);color:var(--tx);border:1px solid var(--bd);border-radius:18px;width:min(92vw,400px)}
+dialog::backdrop{background:#000a}
+label{display:block;font-size:13px;color:var(--mu);margin:10px 0 4px}
+input{width:100%;padding:10px;border-radius:10px;border:1px solid var(--bd);background:var(--card2);color:#fff;font-size:16px}
+.mb{display:flex;gap:8px;margin-top:14px}.mb button{flex:1;padding:12px;border-radius:12px;border:0;font-size:16px;cursor:pointer}
+.ok{background:var(--g);color:#000}.cn{background:var(--bd);color:#fff}[hidden]{display:none!important}
+.wk{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}.wh{color:var(--mu);font-size:13px;text-align:center;margin-bottom:8px}
+.c{aspect-ratio:1/1.1;background:var(--card2);border:1px solid var(--bd);border-radius:12px;color:var(--tx);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:16px;font-weight:600;cursor:pointer;padding:0}
+.c small{font-size:10px;font-weight:600;color:var(--mu)}.c.w{border-color:#1f6b40;background:#0f2a1b}.c.w small{color:var(--g)}.c.o{border-color:#8a5a12;background:#2a1f0c}.c.o small{color:var(--o)}.c.v{border-color:#5b3d99;background:#1d1430}.c.v small{color:#a66bff}.c.t{box-shadow:0 0 0 2px var(--g)}.c.e{visibility:hidden}
+.three{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.three .stat{padding:12px 6px}.three .stat b{font-size:22px}.three .stat div{font-size:12px;margin-top:4px}
+html,body{background:radial-gradient(120% 55% at 50% -8%,#12353f 0,#07090d 62%) fixed,#07090d;font-family:Inter,"SF Pro Display",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;min-height:100%}
+.card{backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-radius:24px;box-shadow:0 10px 30px #0005;padding:16px}
+header h1{font-size:20px;font-weight:700;letter-spacing:-.3px}
+.ic{width:40px;height:40px;border-radius:50%;background:var(--card);border:1px solid var(--bd);font-size:20px;color:var(--tx);line-height:1}
+.card .ic{background:transparent;border-color:transparent}
+.c{border:0;border-radius:14px;background:rgba(255,255,255,.04);transition:transform .15s}.c:active{transform:scale(.93)}
+.c.w{background:linear-gradient(160deg,#34d39940,#34d39912)}.c.o{background:linear-gradient(160deg,#fb923c45,#fb923c14)}.c.v{background:linear-gradient(160deg,#a66bff45,#a66bff14)}
+.c.t{box-shadow:0 0 0 2px var(--g)}
+.stat{border:0;border-radius:18px;background:rgba(255,255,255,.055)}
+.list{border-radius:16px}.bar{height:8px}
+.times b{font-weight:700;letter-spacing:-1px}
+.dot{background:linear-gradient(135deg,#34d399,#06b6d4)}
+.badge{background:#34d39922}
+.abs button{border-radius:18px}
+.act button{border-radius:20px;height:56px}
+.add{background:linear-gradient(135deg,#34d399,#06b6d4)!important;color:#04121a!important;box-shadow:0 8px 24px #06b6d455}
+dialog{background:#12161c;border-radius:24px}
+.c.v1{background:linear-gradient(160deg,#38bdf845,#38bdf812)}.c.v1 small{color:#38bdf8}.c.v2{background:linear-gradient(160deg,#f472b645,#f472b612)}.c.v2 small{color:#f472b6}.c.v3{background:linear-gradient(160deg,#facc1545,#facc1512)}.c.v3 small{color:#facc15}
+.c.m{background:linear-gradient(135deg,#34d39945 50%,#fb923c50 50%)}
+.app{padding-bottom:100px}
+#nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(100%,440px);display:grid;grid-template-columns:1fr 72px 1fr;gap:8px;padding:10px 14px calc(10px + env(safe-area-inset-bottom,0px));background:rgba(7,9,13,.85);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-top:1px solid var(--bd);z-index:5}
+#nav button{display:flex;align-items:center;justify-content:center;height:46px;border:0;border-radius:16px;background:transparent;color:var(--mu);font-size:16px;font-weight:700;cursor:pointer}
+#nav button.on{background:rgba(52,211,153,.16);color:var(--g)}
+.pd{background:var(--card2);border:1px solid var(--bd);border-radius:16px;margin-bottom:8px;overflow:hidden}.pd.op{border-color:#1f6b40}
+.ph{width:100%;display:flex;justify-content:space-between;align-items:center;background:none;border:0;color:var(--tx);font-size:17px;font-weight:600;padding:14px 16px;cursor:pointer}
+.ph.of{color:var(--mu)}.ph.hl{color:#f87171}.pv{color:var(--g);font-weight:700}.pz{color:var(--mu)}.pb{padding:0 12px 10px}
+#kb{position:fixed;right:12px;z-index:50;height:42px;padding:0 16px;border:0;border-radius:21px;background:var(--g);color:#04121a;font-size:15px;font-weight:700;box-shadow:0 6px 20px #0008;cursor:pointer}
+dialog{background:linear-gradient(160deg,#17375a 0%,#0e2038 55%,#0a1626 100%);border:1px solid rgba(96,165,250,.35);box-shadow:0 20px 60px rgba(8,30,70,.7),inset 0 1px 0 rgba(147,197,253,.15)}
+dialog::backdrop{background:rgba(4,12,26,.72);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+dialog h2{color:#eaf3ff}
+dialog label{color:#8fb4e3}
+dialog input{background:rgba(96,165,250,.09);border:1px solid rgba(96,165,250,.28);color:#f2f8ff;color-scheme:dark}
+dialog input:focus{outline:none;border-color:#60a5fa;box-shadow:0 0 0 3px rgba(96,165,250,.25)}
+dialog .ok{background:linear-gradient(135deg,#3b82f6,#06b6d4);color:#fff;font-weight:700}
+dialog .cn{background:rgba(147,197,253,.12);color:#dbeafe}
+dialog small{color:#8fb4e3}
+.r2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.r2>div{min-width:0}.r2 input{min-width:0;max-width:100%;padding:10px 6px;font-size:15px}
+.r2{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px}
+.r2 input{display:block;width:100%;min-width:0;max-width:100%;height:40px;padding:0 6px;font-size:14px;text-align:center;-webkit-appearance:none;appearance:none}
+.r2 input::-webkit-date-and-time-value{text-align:center;min-height:1.3em}
+.r2 label{text-align:center}.r2 input{text-align-last:center;line-height:40px}
+.r2 input::-webkit-datetime-edit{display:flex;justify-content:center;width:100%;padding:0}
+.r2 input::-webkit-date-and-time-value{margin:0 auto;width:100%;display:flex;justify-content:center;align-items:center;height:40px}
+dialog{padding:16px}
+dialog h2{font-size:18px;margin:0 0 4px}
+dialog label{font-size:12px;margin:8px 0 3px}
+dialog .mb{margin-top:12px}dialog .mb button{height:42px;padding:0;font-size:15px}
+dialog small{font-size:12px}
+.oc{padding:16px}.oh{display:flex;justify-content:space-between;align-items:center}.oh b{font-size:17px}
+.ol2{background:rgba(255,255,255,.08);border:0;color:var(--tx);border-radius:12px;padding:8px 12px;font-size:13px;cursor:pointer}
+.ov{font-size:44px;font-weight:800;letter-spacing:-1px;margin:6px 0 0}.os{color:var(--mu);font-size:13px}
+.ob{height:8px;border-radius:5px;background:rgba(255,255,255,.08);margin-top:12px;overflow:hidden}.ob i{display:block;height:100%;border-radius:5px}
+.oi{font-size:26px;margin-right:10px;vertical-align:middle}.oh b{display:flex;align-items:center}
+.ov2{font-size:26px;font-weight:800;margin-top:16px}
+@keyframes sl{from{opacity:0;transform:translateX(var(--dx)) scale(.985)}to{opacity:1;transform:none}}.sw{animation:sl .3s cubic-bezier(.2,.8,.2,1)}
+@keyframes dp{from{opacity:0;transform:translateY(16px) scale(.94)}to{opacity:1;transform:none}}dialog[open]{animation:dp .28s cubic-bezier(.2,.9,.3,1.15)}
+@keyframes bf{from{opacity:0}to{opacity:1}}dialog[open]::backdrop{animation:bf .25s ease}
+@keyframes ci{from{opacity:0;transform:scale(.82) translateY(6px)}to{opacity:1;transform:none}}.c{animation:ci .32s cubic-bezier(.2,.8,.2,1) backwards}
+@keyframes ex{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}.pb{animation:ex .25s ease}
+.oc{animation:ci .45s cubic-bezier(.2,.8,.2,1) backwards}.oc:nth-child(2){animation-delay:.06s}.oc:nth-child(3){animation-delay:.12s}.oc:nth-child(4){animation-delay:.18s}
+@keyframes gw{from{width:0}}.ob i{animation:gw .8s cubic-bezier(.2,.8,.2,1)}
+#nav button,.add,.ol2,.abs button,.ph{transition:transform .12s,background .25s,color .25s}
+#nav button:active,.add:active,.ol2:active,.abs button:active,.ph:active{transform:scale(.95)}
+.ic{display:grid;place-items:center;padding:0}
+.sw-row{display:flex;justify-content:space-between;align-items:center;margin:6px 0 10px;font-size:16px}
+label.tg{position:relative;display:inline-block;width:52px;height:30px;margin:0;flex:none}.tg input{opacity:0;width:0;height:0;position:absolute}.tg i{position:absolute;inset:0;background:rgba(255,255,255,.16);border-radius:30px;transition:.25s}.tg i:before{content:"";position:absolute;width:24px;height:24px;left:3px;top:3px;border-radius:50%;background:#fff;transition:.25s}.tg input:checked+i{background:var(--g)}.tg input:checked+i:before{transform:translateX(22px)}
+.sn{display:block;color:var(--mu);font-size:12px;margin-top:8px}
+.lg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.lg button{height:46px;border-radius:14px;border:1px solid var(--bd);background:var(--card2);color:var(--tx);font-size:14px;font-weight:600;cursor:pointer;transition:background .25s,color .25s,border-color .25s}.lg button.on{background:rgba(52,211,153,.16);border-color:var(--g);color:var(--g)}
+.c.h{color:#f87171}.c.we{color:var(--mu)}.c.h.we{color:#f87171}.badge{font-size:12px;text-align:center}
+.times>div:first-child,.times>div:last-child{flex:1;min-width:0}.mid{padding:0 10px}
+input.tm{width:100%;max-width:120px;font-size:24px;font-weight:700;text-align:center;padding:8px 4px;margin-top:6px;border-radius:14px;color:var(--tx);background:var(--card2);border:1px solid var(--bd);color-scheme:dark}
+#info{padding:14px 10px;display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:8px;text-align:center}
+#info .tm{font-size:25px;font-weight:700;letter-spacing:-.5px;font-variant-numeric:tabular-nums;line-height:1.1}
+#info .nd{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:12px;line-height:1.3;color:var(--tx);min-width:0;overflow-wrap:anywhere}
+#info .nd svg{flex:none;border-radius:3px;box-shadow:0 0 0 1px rgba(255,255,255,.18)}
+#tp{display:flex!important;align-items:center;justify-content:center;line-height:46px;padding:0!important}#tp::-webkit-date-and-time-value{display:flex;align-items:center;justify-content:center;text-align:center;margin:0;min-height:46px;line-height:46px;width:100%}#tp::-webkit-datetime-edit{padding:0;display:flex;align-items:center;justify-content:center}#tp::-webkit-datetime-edit-fields-wrapper{display:flex;align-items:center;justify-content:center}#tp::-webkit-calendar-picker-indicator{display:none}
+#sg{margin:2px 0 0}#sg button{display:flex;justify-content:space-between;align-items:center;gap:10px;width:100%;text-align:left;margin:0 0 6px;padding:9px 12px;border-radius:12px;border:1px solid rgba(96,165,250,.3);background:rgba(96,165,250,.1);color:#eaf3ff;font-size:14px;cursor:pointer}#sg button b{flex:none}#sg button span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#9cc0ee;font-size:13px}#sg button:active{background:rgba(96,165,250,.22)}
+#info.mini{display:block;padding:6px 12px;margin-bottom:8px;border-radius:16px}#info.mini .nd{display:none}#info.mini .tm{font-size:16px;font-weight:600;color:var(--mu);letter-spacing:0}
+.oz{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 4px;min-width:0;flex:1;padding-right:8px}.oz b{font-size:17px;display:inline}.oz span{color:var(--mu);font-size:14px}.oz i{font-style:normal;color:var(--mu);font-size:14px;margin:0}.row.ord .h{white-space:nowrap;flex:none}
+</style></head><body><div class="app">
+<div id="info" class="card" data-nt><div class="nd"><svg width="24" height="16" viewBox="0 0 24 16"><rect width="24" height="5.34" fill="#fff"/><rect y="5.33" width="24" height="5.34" fill="#0b4ea2"/><rect y="10.66" width="24" height="5.34" fill="#ee1c25"/><path d="M5 3.2h6.2v5.4c0 2.2-1.6 3.4-3.1 4C6.6 12 5 10.8 5 8.6z" fill="#ee1c25" stroke="#fff" stroke-width=".7"/><path d="M8.1 4.6v6.6M6.4 6.2h3.4M6.7 8h2.8" stroke="#fff" stroke-width=".8"/></svg><span id="nsk"></span></div><div class="tm" id="tm">--:--:--</div><div class="nd"><svg width="24" height="16" viewBox="0 0 24 16"><rect width="24" height="5.34" fill="#ce2939"/><rect y="5.33" width="24" height="5.34" fill="#fff"/><rect y="10.66" width="24" height="5.34" fill="#477050"/></svg><span id="nhu"></span></div></div>
+<div id="work"><div id="home"><header><span style="width:34px"></span><h1>Pracovný denník</h1><button class="ic" onclick="openSet()" aria-label="Nastavenia"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button></header>
+<div class="card date"><button class="ic" id="mp">‹</button><span id="mt" style="flex:1;text-align:center"></span><button class="ic" id="mn">›</button></div>
+<div class="card"><div class="wk wh" id="wh"></div><div class="wk" id="cal"></div>
+<div class="leg" style="margin:12px 0 0;flex-wrap:wrap;gap:8px 14px"><span><i style="background:var(--g)"></i>Odpracované</span><span><i style="background:var(--o)"></i>Nadčas</span><span><i style="background:#a66bff"></i>Dovolenka</span><span><i style="background:#38bdf8"></i>Lekár</span><span><i style="background:#f472b6"></i>Lekár+</span><span><i style="background:#facc15"></i>PN-ka</span><span><i style="background:#f87171"></i>Sviatok</span><span><i style="background:#7dd3fc"></i>Σ týždeň</span></div></div>
+<div class="card"><h2>Súhrn mesiaca</h2><div class="three" style="grid-template-columns:repeat(3,1fr);gap:8px"><div class="stat"><b style="color:var(--g)" id="sh"></b><div>Odpracované</div></div><div class="stat"><b style="color:var(--o)" id="so"></b><div>Nadčas</div></div><div class="stat"><b style="color:#7dd3fc" id="sd"></b><div>Odpracované dni</div></div></div></div>
+<div class="act" style="grid-template-columns:1fr"><button class="add" id="td">Dnešný deň</button></div></div>
+<div id="detail" hidden><header><button class="ic" id="prev">‹</button><h1>Pracovný denník</h1><span style="width:34px"></span></header>
+<div class="card date"><span id="dt"></span><span class="badge" id="bd">Odpracovaný deň</span></div>
+<div class="card">
+ <div class="shift" style="justify-content:center">PRACOVNÁ ZMENA</div>
+ <div class="times"><div><small>ZAČIATOK</small><input type="text" readonly inputmode="none" class="tm" id="st" data-t="Začiatok" placeholder="--:--" style="cursor:pointer"></div><div class="mid">→<br><span id="tot"></span></div><div><small>KONIEC</small><input type="text" readonly inputmode="none" class="tm" id="en" data-t="Koniec" placeholder="--:--" style="cursor:pointer"></div></div>
+ <div class="bar" id="bar"></div>
+ <div class="leg"><span><i style="background:var(--g)"></i>Bežný čas</span><span><i style="background:var(--o)"></i>Nadčas</span></div>
+ <div class="three"><div class="stat"><b style="color:var(--g)" id="net"></b><div>Čistý pracovný čas</div></div><div class="stat"><b style="color:var(--o)" id="ot"></b><div>Nadčas</div></div></div>
+</div>
+<div class="card"><h2>Prestávky</h2><div class="list" id="br"></div></div>
+<div class="card"><h2 style="display:flex;justify-content:space-between;align-items:baseline;gap:10px"><span>Zákazky <small style="color:var(--mu);font-weight:500;font-size:12px">· len informácia</small></span><span id="ordT" hidden style="color:var(--g);font-size:16px;font-weight:700"></span></h2><div class="list" id="ord"></div></div>
+<div class="abs" id="abs"></div>
+<div class="act"><button class="add" id="ba">Pridať zákazku</button></div></div>
+<div id="prace" hidden><div class="card" style="padding:10px 14px"><input type="search" id="sq" inputmode="numeric" placeholder="Vyhľadať číslo zákazky" autocomplete="off" style="text-align:center;font-size:15px;height:44px"></div><div id="pmc" class="card date"><button class="ic" id="pp">‹</button><span id="pt" style="flex:1;text-align:center"></span><button class="ic" id="pn">›</button></div><h2 id="pth" style="margin:6px 4px 10px;text-align:center">Zapísané zákazky</h2><div id="pl"></div></div></div>
+<div id="other" hidden><header><span style="width:34px"></span><h1>Informácie</h1><span style="width:34px"></span></header><div class="card date"><button class="ic" id="oy1">‹</button><span id="oyt" style="flex:1;text-align:center"></span><button class="ic" id="oy2">›</button></div><div id="ol"></div></div>
+<div id="settings" hidden><header><button class="ic" onclick="closeSet()" aria-label="Späť">‹</button><h1>Nastavenia</h1><span style="width:40px"></span></header>
+<div class="card" style="padding:20px 16px;margin-bottom:16px"><h2 style="text-align:center;margin-bottom:14px">Pracovná doba</h2><label style="text-align:center;margin-top:0">Hodiny za deň</label><input type="number" id="l1" style="text-align:center;display:block;width:130px;max-width:100%;margin:0 auto;font-size:15px;height:44px;padding:10px 4px" step="0.5" inputmode="decimal"></div>
+<div class="card" style="padding:20px 16px"><h2 style="text-align:center;margin-bottom:14px">Jazyk</h2><div class="lg" id="lg" data-nt><button data-l="sk">Slovenčina</button><button data-l="en">English</button><button data-l="hu">Magyar</button></div></div>
+</div>
+</div>
+<dialog id="dT"><h2 id="dTt" style="text-align:center"></h2><input type="time" id="tp" style="display:block;width:170px;max-width:100%;min-width:0;margin:6px auto 0;text-align:center;font-size:20px;height:48px;padding:0 8px;-webkit-appearance:none;appearance:none;box-sizing:border-box"><div class="mb"><button class="cn" id="dTx" style="color:#ff9b9b">Vymazať</button><button class="cn" autofocus onclick="dT.close()">Zrušiť</button><button class="ok" id="dTo">✓ Uložiť</button></div></dialog>
+<dialog id="d5"><h2 id="d5t"></h2><label>Počet dní (na rok)</label><input type="text" id="d5i" inputmode="decimal" placeholder="napr. 6,5"><div class="mb"><button class="cn" autofocus onclick="d5.close()">Zrušiť</button><button class="ok" id="d5s">Uložiť</button></div></dialog>
+<nav id="nav"><button data-t="w" aria-label="Práca"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/><path d="M3 13h18"/></svg></button><button class="on" data-t="h" aria-label="Domov"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/><path d="M10 19.5v-5h4v5"/></svg></button><button data-t="o" aria-label="Informácie"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5"/><circle cx="12" cy="7.6" r=".6" fill="currentColor"/></svg></button></nav>
+<dialog id="d1"><h2>Upraviť zmenu</h2>
+<div class="r2"><div><label>Začiatok</label><input type="time" id="e1"></div><div><label>Koniec</label><input type="time" id="e2"></div></div>
+<label>Prestávky (HH:MM-HH:MM, oddelené čiarkou)</label><input id="e3">
+
+<div class="mb"><button class="cn" onclick="d1.close()">Zrušiť</button><button class="ok" id="s1">Uložiť</button></div></dialog>
+<dialog id="d2"><h2 id="d2t">Pridať zákazku</h2>
+<label>Číslo zákazky</label><input id="a1" inputmode="numeric"><div id="sg" hidden style="margin-top:8px"></div><label>POZ 1</label><input id="a2" placeholder="POZ 1"><label>POZ 2</label><input id="a4" placeholder="POZ 2"><label>Činnosť</label><input id="a5"><label>Hodiny</label><input type="number" id="a3" step="0.5">
+<div class="mb"><button class="cn" id="d2c" onclick="d2.close()">Zrušiť</button><button class="ok" id="s2">Pridať</button></div><div class="mb"><button class="cn" id="sx" style="color:#ff6b6b" hidden>Odstrániť</button></div></dialog>
+
+<dialog id="d4"><h2 id="d4t"></h2><div class="r2"><div><label>Dátum od</label><input type="date" id="v1"></div><div><label>Dátum do</label><input type="date" id="v2"></div></div><div class="r2"><div><label>Čas od</label><input type="time" id="v3"></div><div><label>Čas do</label><input type="time" id="v4"></div></div><div class="mb"><button class="cn" autofocus onclick="d4.close()">Zrušiť</button><button class="ok" id="vs">Uložiť</button></div><div class="mb"><button class="cn" id="vx" style="color:#ff6b6b">Odstrániť</button></div></dialog>
+<script>
+function LSset(k,v){try{localStorage.setItem(k,v)}catch(e){}}
+const $=i=>document.getElementById(i),DAYS=["Nedeľa","Pondelok","Utorok","Streda","Štvrtok","Piatok","Sobota"],
+MON=["januára","februára","marca","apríla","mája","júna","júla","augusta","septembra","októbra","novembra","decembra"],
+ABS=[["Dovolenka","🌴"],["Lekár","➕"],["Lekár+","👤"],["PN-ka","🛡️"]];
+let day=new Date(new Date().getFullYear(),new Date().getMonth(),new Date().getDate()),store={};try{store=JSON.parse(localStorage.getItem("pd")||"{}")}catch(e){}
+{const n=new Date(),t0=new Date(n.getFullYear(),n.getMonth(),n.getDate());let ch=0;for(const k in store){const q=k.split("-").map(Number);if(new Date(q[0],q[1]-1,q[2])>=t0&&store[k].b&&store[k].b[0]!="10:30-11:00"){store[k].b=["10:30-11:00","15:00-15:15"];ch=1}}if(ch)try{LSset("pd",JSON.stringify(store))}catch(e){}}
+{const x=store["2026-11-3"];if(x&&x.s=="05:30"&&x.e=="16:15"&&x.o&&x.o.length==2&&x.o[0].n==125&&x.o[1].n==128){delete store["2026-11-3"];try{LSset("pd",JSON.stringify(store))}catch(e){}}}
+const key=()=>day.toISOString().slice(0,10).replace(/T.*/,"")&&day.getFullYear()+"-"+(day.getMonth()+1)+"-"+day.getDate();
+const D=()=>store[key()]||(store[key()]={s:"",e:"",b:["10:30-11:00","15:00-15:15"],rate:10,o:[],a:[]});
+const save=()=>{try{LSset("pd",JSON.stringify(store))}catch(e){}};
+const m=t=>{const[a,b]=t.split(":").map(Number);return a*60+b},hm=x=>Math.floor(x/60)+" h"+(x%60?" "+x%60+" min":"");
+function oz(x){const e=t=>String(t).replace(/&/g,"&amp;").replace(/</g,"&lt;"),[a,c]=(x.d||"").split(" – "),ps=(a||"").split(", ").map(t=>t.trim()).filter(Boolean),P=[`<b>${e(x.n)}</b>`,...ps.map(t=>`<span>${e(t)}</span>`)];if(c&&c.trim())P.push(`<span>${e(c.trim())}</span>`);return`<div class="oz" data-nt>${P.join('<i>–</i>')}</div>`}
+function render(){const d=D();$("dt").textContent=dtStr(day);
+ const c=calc(d,day),span=c.span,net=c.net,ot=c.ot,nt=c.nt;
+ $("st").value=d.s||"";$("en").value=d.e||"";$("tot").textContent=hm(span);
+ $("bd").textContent=holName(day)||(day.getDay()%6==0?"Víkend":"Pracovný deň");$("net").textContent=hm(net);$("ot").textContent=hm(ot);
+ const sg=[[270,390,"var(--o)"],[390,c.E,"var(--g)"],[c.E+15,c.E+135,"var(--o)"]],st=[];let acc=0;if(span){const s0=m(d.s),e0=m(d.e);sg.forEach(([a,b,col])=>{const l=Math.max(0,Math.min(b,e0)-Math.max(a,s0));if(l){st.push(col+" "+acc/span*100+"% "+(acc+l)/span*100+"%");acc+=l}})}$("bar").style.background=(span&&isOff(day))?"var(--o)":st.length?"linear-gradient(90deg,"+st.join(",")+")":"var(--g)";
+ $("br").innerHTML=d.b.map(x=>{const[a,b]=x.split("-");return`<div class="row"><span>${a} – ${b}</span><span>${m(b)-m(a)} min</span></div>`}).join("")||'<div class="row">Bez prestávok</div>';
+ 
+ {const t=d.o.reduce((a,x)=>a+(+x.h||0),0);$("ordT").hidden=!d.o.length;$("ordT").textContent="Spolu "+Math.round(t*10)/10+" h"}
+ $("ord").innerHTML=d.o.map((o,i)=>`<div class="row ord" style="cursor:pointer" onclick="editOrd(key(),${i})">${oz(o)}<span class="h">${o.h} h ›</span></div>`).join("")||'<div class="row">Žiadne zákazky</div>';
+ $("abs").innerHTML=ABS.map((a,i)=>{const on=d.a.includes(i),t=(d.at||{})[i];return`<button class="${on?"on":""}" onclick="openAbs(${i})"><span>${a[1]}</span>${a[0]}<br><small>${on?(t&&(t.f||t.t)?(t.f||"")+"–"+(t.t||""):"Zaznamenané"):"Bez záznamu"}</small></button>`}).join("")}
+let tId="";
+function openT(id){tId=id;const el=$(id);$("dTt").textContent=el.dataset.t;let v=el.value;if(!v){v=id=="st"?"06:30":id=="en"?"15:00":id=="b1"?"12:00":($("b1").value?(x=>String(Math.floor(x/60)).padStart(2,"0")+":"+String(x%60).padStart(2,"0"))(m($("b1").value)+30):"12:30")}$("tp").value=v;$("dT").showModal()}
+document.addEventListener("click",e=>{const el=e.target.closest&&e.target.closest("#st,#en");if(el)openT(el.id)});
+$("dTo").onclick=()=>{const v=$("tp").value;if(!v)return;if(tId=="st"){D().s=v}else if(tId=="en"){D().e=v}else return;save();$("dT").close();render();home()};
+$("dTx").onclick=()=>{if(tId=="st"){D().s=""}else if(tId=="en"){D().e=""}else return;save();$("dT").close();render();home()};
+function tg(i){const a=D().a,k=a.indexOf(i);k<0?a.push(i):a.splice(k,1);save();render()}
+let LIM=8;try{const s=JSON.parse(localStorage.getItem("pdset"));LIM=+s.lim||8}catch(e){}
+
+const NM={sk:{mon:["Január","Február","Marec","Apríl","Máj","Jún","Júl","August","September","Október","November","December"],monG:["januára","februára","marca","apríla","mája","júna","júla","augusta","septembra","októbra","novembra","decembra"],day:["Nedeľa","Pondelok","Utorok","Streda","Štvrtok","Piatok","Sobota"],ds:["Ne","Po","Ut","St","Št","Pi","So"],hd:["Po","Ut","St","Št","Pi","So","Ne"]},
+en:{mon:["January","February","March","April","May","June","July","August","September","October","November","December"],day:["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],ds:["Su","Mo","Tu","We","Th","Fr","Sa"],hd:["Mo","Tu","We","Th","Fr","Sa","Su"]},
+hu:{mon:["Január","Február","Március","Április","Május","Június","Július","Augusztus","Szeptember","Október","November","December"],day:["Vasárnap","Hétfő","Kedd","Szerda","Csütörtök","Péntek","Szombat"],ds:["V","H","K","Sze","Cs","P","Szo"],hd:["H","K","Sze","Cs","P","Szo","V"]}};
+let LG="sk";try{LG=localStorage.getItem("pdlang")||"sk";if(!NM[LG])LG="sk"}catch(e){}
+const mtl=(y,mo)=>LG=="hu"?y+". "+NM.hu.mon[mo].toLowerCase():NM[LG].mon[mo]+" "+y;
+const dtStr=dt=>{const n=NM[LG],d=dt.getDate(),y=dt.getFullYear(),mo=dt.getMonth();if(LG=="en")return n.day[dt.getDay()]+", "+n.mon[mo]+" "+d+", "+y;if(LG=="hu")return y+". "+n.mon[mo].toLowerCase()+" "+d+"., "+n.day[dt.getDay()].toLowerCase();return n.day[dt.getDay()]+", "+d+". "+n.monG[mo]+" "+y};
+const TR={"Pracovný denník":["Work Diary","Munkanapló"],"Odpracované":["Worked","Ledolgozott"],"Nadčas":["Overtime","Túlóra"],"Dovolenka":["Vacation","Szabadság"],"Lekár":["Doctor","Orvos"],"Lekár+":["Doctor+","Orvos+"],"PN-ka":["Sick leave","Betegállomány"],"Sviatok":["Holiday","Ünnepnap"],"Σ týždeň":["Σ week","Σ hét"],"Súhrn mesiaca":["Month summary","Havi összegzés"],"Odpracované dni":["Days worked","Ledolgozott napok"],"Dnešný deň":["Today","Ma"],"PRACOVNÁ ZMENA":["WORK SHIFT","MŰSZAK"],"ZAČIATOK":["START","KEZDÉS"],"KONIEC":["END","VÉGE"],"Bežný čas":["Regular time","Normál idő"],"Čistý pracovný čas":["Net work time","Nettó munkaidő"],"Prestávky":["Breaks","Szünetek"],"Bez prestávok":["No breaks","Nincs szünet"],"Zákazky":["Orders","Megrendelések"],"· len informácia":["· info only","· csak tájékoztató"],"Žiadne zákazky":["No orders","Nincs megrendelés"],"Vyhľadať číslo zákazky":["Search order number","Megrendelésszám keresése"],"Nenašli sa žiadne zákazky":["No orders found","Nincs találat"],"Bez záznamu":["No entry","Nincs bejegyzés"],"Zaznamenané":["Recorded","Rögzítve"],"Pridať zákazku":["Add order","Megrendelés hozzáadása"],"Upraviť zákazku":["Edit order","Megrendelés szerkesztése"],"Pridať":["Add","Hozzáadás"],"Uložiť":["Save","Mentés"],"Zrušiť":["Cancel","Mégse"],"Odstrániť":["Delete","Törlés"],"Naozaj odstrániť?":["Really delete?","Biztosan törli?"],"Zavrieť":["Close","Bezárás"],"Číslo zákazky":["Order number","Megrendelés száma"],"Činnosť":["Activity","Tevékenység"],"Hodiny":["Hours","Órák"],"Dátum od":["Date from","Kezdő dátum"],"Dátum do":["Date to","Záró dátum"],"Čas od":["Time from","Kezdő idő"],"Čas do":["Time to","Záró idő"],"Dátum do musí byť po dátume od":["End date must be after the start date","A záró dátumnak a kezdő dátum után kell lennie"],"Zapísané zákazky":["Recorded orders","Rögzített megrendelések"],"Víkend":["Weekend","Hétvége"],"Pracovný deň":["Working day","Munkanap"],"Nastavenia":["Settings","Beállítások"],"Pracovný čas":["Working time","Munkaidő"],"Pracovná doba (hodiny za deň)":["Working time (hours per day)","Munkaidő (óra naponta)"],"Prestávka":["Break","Szünet"],"Spolu":["Total","Összesen"],"Naposledy použité":["Recently used","Legutóbb használt"],"Začiatok":["Start","Kezdés"],"Koniec":["End","Vége"],"OD":["FROM","TÓL"],"DO":["TO","IG"],"Prestávka od":["Break start","Szünet kezdete"],"Prestávka do":["Break end","Szünet vége"],"Vymazať":["Clear","Törlés"],"✓ Uložiť":["✓ Save","✓ Mentés"],"Informácie":["Information","Információk"],"Pracovná doba":["Working hours","Munkaidő"],"Hodiny za deň":["Hours per day","Órák naponta"],"Od":["From","Ettől"],"Do":["To","Eddig"],"Druhá prestávka 15:00–15:15 je pevná a pridáva sa automaticky.":["The second break 15:00–15:15 is fixed and added automatically.","A második szünet (15:00–15:15) fix, és automatikusan hozzáadódik."],"Počet dní (na rok)":["Number of days (per year)","Napok száma (évente)"],"Nastaviť dni":["Set days","Napok beállítása"],"Nastavte počet dní dovolenky":["Set your number of vacation days","Állítsa be a szabadságnapok számát"],"Notifikácie":["Notifications","Értesítések"],"Pripomienka zápisu zmeny":["Shift entry reminder","Műszak-rögzítési emlékeztető"],"Čas pripomienky":["Reminder time","Emlékeztető ideje"],"Vyskúšať notifikáciu":["Test notification","Értesítés kipróbálása"],"Pripomienka príde v pracovné dni, ak nemáte zapísanú zmenu. Funguje, keď je aplikácia otvorená.":["The reminder arrives on working days if no shift is logged. It works while the app is open.","Az emlékeztető munkanapokon érkezik, ha nincs rögzített műszak. Csak megnyitott alkalmazásnál működik."],"Jazyk":["Language","Nyelv"],"Notifikácie nie sú v tomto prehliadači podporované":["Notifications are not supported in this browser","Ez a böngésző nem támogatja az értesítéseket"],"Notifikácie sú v prehliadači zablokované":["Notifications are blocked in the browser","Az értesítések le vannak tiltva a böngészőben"],"Nezabudnite zapísať dnešnú zmenu":["Don't forget to log today's shift","Ne felejtse el rögzíteni a mai műszakot"],"Skryť klávesnicu":["Hide keyboard","Billentyűzet elrejtése"],
+};
+const TS=[["využitých hodín z maxima na rok",["hours used of the yearly maximum","felhasznált óra az éves maximumból"]],["využitých dní z maxima na rok",["days used of the yearly maximum","felhasznált nap az éves maximumból"]],["dní PN-ky v roku",["sick-leave days this year","betegállományos nap idén"]],["dní zostáva · využité",["days left · used","nap maradt · felhasznált"]],["Zákazka č.",["Order no.","Megrendelés sz."]]].sort((a,b)=>b[0].length-a[0].length);
+const TX=[[/(\d+) z (\d+)/g,["$1 of $2","$1 / $2"]],[/\(z toho (\d+) prenesených\)/g,["(incl. $1 carried over)","(ebből $1 átvitt)"]]];
+const li=()=>LG=="en"?0:LG=="hu"?1:-1;
+function tx(s){const i=li();if(i<0)return s;const k=s.trim();if(TR[k])return s.replace(k,TR[k][i]);let r=s;for(const[a,v]of TS)if(r.includes(a))r=r.split(a).join(v[i]);for(const[re,v]of TX)r=r.replace(re,v[i]);return r}
+const orig=new WeakMap(),wr=new WeakMap();
+function tn(n){if(n.nodeType!=3)return;const p=n.parentNode;if(!p||/^(SCRIPT|STYLE)$/.test(p.nodeName)||(p.closest&&p.closest("[data-nt]")))return;let o=orig.get(n);if(o===undefined||n.nodeValue!==wr.get(n)){o=n.nodeValue;orig.set(n,o)}const t=tx(o);if(t!==n.nodeValue)n.nodeValue=t;wr.set(n,t)}
+function walk(root){if(root.nodeType==3){tn(root);return}const w=document.createTreeWalker(root,4);let n;while(n=w.nextNode())tn(n)}
+function startTr(){document.documentElement.lang=LG;walk(document.body);new MutationObserver(ms=>{for(const m of ms){if(m.type=="characterData")tn(m.target);else m.addedNodes.forEach(walk)}}).observe(document.body,{childList:true,subtree:true,characterData:true})}
+function setLang(l){LG=l;try{LSset("pdlang",l)}catch(e){}document.documentElement.lang=l;langBtns();render();home();prace();other();walk(document.body)}
+function langBtns(){document.querySelectorAll("#lg button").forEach(b=>b.classList.toggle("on",b.dataset.l==LG))}
+document.querySelectorAll("#lg button").forEach(b=>b.onclick=()=>setLang(b.dataset.l));
+function saveWork(){LIM=Math.max(1,+$("l1").value||8);try{LSset("pdset",JSON.stringify({lim:LIM}))}catch(e){}}
+$("l1").onchange=saveWork;
+const NSK={"1-1":"","2-1":"Alexandra","3-1":"Daniela","4-1":"Drahoslav","5-1":"Andrea","6-1":"Antónia","7-1":"Bohuslava","8-1":"Severín","9-1":"Alexej","10-1":"Dáša","11-1":"Malvína","12-1":"Ernest","13-1":"Rastislav","14-1":"Radovan","15-1":"Dobroslav","16-1":"Kristína","17-1":"Nataša","18-1":"Bohdana","19-1":"Drahomíra","20-1":"Dalibor","21-1":"Vincent","22-1":"Zora","23-1":"Miloš","24-1":"Timotej","25-1":"Gejza","26-1":"Tamara","27-1":"Bohuš","28-1":"Alfonz","29-1":"Gašpar","30-1":"Ema","31-1":"Emil","1-2":"Tatiana","2-2":"Erik, Erika","3-2":"Blažej","4-2":"Veronika","5-2":"Agáta","6-2":"Dorota","7-2":"Vanda","8-2":"Zoja","9-2":"Zdenko","10-2":"Gabriela","11-2":"Dezider","12-2":"Perla","13-2":"Arpád","14-2":"Valentín","15-2":"Pravoslav","16-2":"Ida","17-2":"Miloslava","18-2":"Jaromír","19-2":"Vlasta","20-2":"Lívia","21-2":"Eleonóra","22-2":"Etela","23-2":"Roman","24-2":"Matej","25-2":"Frederik","26-2":"Viktor","27-2":"Alexander","28-2":"Zlatica","1-3":"Albín","2-3":"Anežka","3-3":"Bohumil","4-3":"Kazimír","5-3":"Fridrich","6-3":"Radoslav","7-3":"Tomáš","8-3":"Alan, Alana","9-3":"Františka","10-3":"Branislav","11-3":"Angela, Angelika","12-3":"Gregor","13-3":"Vlastimil","14-3":"Matilda","15-3":"Svetlana","16-3":"Boleslav","17-3":"Ľubica","18-3":"Eduard","19-3":"Jozef","20-3":"Víťazoslav","21-3":"Blahoslav","22-3":"Beňadik","23-3":"Adrián","24-3":"Gabriel","25-3":"Marián","26-3":"Emanuel","27-3":"Alena","28-3":"Soňa","29-3":"Miroslav","30-3":"Vieroslava","31-3":"Benjamín","1-4":"Hugo","2-4":"Zita","3-4":"Richard","4-4":"Izidor","5-4":"Miroslava","6-4":"Irena","7-4":"Zoltán","8-4":"Albert","9-4":"Milena","10-4":"Igor","11-4":"Július","12-4":"Estera","13-4":"Aleš","14-4":"Justína","15-4":"Fedor","16-4":"Dana, Danica","17-4":"Rudolf","18-4":"Valér","19-4":"Jela","20-4":"Marcel","21-4":"Ervín","22-4":"Slavomír","23-4":"Vojtech","24-4":"Juraj","25-4":"Marek","26-4":"Jaroslava","27-4":"Jaroslav","28-4":"Jarmila","29-4":"Lea","30-4":"Anastázia","1-5":"","2-5":"Žigmund","3-5":"Galina","4-5":"Florián","5-5":"Lesana, Lesia","6-5":"Hermína","7-5":"Monika","8-5":"Ingrida","9-5":"Roland","10-5":"Viktória","11-5":"Blažena","12-5":"Pankrác","13-5":"Servác","14-5":"Bonifác","15-5":"Žofia","16-5":"Svetozár","17-5":"Gizela","18-5":"Viola","19-5":"Gertrúda","20-5":"Bernard","21-5":"Zina","22-5":"Júlia, Juliana","23-5":"Želmíra","24-5":"Ela","25-5":"Urban","26-5":"Dušan","27-5":"Iveta","28-5":"Viliam","29-5":"Vilma","30-5":"Ferdinand","31-5":"Petrana, Petronela","1-6":"Žaneta","2-6":"Xénia","3-6":"Karolína","4-6":"Lenka","5-6":"Laura","6-6":"Norbert","7-6":"Róbert","8-6":"Medard","9-6":"Stanislava","10-6":"Margaréta","11-6":"Dobroslava","12-6":"Zlatko","13-6":"Anton","14-6":"Vasil","15-6":"Vít","16-6":"Blanka","17-6":"Adolf","18-6":"Vratislav","19-6":"Alfréd","20-6":"Valéria","21-6":"Alojz","22-6":"Paulína","23-6":"Sidónia","24-6":"Ján","25-6":"Tadeáš","26-6":"Adriána","27-6":"Ladislav","28-6":"Beáta","29-6":"Pavol, Peter, Petra","30-6":"Melánia","1-7":"Diana","2-7":"Berta","3-7":"Miroslav","4-7":"Prokop","5-7":"Cyril, Metod","6-7":"Patrícia, Patrik","7-7":"Oliver","8-7":"Ivan","9-7":"Lujza","10-7":"Amália","11-7":"Milota","12-7":"Nina","13-7":"Margita","14-7":"Kamil","15-7":"Henrich","16-7":"Drahomíra","17-7":"Bohuslav","18-7":"Kamila","19-7":"Dušana","20-7":"Eliáš, Iľja","21-7":"Daniel","22-7":"Magdaléna","23-7":"Oľga","24-7":"Vladimír","25-7":"Jakub","26-7":"Anna, Hana","27-7":"Božena","28-7":"Krištof","29-7":"Marta","30-7":"Libuša","31-7":"Ignác","1-8":"Božidara","2-8":"Gustáv","3-8":"Jerguš","4-8":"Dominik, Dominika","5-8":"Hortenzia","6-8":"Josefína","7-8":"Štefánia","8-8":"Oskár","9-8":"Ľubomíra","10-8":"Vavrinec","11-8":"Zuzana","12-8":"Darina","13-8":"Ľubomír","14-8":"Mojmír","15-8":"Marcela","16-8":"Leonard","17-8":"Milica","18-8":"Elena, Helena","19-8":"Lýdia","20-8":"Anabela","21-8":"Jana","22-8":"Tichomír","23-8":"Filip","24-8":"Bartolomej","25-8":"Ľudovít","26-8":"Samuel","27-8":"Silvia","28-8":"Augustín","29-8":"Nikola","30-8":"Ružena","31-8":"Nora","1-9":"Drahoslava","2-9":"Linda","3-9":"Belo","4-9":"Rozália","5-9":"Regina","6-9":"Alica","7-9":"Marianna","8-9":"Miriama","9-9":"Martina","10-9":"Oleg","11-9":"Bystrik","12-9":"Mária","13-9":"Ctibor","14-9":"Ľudomil","15-9":"Jolana","16-9":"Ludmila","17-9":"Olympia","18-9":"Eugénia","19-9":"Konštantín","20-9":"Ľuboslav, Ľuboslava","21-9":"Matúš","22-9":"Móric","23-9":"Zdenka","24-9":"Ľubor, Ľuboš","25-9":"Vladislav","26-9":"Edita","27-9":"Cyprián","28-9":"Václav","29-9":"Michaela, Michal","30-9":"Jarolím","1-10":"Arnold","2-10":"Levoslav","3-10":"Stela","4-10":"František","5-10":"Viera","6-10":"Natália","7-10":"Eliška","8-10":"Brigita","9-10":"Dionýz","10-10":"Slavomíra","11-10":"Valentína","12-10":"Maximilián","13-10":"Koloman","14-10":"Boris","15-10":"Terézia","16-10":"Vladimíra","17-10":"Hedviga","18-10":"Lukáš","19-10":"Kristián","20-10":"Vendelín","21-10":"Uršuľa","22-10":"Sergej","23-10":"Alojzia","24-10":"Kvetoslava","25-10":"Aurel","26-10":"Demeter","27-10":"Sabína","28-10":"Dobromila","29-10":"Klára","30-10":"Šimon","31-10":"Aurélia","1-11":"Denisa","2-11":"","3-11":"Hubert","4-11":"Karol","5-11":"Imrich","6-11":"Renáta","7-11":"René","8-11":"Bohumír","9-11":"Teodor","10-11":"Tibor","11-11":"Maroš, Martin","12-11":"Svätopluk","13-11":"Stanislav","14-11":"Irma","15-11":"Leopold","16-11":"Agnesa","17-11":"Klaudia","18-11":"Eugen","19-11":"Alžbeta","20-11":"Félix","21-11":"Elvíra","22-11":"Cecília","23-11":"Klement","24-11":"Emília","25-11":"Katarína","26-11":"Kornel","27-11":"Milan","28-11":"Henrieta","29-11":"Vratko","30-11":"Andrej, Ondrej","1-12":"Edmund","2-12":"Bibiána","3-12":"Oldrich","4-12":"Barbora","5-12":"Oto","6-12":"Mikuláš","7-12":"Ambróz","8-12":"Marína","9-12":"Izabela","10-12":"Radúz","11-12":"Hilda","12-12":"Otília","13-12":"Lucia","14-12":"Branislava, Bronislava","15-12":"Ivica","16-12":"Albína","17-12":"Kornélia","18-12":"Sláva","19-12":"Judita","20-12":"Dagmara","21-12":"Bohdan","22-12":"Adela","23-12":"Nadežda","24-12":"Adam, Eva","25-12":"","26-12":"Štefan","27-12":"Filoména","28-12":"Ivana, Ivona","29-12":"Milada","30-12":"Dávid","31-12":"Silvester"},NHU={"1-1":"Fruzsina","2-1":"Ábel","3-1":"Benjámin, Genovéva","4-1":"Leóna, Titusz","5-1":"Simon","6-1":"Boldizsár","7-1":"Attila, Ramóna","8-1":"Gyöngyvér","9-1":"Marcell","10-1":"Melánia","11-1":"Ágota","12-1":"Ernő","13-1":"Veronika","14-1":"Bódog","15-1":"Loránd, Lóránt","16-1":"Gusztáv","17-1":"Antal, Antónia","18-1":"Piroska","19-1":"Márió, Sára","20-1":"Fábián, Sebestyén","21-1":"Ágnes","22-1":"Artúr, Vince","23-1":"Rajmund, Zelma","24-1":"Timót","25-1":"Pál","26-1":"Paula, Vanda","27-1":"Angelika","28-1":"Karola, Károly","29-1":"Adél","30-1":"Martina","31-1":"Gerda, Marcella","1-2":"Ignác","2-2":"Aida, Karolina","3-2":"Balázs","4-2":"Csenge, Ráhel","5-2":"Ágota, Ingrid","6-2":"Dóra, Dorottya","7-2":"Rómeó, Tódor","8-2":"Aranka","9-2":"Abigél, Alex","10-2":"Elvira","11-2":"Bertold, Marietta","12-2":"Lídia, Lívia","13-2":"Ella, Linda","14-2":"Bálint, Valentin","15-2":"Georgina, Kolos","16-2":"Julianna, Lilla","17-2":"Donát","18-2":"Bernadett","19-2":"Zsuzsanna","20-2":"Aladár, Álmos","21-2":"Eleonóra","22-2":"Gerzson","23-2":"Alfréd","24-2":"Elemér","25-2":"Mátyás","26-2":"Géza","27-2":"Edina","28-2":"Ákos, Bátor","1-3":"Albin","2-3":"Lujza","3-3":"Kornélia","4-3":"Kázmér","5-3":"Adorján, Adrián","6-3":"Inez, Leonóra","7-3":"Tamás","8-3":"Zoltán","9-3":"Fanni, Franciska","10-3":"Ildikó","11-3":"Szilárd","12-3":"Gergely","13-3":"Ajtony, Krisztián","14-3":"Matild","15-3":"Kristóf","16-3":"Henrietta","17-3":"Gertrúd, Patrik","18-3":"Ede, Sándor","19-3":"Bánk, József","20-3":"Klaudia","21-3":"Benedek","22-3":"Beáta, Izolda","23-3":"Emőke","24-3":"Gábor, Karina","25-3":"Irén, Irisz","26-3":"Emánuel","27-3":"Hajnalka","28-3":"Gedeon, Johanna","29-3":"Auguszta","30-3":"Zalán","31-3":"Árpád","1-4":"Hugó","2-4":"Áron","3-4":"Buda, Richárd","4-4":"Izidor","5-4":"Vince","6-4":"Bíborka, Vilmos","7-4":"Herman","8-4":"Dénes","9-4":"Erhard","10-4":"Zsolt","11-4":"Leó, Szaniszló","12-4":"Gyula","13-4":"Ida","14-4":"Tibor","15-4":"Anasztázia, Tas","16-4":"Csongor","17-4":"Rudolf","18-4":"Andrea, Ilma","19-4":"Emma","20-4":"Tivadar","21-4":"Konrád","22-4":"Csilla, Noémi","23-4":"Béla","24-4":"György","25-4":"Márk","26-4":"Ervin","27-4":"Zita","28-4":"Valéria","29-4":"Péter","30-4":"Katalin, Kitti","1-5":"Fülöp, Jakab","2-5":"Zsigmond","3-5":"Irma, Tímea","4-5":"Flórián, Mónika","5-5":"Adrián, Györgyi","6-5":"Frida, Ivett","7-5":"Gizella","8-5":"Mihály","9-5":"Gergely","10-5":"Ármin, Pálma","11-5":"Ferenc","12-5":"Pongrác","13-5":"Imola, Szervác","14-5":"Bonifác","15-5":"Szonja, Zsófia","16-5":"Botond, Mózes","17-5":"Paszkál","18-5":"Alexandra, Erik","19-5":"Ivó, Milán","20-5":"Bernát, Felícia","21-5":"Konstantin","22-5":"Júlia, Rita","23-5":"Dezső","24-5":"Eliza, Eszter","25-5":"Orbán","26-5":"Evelin, Fülöp","27-5":"Hella","28-5":"Csanád, Emil","29-5":"Magdolna","30-5":"Janka, Zsanett","31-5":"Angéla, Petronella","1-6":"Tünde","2-6":"Anita, Kármen","3-6":"Klotild","4-6":"Bulcsú","5-6":"Fatime","6-6":"Cintia, Norbert","7-6":"Róbert","8-6":"Medárd","9-6":"Félix","10-6":"Gréta, Margit","11-6":"Barnabás","12-6":"Villő","13-6":"Anett, Antal","14-6":"Vazul","15-6":"Ariana, Jolán, Vid","16-6":"Jusztin","17-6":"Alida, Laura","18-6":"Arnold, Levente","19-6":"Gyárfás","20-6":"Rafael","21-6":"Alajos, Leila","22-6":"Paulina","23-6":"Zoltán","24-6":"Iván","25-6":"Vilmos","26-6":"János, Pál","27-6":"László","28-6":"Irén, Levente","29-6":"Pál, Péter","30-6":"Pál","1-7":"Annamária, Tihamér","2-7":"Ottó","3-7":"Kornél, Soma","4-7":"Ulrik","5-7":"Emese, Sarolta","6-7":"Csaba","7-7":"Apollónia","8-7":"Ellák","9-7":"Lukrécia","10-7":"Amália","11-7":"Lili, Nóra","12-7":"Dalma, Izabella","13-7":"Jenő","14-7":"Ors, Stella","15-7":"Henrik, Roland","16-7":"Valter","17-7":"Elek, Endre","18-7":"Frigyes","19-7":"Emília","20-7":"Illés","21-7":"Dániel, Daniella","22-7":"Magdolna","23-7":"Lenke","24-7":"Kincső, Kinga","25-7":"Jakab, Kristóf","26-7":"Anikó, Anna","27-7":"Liliána, Olga","28-7":"Szabolcs","29-7":"Flóra, Márta","30-7":"Judit, Xénia","31-7":"Oszkár","1-8":"Boglárka","2-8":"Lehel","3-8":"Hermina","4-8":"Dominika, Domonkos","5-8":"Krisztina","6-8":"Berta, Bettina","7-8":"Ibolya","8-8":"László","9-8":"Emőd","10-8":"Lőrinc","11-8":"Tiborc, Zsuzsanna","12-8":"Klára","13-8":"Ipoly","14-8":"Marcell","15-8":"Mária","16-8":"Ábrahám","17-8":"Jácint","18-8":"Ilona","19-8":"Huba","20-8":"István","21-8":"Hajna, Sémuel","22-8":"Menyhért, Mirjam","23-8":"Bence","24-8":"Bertalan","25-8":"Lajos, Patrícia","26-8":"Izsó","27-8":"Gáspár","28-8":"Ágoston","29-8":"Beatrix, Erna","30-8":"Rózsa","31-8":"Bella, Erika","1-9":"Egon, Egyed","2-9":"Dorina, Rebeka","3-9":"Hilda","4-9":"Rozália","5-9":"Lőrinc, Viktor","6-9":"Zakariás","7-9":"Regina","8-9":"Adrienn, Mária","9-9":"Ádám","10-9":"Hunor, Nikolett","11-9":"Teodóra","12-9":"Mária","13-9":"Kornél","14-9":"Roxána, Szeréna","15-9":"Enikő, Melitta","16-9":"Edit","17-9":"Zsófia","18-9":"Diána","19-9":"Vilhelmina","20-9":"Friderika","21-9":"Máté, Mirella","22-9":"Móric","23-9":"Tekla","24-9":"Gellért, Mercédesz","25-9":"Eufrozina, Kende","26-9":"Jusztina, Pál","27-9":"Adalbert","28-9":"Vencel","29-9":"Mihály","30-9":"Jeromos","1-10":"Malvin","2-10":"Petra","3-10":"Helga","4-10":"Ferenc","5-10":"Aurél","6-10":"Brúnó, Renáta","7-10":"Amália","8-10":"Koppány","9-10":"Dénes","10-10":"Gedeon","11-10":"Brigitta","12-10":"Miksa","13-10":"Ede, Kálmán","14-10":"Helén","15-10":"Teréz","16-10":"Gál","17-10":"Hedvig","18-10":"Lukács","19-10":"Nándor","20-10":"Vendel","21-10":"Orsolya","22-10":"Előd","23-10":"Gyöngyi","24-10":"Salamon","25-10":"Bianka, Blanka","26-10":"Dömötör","27-10":"Szabina","28-10":"Simon, Szimonetta","29-10":"Nárcisz","30-10":"Alfonz","31-10":"Farkas","1-11":"Marianna","2-11":"Achilles","3-11":"Győző","4-11":"Károly","5-11":"Imre","6-11":"Lénárd","7-11":"Rezső","8-11":"Zsombor","9-11":"Tivadar","10-11":"Réka","11-11":"Márton","12-11":"Jónás, Renátó","13-11":"Szilvia","14-11":"Aliz","15-11":"Albert, Lipót","16-11":"Ödön","17-11":"Gergő, Hortenzia","18-11":"Jenő","19-11":"Erzsébet","20-11":"Jolán","21-11":"Olivér","22-11":"Cecília","23-11":"Kelemen, Klementina","24-11":"Emma","25-11":"Katalin","26-11":"Virág","27-11":"Virgil","28-11":"Stefánia","29-11":"Taksony","30-11":"Andor, András","1-12":"Elza","2-12":"Melinda, Vivien","3-12":"Ferenc, Olívia","4-12":"Barbara, Borbála","5-12":"Vilma","6-12":"Miklós","7-12":"Ambrus","8-12":"Mária","9-12":"Natália","10-12":"Judit","11-12":"Árpád","12-12":"Gabriella","13-12":"Luca, Otilia","14-12":"Szilárda","15-12":"Valér","16-12":"Aletta, Etelka","17-12":"Lázár, Olimpia","18-12":"Auguszta","19-12":"Viola","20-12":"Teofil","21-12":"Tamás","22-12":"Zénó","23-12":"Viktória","24-12":"Ádám, Éva","25-12":"Eugénia","26-12":"István","27-12":"János","28-12":"Kamilla","29-12":"Tamara, Tamás","30-12":"Dávid","31-12":"Szilveszter"};
+function nameDay(){const n=new Date(),k=n.getDate()+"-"+(n.getMonth()+1),a=NSK[k],b=NHU[k],j=x=>x.split(", ").reduce((t,v,i,A)=>t+(i?(i==A.length-1?" a ":", "):"")+v,"");
+$("nsk").textContent=a?"Dnes "+(a.includes(",")?"majú":"má")+" meniny "+j(a):"Dnes nemá nikto meniny";
+$("nhu").textContent=b?"Ma "+j(b).replace(/ a /g," és ")+" névnapja van":"Ma nincs névnap"}
+(function(){const t=$("tm"),z=x=>String(x).padStart(2,"0");let last="";function tick(){const n=new Date();t.textContent=z(n.getHours())+":"+z(n.getMinutes())+":"+z(n.getSeconds());const k=n.getDate()+"."+n.getMonth();if(k!=last){last=k;nameDay()}}tick();setInterval(tick,1000)})();
+function infoMode(){const h=!$("home").hidden&&!$("work").hidden&&$("settings").hidden&&$("other").hidden;$("info").classList.toggle("mini",!h)}
+{const mo=new MutationObserver(infoMode);["home","work","settings","other","detail","prace"].forEach(i=>mo.observe($(i),{attributes:true,attributeFilter:["hidden"]}));infoMode()}
+function openSet(){$("l1").value=LIM;langBtns();$("work").hidden=true;$("other").hidden=true;$("nav").hidden=true;$("settings").hidden=false;anim($("settings"),1);scrollTo(0,0)}
+function closeSet(){$("settings").hidden=true;$("nav").hidden=false;$("work").hidden=false;anim($("work"),-1);render();home();scrollTo(0,0)}
+
+
+const MN=["Január","Február","Marec","Apríl","Máj","Jún","Júl","August","September","Október","November","December"];
+let cm=new Date(new Date().getFullYear(),new Date().getMonth(),1);
+function calc(d,dt){const E=390+LIM*60+((x)=>x?(([p,q])=>m(q)-m(p))(x.split("-")):0)((d.b||[]).find(x=>x!="15:00-15:15")),r={net:0,ot:0,nt:0,reg:0,span:0,E};if(!d.s||!d.e||m(d.e)<=m(d.s))return r;const s=m(d.s),e=m(d.e);r.span=e-s;if(dt&&isOff(dt)){let t=e-s;for(const x of d.b){const[p,q]=x.split("-").map(v=>m(v));t-=Math.max(0,Math.min(e,q)-Math.max(s,p))}r.ot=Math.max(0,t);r.net=r.ot;return r}
+for(const[a,b,k]of[[270,390,"ot"],[390,E,"reg"],[E+15,E+135,"ot"]]){const lo=Math.max(a,s),hi=Math.min(b,e);if(hi<=lo)continue;let t=hi-lo;for(const x of d.b){const[p,q]=x.split("-").map(v=>m(v));t-=Math.max(0,Math.min(hi,q)-Math.max(lo,p))}r[k]+=Math.max(0,t)}
+r.net=r.nt+r.ot+r.reg;return r}
+function home(){const y=cm.getFullYear(),mo=cm.getMonth(),n=new Date(y,mo+1,0).getDate(),f=(new Date(y,mo,1).getDay()+6)%7,now=new Date();let N=0,O=0,T=0,WD=0,WK=0,h="";
+$("mt").textContent=mtl(y,mo);$("wh").innerHTML=NM[LG].hd.map(x=>"<span>"+x+"</span>").join("");
+for(let i=0;i<f;i++)h+='<div class="c e"></div>';
+for(let i=1;i<=n;i++){const dt0=new Date(y,mo,i),hn=holName(dt0),d=store[y+"-"+(mo+1)+"-"+i];let cl="",sm="";if(d){const c=calc(d,dt0);if(c.net){cl=c.reg&&c.ot?"m":c.ot?"o":"w";{const q=x=>Math.round(x/6)/10;sm=(c.reg?`<span style="color:var(--g)">${q(c.reg)}</span>`:"")+(c.reg&&c.ot?" ":"")+(c.ot?`<span style="color:var(--o)">${c.reg?"+":""}${q(c.ot)}</span>`:"")}N+=c.net;O+=c.ot;T+=c.nt}else if(d.a.length){cl="v v"+d.a[0];sm=ABS[d.a[0]][1]}}
+if(!isOff(dt0)){WD++;if(d&&calc(d,dt0).net)WK++}
+if(dt0.getDay()==0){let W=0;for(let j=0;j<7;j++){const dj=new Date(y,mo,i-j),xj=store[dj.getFullYear()+"-"+(dj.getMonth()+1)+"-"+dj.getDate()];if(xj)W+=calc(xj,dj).net}if(W)sm=`<span style="color:#7dd3fc">Σ${Math.round(W/6)/10}h</span>`}
+if(y==now.getFullYear()&&mo==now.getMonth()&&i==now.getDate())cl+=" t";h+=`<button class="c ${cl}${hn?" h":""}${dt0.getDay()%6==0?" we":""}" title="${hn||""}" style="animation-delay:${i*9}ms" onclick="openDay(${y},${mo},${i})">${i}<small>${sm||"&nbsp;"}</small></button>`}
+$("cal").innerHTML=h;$("sh").textContent=Math.round(N/6)/10+" h";$("so").textContent=Math.round(O/6)/10+" h";$("sd").textContent=WK+"/"+WD}
+function openDay(y,mo,i){day=new Date(y,mo,i);$("home").hidden=true;$("detail").hidden=false;render();scrollTo(0,0);anim($("detail"),1)}
+$("prev").onclick=()=>{setTab("h");$("detail").hidden=true;$("home").hidden=false;cm=new Date(day.getFullYear(),day.getMonth(),1);home();anim($("home"),-1)};
+$("mp").onclick=()=>{cm.setMonth(cm.getMonth()-1);home()};$("mn").onclick=()=>{cm.setMonth(cm.getMonth()+1);home()};
+$("td").onclick=()=>{const t=new Date();cm=new Date(t.getFullYear(),t.getMonth(),1);openDay(t.getFullYear(),t.getMonth(),t.getDate())};
+const openEdit=()=>{const d=D();$("e1").value=d.s;$("e2").value=d.e;$("e3").value=d.b.join(", ");$("d1").showModal()};
+$("s1").onclick=()=>{const d=D();d.s=$("e1").value;d.e=$("e2").value;d.b=$("e3").value.split(",").map(x=>x.trim().replace(/\s/g,"")).filter(x=>/^\d\d?:\d\d-\d\d?:\d\d$/.test(x));save();$("d1").close();render()};
+let eo=null;
+function sgRender(){const bx=$("sg"),q=$("a1").value.trim();if(eo||!q){bx.hidden=true;bx.innerHTML="";return}const seen=new Set(),R=[];
+Object.keys(store).map(k=>{const[y,mo,d]=k.split("-").map(Number);return{k,t:new Date(y,mo-1,d)}}).sort((a,b)=>b.t-a.t).forEach(({k})=>{const o=store[k].o||[];for(let i=o.length-1;i>=0;i--){const x=o[i];if(!String(x.n).startsWith(q))continue;const ps=((x.d||"").split(" – ")[0]||"").trim(),id=x.n+"|"+ps;if(!seen.has(id)){seen.add(id);R.push({n:String(x.n),p:ps})}}});
+const L=R.some(x=>x.n===q)?[]:R.slice(0,3);if(!L.length){bx.hidden=true;bx.innerHTML="";return}
+const esc=t=>String(t).replace(/&/g,"&amp;").replace(/</g,"&lt;");
+bx.hidden=false;bx.innerHTML=L.map((x,i)=>`<button type="button" data-i="${i}"><b data-nt>${esc(x.n)}</b><span data-nt>${esc(x.p)||"—"}</span></button>`).join("");
+bx.onclick=e=>{const b=e.target.closest("button");if(!b)return;const x=L[+b.dataset.i],ps=x.p.split(", ");$("a1").value=x.n;$("a2").value=ps[0]||"";$("a4").value=ps[1]||"";bx.hidden=true;$("a5").focus()}}
+$("a1").addEventListener("input",sgRender);
+$("ba").onclick=()=>{eo=null;["a1","a2","a3","a4","a5"].forEach(i=>$(i).value="");$("d2t").textContent="Pridať zákazku";$("s2").textContent="Pridať";$("sx").hidden=true;$("d2c").removeAttribute("autofocus");sgRender();$("d2").showModal()};
+function editOrd(k,i){$("sg").hidden=true;const x=store[k].o[i],[a,c]=(x.d||"").split(" – "),ps=(a||"").split(", ");eo={k,i};cd=false;$("sx").textContent="Odstrániť";$("a1").value=x.n;$("a2").value=ps[0]||"";$("a4").value=ps[1]||"";$("a5").value=c||"";$("a3").value=x.h;$("d2t").textContent="Upraviť zákazku";$("s2").textContent="Uložiť";$("sx").hidden=false;$("d2c").setAttribute("autofocus","");$("d2").showModal()}
+let cd=false;
+$("sx").onclick=()=>{if(!eo)return;if(!cd){cd=true;$("sx").textContent="Naozaj odstrániť?";return}store[eo.k].o.splice(eo.i,1);eo=null;cd=false;save();$("d2").close();render();prace()};
+$("s2").onclick=()=>{if(!$("a1").value)return;const ob={n:$("a1").value,d:[$("a2").value,$("a4").value].map(x=>x.trim()).filter(Boolean).join(", ")+($("a5").value.trim()?" – "+$("a5").value.trim():""),h:+$("a3").value||0};if(eo)store[eo.k].o[eo.i]=ob;else D().o.push(ob);eo=null;save();$("d2").close();render();prace()};
+
+const HC={};
+function hol(y){if(HC[y])return HC[y];const a=y%19,b=Math.floor(y/100),c=y%100,dd=Math.floor(b/4),ee=b%4,ff=Math.floor((b+8)/25),g=Math.floor((b-ff+1)/3),h=(19*a+b-dd-g+15)%30,i=Math.floor(c/4),k=c%4,l=(32+2*ee+2*i-h-k)%7,mm=Math.floor((a+11*h+22*l)/451),mo=Math.floor((h+l-7*mm+114)/31),da=(h+l-7*mm+114)%31+1,EA=new Date(y,mo-1,da),f2=n=>{const x=new Date(EA);x.setDate(x.getDate()+n);return(x.getMonth()+1)+"-"+x.getDate()};
+const r={"1-1":"Deň vzniku SR","1-6":"Traja králi","5-1":"Sviatok práce","5-8":"Deň víťazstva","7-5":"Cyril a Metod","8-29":"Výročie SNP","9-1":"Deň Ústavy SR","9-15":"Sedembolestná","11-1":"Všetkých svätých","11-17":"Deň slobody","12-24":"Štedrý deň","12-25":"1. sviatok vianočný","12-26":"2. sviatok vianočný"};
+r[f2(-2)]="Veľký piatok";r[f2(1)]="Veľkonočný pondelok";return HC[y]=r}
+const holName=dt=>hol(dt.getFullYear())[(dt.getMonth()+1)+"-"+dt.getDate()];
+const isOff=dt=>dt.getDay()==0||dt.getDay()==6||!!holName(dt);
+const mk=k=>store[k]||(store[k]={s:"",e:"",b:["10:30-11:00","15:00-15:15"],rate:10,o:[],a:[]});
+let absI=0;
+function openAbs(i){absI=i;const d=D(),t=(d.at||{})[i],k=day.getFullYear()+"-"+String(day.getMonth()+1).padStart(2,"0")+"-"+String(day.getDate()).padStart(2,"0");$("d4t").textContent=ABS[i][0];$("v1").value=k;$("v2").value=k;$("v3").value=t?t.f:"";$("v4").value=t?t.t:"";$("vx").hidden=!d.a.includes(i);$("d4").showModal()}
+$("vs").onclick=()=>{const a=$("v1").value,b=$("v2").value||a;if(!a)return;const[y1,m1,n1]=a.split("-").map(Number),[y2,m2,n2]=b.split("-").map(Number);let c=new Date(y1,m1-1,n1);const e=new Date(y2,m2-1,n2);if(e<c){$("d4t").textContent="Dátum do musí byť po dátume od";return}
+for(let n=0;c<=e&&n<366;n++,c.setDate(c.getDate()+1)){if(absI==0&&a!=b&&isOff(c))continue;const k=c.getFullYear()+"-"+(c.getMonth()+1)+"-"+c.getDate(),x=mk(k);if(!x.a.includes(absI))x.a.push(absI);x.at=x.at||{};x.at[absI]={f:$("v3").value,t:$("v4").value}}
+save();$("d4").close();render();home()};
+$("vx").onclick=()=>{const d=D(),k=d.a.indexOf(absI);if(k>=0)d.a.splice(k,1);if(d.at)delete d.at[absI];save();$("d4").close();render();home()};
+function setTab(t){document.querySelectorAll("#nav button").forEach(x=>x.classList.toggle("on",x.dataset.t==t))}
+let oy=new Date().getFullYear(),slk="";
+const LS=(()=>{let o={vac:null,doc:7,docp:7};try{Object.assign(o,JSON.parse(localStorage.getItem("pdlim")||"{}"))}catch(e){}return o})();
+function cnt(i,y){let n=0;for(const k in store){const p=k.split("-");if(+p[0]==y&&store[k].a&&store[k].a.includes(i))n++}return n}
+function hrs(i,y){let t=0;for(const k in store){const p=k.split("-"),d=store[k];if(+p[0]!=y||!d.a||!d.a.includes(i))continue;const a=d.at&&d.at[i];t+=a&&a.f&&a.t&&m(a.t)>m(a.f)?m(a.t)-m(a.f):LIM*60}return t}
+function vacCalc(y){const y0=Math.min(LS.vacY||y,y);let carry=0,cin=0,b=0;for(let t=y0;t<=y;t++){cin=carry;b=LS.vac+cin-cnt(0,t); b=Math.round(b*100)/100;carry=Math.max(0,b)}return{b,cin,tot:Math.round((LS.vac+cin)*100)/100}}
+function other(){if(LS.vac!=null&&LS.vacY==null){LS.vacY=new Date().getFullYear();try{LSset("pdlim",JSON.stringify(LS))}catch(e){}}
+$("oyt").textContent=oy;
+const T=[[0,"Dovolenka","#a66bff","vac"],[1,"Lekár","#38bdf8","doc"],[2,"Lekár+","#f472b6","docp"],[3,"PN-ka","#facc15",null]];
+$("ol").innerHTML=T.map(([i,nm,col,key])=>{const u=cnt(i,oy),mx=key=="vac"?LS.vac:key?7:null;let big,sub,bar="",extra="",c=col;
+if(i==0){if(mx==null){big=u;sub="Nastavte počet dní dovolenky"}else{const r=vacCalc(oy);big=String(r.b).replace(".",",");sub="dní zostáva · využité "+u+" z "+r.tot+(r.cin?" (z toho "+r.cin+" prenesených)":"");if(r.b<0)c="#f87171"}}
+else if(key){big=u+"/"+mx;sub="využitých dní z maxima na rok";const hh=Math.round(hrs(i,oy)/6)/10;extra=`<div class="ov2" style="color:${col}">${hh} / 56 h</div><div class="os">využitých hodín z maxima na rok</div><div class="ob"><i style="width:${Math.min(100,hh/56*100)}%;background:${col}"></i></div>`}
+else{big=u;sub="dní PN-ky v roku"}
+if(key&&mx>0)bar=`<div class="ob"><i style="width:${Math.min(100,u/(i==0?vacCalc(oy).tot:mx)*100)}%;background:${col}"></i></div>`;
+return `<div class="card oc"><div class="oh"><b><span class="oi">${ABS[i][1]}</span>${nm}</b>${key=="vac"?`<button class="ol2" onclick="setLim('${key}','${nm}')">Nastaviť dni</button>`:""}</div><div class="ov" style="color:${c}">${big}</div><div class="os">${sub}</div>${bar}${extra}</div>`}).join("")}
+function setLim(k,nm){slk=k;$("d5t").textContent=nm;$("d5i").value=LS[k]==null?"":String(LS[k]).replace(".",",");$("d5").showModal()}
+$("d5s").onclick=()=>{const v=$("d5i").value.trim().replace(",",".");LS[slk]=v===""?null:Math.max(0,isNaN(+v)?0:Math.round(+v*100)/100);if(slk=="vac"&&LS.vac!=null&&LS.vacY==null)LS.vacY=new Date().getFullYear();try{LSset("pdlim",JSON.stringify(LS))}catch(e){}$("d5").close();other()};
+$("oy1").onclick=()=>{oy--;other()};$("oy2").onclick=()=>{oy++;other()};
+const ord=["w","h","o"];let curT="h";
+function anim(el,d){el.style.setProperty("--dx",(d*36)+"px");el.classList.remove("sw");void el.offsetWidth;el.classList.add("sw")}
+let pm=new Date(new Date().getFullYear(),new Date().getMonth(),1),openK="";
+const DS=["Ne","Po","Ut","St","Št","Pi","So"];
+function srch(){const q=$("sq").value.trim();$("pmc").hidden=$("pth").hidden=!!q;if(!q)return false;const R=[];let tot=0;
+for(const k in store){const d=store[k];if(!d||!d.o)continue;const m=d.o.filter(x=>String(x.n).includes(q));if(m.length){const[y,mo,dd]=k.split("-").map(Number);R.push({k,t:new Date(y,mo-1,dd),m});m.forEach(x=>tot+=+x.h||0)}}
+R.sort((a,b)=>b.t-a.t);let h="";
+if(!R.length)h='<div class="card" style="text-align:center;color:var(--mu)">Nenašli sa žiadne zákazky</div>';
+else{h='<h2 style="margin:6px 4px 10px;text-align:center" data-nt>Σ '+Math.round(tot*10)/10+" h</h2>";
+h+=R.map(({k,t,m})=>`<div class="pd"><button class="ph${holName(t)?" hl":""}${isOff(t)?" of":""}" onclick="sg('${k}')"><span>${NM[LG].day[t.getDay()]} ${t.getDate()}. ${t.getMonth()+1}. ${t.getFullYear()}</span><span class="pv">${Math.round(m.reduce((a,x)=>a+(+x.h||0),0)*10)/10} h</span></button><div class="pb">${m.map(x=>`<div class="row ord">${oz(x)}<span class="h">${x.h} h</span></div>`).join("")}</div></div>`).join("")}
+$("pt").textContent=mtl(pm.getFullYear(),pm.getMonth());$("pl").innerHTML=h;return true}
+function sg(k){const[y,mo]=k.split("-").map(Number);pm=new Date(y,mo-1,1);openK=k;$("sq").value="";prace();scrollTo(0,0)}
+$("sq").oninput=()=>prace();
+function prace(){if(srch())return;const y=pm.getFullYear(),mo=pm.getMonth(),n=new Date(y,mo+1,0).getDate();let h="";$("pt").textContent=mtl(y,mo);
+for(let i=1;i<=n;i++){const dt=new Date(y,mo,i),k=y+"-"+(mo+1)+"-"+i,d=store[k],o=d?d.o:[],t=o.reduce((a,x)=>a+(+x.h||0),0),op=openK==k;
+h+=`<div class="pd${op?" op":""}"><button class="ph${holName(dt)?" hl":""}${isOff(dt)?" of":""}" onclick="tp('${k}')"><span>${NM[LG].day[dt.getDay()]} ${i}.${holName(dt)?` · <small style="font-weight:500">${holName(dt)}</small>`:""}</span><span class="${t?"pv":"pz"}">${t?Math.round(t*10)/10+" h":"—"}</span></button>`+(op?`<div class="pb">${o.length?o.map((x,j)=>`<div class="row ord" style="cursor:pointer" onclick="editOrd('${k}',${j})">${oz(x)}<span class="h">${x.h} h ›</span></div>`).join(""):'<div class="row">Žiadne zákazky</div>'}</div>`:"")+`</div>`}
+$("pl").innerHTML=h}
+function tp(k){openK=openK==k?"":k;prace()}
+$("pp").onclick=()=>{pm.setMonth(pm.getMonth()-1);openK="";prace()};$("pn").onclick=()=>{pm.setMonth(pm.getMonth()+1);openK="";prace()};
+document.querySelectorAll("#nav button").forEach(b=>b.onclick=()=>{const t=b.dataset.t;$("other").hidden=t!="o";$("work").hidden=t=="o";if(t=="h"){$("detail").hidden=true;$("prace").hidden=true;$("home").hidden=false;home()}if(t=="w"){$("home").hidden=true;$("detail").hidden=true;$("prace").hidden=false;prace()}if(t=="o")other();setTab(t);scrollTo(0,0);const ni=ord.indexOf(t),pi=ord.indexOf(curT);if(ni!=pi)anim($(t=="h"?"home":t=="w"?"prace":"other"),ni>pi?1:-1);curT=t});
+(function(){const order=["w","h","o"];let sx=0,sy=0;
+const cur=()=>!$("other").hidden?"o":!$("prace").hidden?"w":"h";
+["home","prace","other"].forEach(id=>{const el=$(id);
+el.addEventListener("touchstart",e=>{const t=e.touches[0];sx=t.clientX;sy=t.clientY},{passive:true});
+el.addEventListener("touchend",e=>{const t=e.changedTouches[0],dx=t.clientX-sx,dy=t.clientY-sy;if(Math.abs(dx)>70&&Math.abs(dx)>Math.abs(dy)*1.6){const i=order.indexOf(cur())+(dx<0?1:-1);if(i>=0&&i<order.length)document.querySelector('#nav button[data-t="'+order[i]+'"]').click()}},{passive:true})})})();
+(function(){let sx=0,sy=0,ok=false;const dv=$("detail");
+dv.addEventListener("touchstart",e=>{const t=e.touches[0];sx=t.clientX;sy=t.clientY;ok=!e.target.closest("input")},{passive:true});
+dv.addEventListener("touchend",e=>{if(!ok)return;const t=e.changedTouches[0],dx=t.clientX-sx,dy=t.clientY-sy;if(Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy)*1.6){day=new Date(day.getFullYear(),day.getMonth(),day.getDate()+(dx<0?1:-1));cm=new Date(day.getFullYear(),day.getMonth(),1);render();dv.style.setProperty("--dx",dx<0?"30px":"-30px");dv.classList.remove("sw");void dv.offsetWidth;dv.classList.add("sw");scrollTo(0,0)}},{passive:true})})();
+(function(){const kb=document.createElement("button");kb.id="kb";kb.textContent="Skryť klávesnicu";kb.hidden=true;document.body.appendChild(kb);
+const isTxt=el=>el&&el.tagName=="INPUT"&&!el.readOnly&&!["time","date","checkbox","radio","button"].includes(el.type);
+const pos=el=>{el=el||document.activeElement;if(!isTxt(el))return;const r=el.getBoundingClientRect();let t=r.top-50;if(t<8)t=r.bottom+6;const hp=kb.parentNode,o=hp&&hp.tagName=="DIALOG"?hp.getBoundingClientRect().top:0;kb.style.top=(t-o)+"px";kb.style.bottom="auto"};
+const show=el=>{const host=el.closest("dialog")||document.body;if(kb.parentNode!==host)host.appendChild(kb);kb.hidden=false;pos(el)};
+document.addEventListener("focusin",e=>{if(isTxt(e.target))show(e.target)});
+document.addEventListener("focusout",()=>setTimeout(()=>{if(!isTxt(document.activeElement))kb.hidden=true},150));
+kb.addEventListener("pointerdown",e=>e.preventDefault());
+kb.onclick=()=>{if(document.activeElement)document.activeElement.blur();kb.hidden=true};
+setInterval(()=>{if(!kb.hidden)pos()},150)})();
+render();home();langBtns();startTr();
+if("serviceWorker" in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
+</script></body></html>
