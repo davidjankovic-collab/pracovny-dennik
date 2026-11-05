@@ -151,6 +151,7 @@ input.tm{width:100%;max-width:120px;font-size:24px;font-weight:700;text-align:ce
 <div id="settings" hidden><header><button class="ic" onclick="closeSet()" aria-label="Späť">‹</button><h1>Nastavenia</h1><span style="width:40px"></span></header>
 <div class="card" style="padding:20px 16px;margin-bottom:16px"><h2 style="text-align:center;margin-bottom:14px">Pracovná doba</h2><label style="text-align:center;margin-top:0">Hodiny za deň</label><input type="number" id="l1" style="text-align:center;display:block;width:130px;max-width:100%;margin:0 auto;font-size:15px;height:44px;padding:10px 4px" step="0.5" inputmode="decimal"></div>
 <div class="card" style="padding:20px 16px"><h2 style="text-align:center;margin-bottom:14px">Jazyk</h2><div class="lg" id="lg" data-nt><button data-l="sk">Slovenčina</button><button data-l="en">English</button><button data-l="hu">Magyar</button></div></div>
+<div class="card" style="padding:20px 16px;margin-top:16px" data-nt><h2 style="text-align:center;margin-bottom:6px">Záloha dát</h2><div style="font-size:12px;color:var(--mu);text-align:center;margin-bottom:14px">Export uloží všetky dni do súboru. Na novom zariadení ho cez Import načítaš späť.</div><div class="mb"><button class="ok" id="bkE">Export</button><button class="cn" id="bkL">Import</button></div><input type="file" id="bkI" accept=".json,.txt,application/json,text/plain" hidden><div id="bkM" style="font-size:13px;text-align:center;min-height:18px;margin-top:10px"></div></div>
 </div>
 </div>
 <dialog id="dT"><h2 id="dTt" style="text-align:center"></h2><input type="time" id="tp" style="display:block;width:170px;max-width:100%;min-width:0;margin:6px auto 0;text-align:center;font-size:20px;height:48px;padding:0 8px;-webkit-appearance:none;appearance:none;box-sizing:border-box"><div class="mb"><button class="cn" id="dTx" style="color:#ff9b9b">Vymazať</button><button class="cn" autofocus onclick="dT.close()">Zrušiť</button><button class="ok" id="dTo">✓ Uložiť</button></div></dialog>
@@ -330,6 +331,16 @@ document.addEventListener("focusout",()=>setTimeout(()=>{if(!isTxt(document.acti
 kb.addEventListener("pointerdown",e=>e.preventDefault());
 kb.onclick=()=>{if(document.activeElement)document.activeElement.blur();kb.hidden=true};
 setInterval(()=>{if(!kb.hidden)pos()},150)})();
+
+(function(){const M=$("bkM");const say=(t,c)=>{M.style.color=c||"var(--mu)";M.textContent=t};
+function data(){const o={};for(const k in store){const d=store[k];if(d&&(d.s||d.e||(d.o&&d.o.length)||(d.a&&d.a.length)))o[k]=d}return JSON.stringify({app:"pracovny-dennik",v:1,pd:o,lim:LIM,ls:LS,lang:LG})}
+$("bkE").onclick=async()=>{const d=new Date(),nm="pracovny-dennik-"+d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")+".json",txt=data();
+try{const f=new File([txt],nm,{type:"application/json"});if(navigator.canShare&&navigator.canShare({files:[f]})){await navigator.share({files:[f],title:nm});say("Export hotový ✓","#6ee7a0");return}}catch(e){if(e&&e.name=="AbortError"){say("Zrušené");return}}
+try{const u=URL.createObjectURL(new Blob([txt],{type:"application/json"})),a=document.createElement("a");a.href=u;a.download=nm;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),4000);say("Export hotový ✓","#6ee7a0")}catch(e){say("Export sa nepodaril","#ff9b9b")}};
+$("bkL").onclick=()=>$("bkI").click();
+$("bkI").onchange=e=>{const f=e.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{try{const o=JSON.parse(String(rd.result).trim());if(!o||!o.pd||typeof o.pd!="object")throw 0;Object.assign(store,o.pd);if(o.lim)LIM=+o.lim||LIM;if(o.ls)Object.assign(LS,o.ls);
+LSset("pd",JSON.stringify(store));LSset("pdset",JSON.stringify({lim:LIM}));LSset("pdlim",JSON.stringify(LS));
+if(o.lang&&o.lang!==LG)setLang(o.lang);render();home();prace();other();say("Import hotový ✓ ("+Object.keys(o.pd).length+" dní)","#6ee7a0")}catch(x){say("Súbor sa nepodarilo načítať","#ff9b9b")}};rd.onerror=()=>say("Súbor sa nepodarilo prečítať","#ff9b9b");rd.readAsText(f);e.target.value=""}})();
 render();home();langBtns();startTr();
 if("serviceWorker" in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 </script></body></html>
