@@ -154,6 +154,7 @@ input.tm{width:100%;max-width:120px;font-size:24px;font-weight:700;text-align:ce
 <div class="card" style="padding:20px 16px;margin-top:16px" data-nt><h2 style="text-align:center;margin-bottom:6px">Záloha dát</h2><div style="font-size:12px;color:var(--mu);text-align:center;margin-bottom:14px">Export uloží všetky dni do súboru. Na novom zariadení ho cez Import načítaš späť.</div><div class="mb"><button class="ok" id="bkE">Export</button><button class="cn" id="bkL">Import</button></div><input type="file" id="bkI" accept=".json,.txt,application/json,text/plain" hidden><div id="bkM" style="font-size:13px;text-align:center;min-height:18px;margin-top:10px"></div></div>
 </div>
 </div>
+<dialog id="dR" data-nt><h2 style="text-align:center">Piatková záloha</h2><div style="text-align:center;font-size:14px;color:var(--mu);margin:6px 0 4px">Je piatok. Urob export dát, aby si o ne neprišiel, keby sa telefón alebo prehliadač vymazal.</div><div class="mb"><button class="cn" id="dRn">Neskôr</button><button class="ok" id="dRe">Exportovať</button></div></dialog>
 <dialog id="dT"><h2 id="dTt" style="text-align:center"></h2><input type="time" id="tp" style="display:block;width:170px;max-width:100%;min-width:0;margin:6px auto 0;text-align:center;font-size:20px;height:48px;padding:0 8px;-webkit-appearance:none;appearance:none;box-sizing:border-box"><div class="mb"><button class="cn" id="dTx" style="color:#ff9b9b">Vymazať</button><button class="cn" autofocus onclick="dT.close()">Zrušiť</button><button class="ok" id="dTo">✓ Uložiť</button></div></dialog>
 <dialog id="d5"><h2 id="d5t"></h2><label>Počet dní (na rok)</label><input type="text" id="d5i" inputmode="decimal" placeholder="napr. 6,5"><div class="mb"><button class="cn" autofocus onclick="d5.close()">Zrušiť</button><button class="ok" id="d5s">Uložiť</button></div></dialog>
 <nav id="nav"><button data-t="w" aria-label="Práca"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/><path d="M3 13h18"/></svg></button><button class="on" data-t="h" aria-label="Domov"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/><path d="M10 19.5v-5h4v5"/></svg></button><button data-t="o" aria-label="Informácie"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5"/><circle cx="12" cy="7.6" r=".6" fill="currentColor"/></svg></button></nav>
@@ -333,14 +334,22 @@ kb.onclick=()=>{if(document.activeElement)document.activeElement.blur();kb.hidde
 setInterval(()=>{if(!kb.hidden)pos()},150)})();
 
 (function(){const M=$("bkM");const say=(t,c)=>{M.style.color=c||"var(--mu)";M.textContent=t};
+const tk=()=>{const d=new Date();return d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate()};function mark(){try{LSset("pdexp",tk())}catch(e){}}
 function data(){const o={};for(const k in store){const d=store[k];if(d&&(d.s||d.e||(d.o&&d.o.length)||(d.a&&d.a.length)))o[k]=d}return JSON.stringify({app:"pracovny-dennik",v:1,pd:o,lim:LIM,ls:LS,lang:LG})}
 $("bkE").onclick=async()=>{const d=new Date(),nm="pracovny-dennik-"+d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")+".json",txt=data();
-try{const f=new File([txt],nm,{type:"application/json"});if(navigator.canShare&&navigator.canShare({files:[f]})){await navigator.share({files:[f],title:nm});say("Export hotový ✓","#6ee7a0");return}}catch(e){if(e&&e.name=="AbortError"){say("Zrušené");return}}
-try{const u=URL.createObjectURL(new Blob([txt],{type:"application/json"})),a=document.createElement("a");a.href=u;a.download=nm;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),4000);say("Export hotový ✓","#6ee7a0")}catch(e){say("Export sa nepodaril","#ff9b9b")}};
+try{const f=new File([txt],nm,{type:"application/json"});if(navigator.canShare&&navigator.canShare({files:[f]})){await navigator.share({files:[f],title:nm});mark();say("Export hotový ✓","#6ee7a0");return}}catch(e){if(e&&e.name=="AbortError"){say("Zrušené");return}}
+try{const u=URL.createObjectURL(new Blob([txt],{type:"application/json"})),a=document.createElement("a");a.href=u;a.download=nm;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),4000);mark();say("Export hotový ✓","#6ee7a0")}catch(e){say("Export sa nepodaril","#ff9b9b")}};
 $("bkL").onclick=()=>$("bkI").click();
 $("bkI").onchange=e=>{const f=e.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{try{const o=JSON.parse(String(rd.result).trim());if(!o||!o.pd||typeof o.pd!="object")throw 0;Object.assign(store,o.pd);if(o.lim)LIM=+o.lim||LIM;if(o.ls)Object.assign(LS,o.ls);
 LSset("pd",JSON.stringify(store));LSset("pdset",JSON.stringify({lim:LIM}));LSset("pdlim",JSON.stringify(LS));
 if(o.lang&&o.lang!==LG)setLang(o.lang);render();home();prace();other();say("Import hotový ✓ ("+Object.keys(o.pd).length+" dní)","#6ee7a0")}catch(x){say("Súbor sa nepodarilo načítať","#ff9b9b")}};rd.onerror=()=>say("Súbor sa nepodarilo prečítať","#ff9b9b");rd.readAsText(f);e.target.value=""}})();
+
+(function(){try{if(new Date().getDay()!=5)return;const t=(()=>{const d=new Date();return d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate()})();
+if(localStorage.getItem("pdexp")==t||localStorage.getItem("pdrem")==t)return;
+if(!Object.keys(store).some(k=>{const d=store[k];return d&&(d.s||d.e||(d.o&&d.o.length)||(d.a&&d.a.length))}))return;
+setTimeout(()=>{try{$("dR").showModal()}catch(e){}},900);
+$("dRn").onclick=()=>{try{LSset("pdrem",t)}catch(e){}$("dR").close()};
+$("dRe").onclick=()=>{try{LSset("pdrem",t)}catch(e){}$("dR").close();$("bkE").click();openSet()}}catch(e){}})();
 render();home();langBtns();startTr();
 if("serviceWorker" in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 </script></body></html>
