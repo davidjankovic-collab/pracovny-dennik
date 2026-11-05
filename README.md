@@ -1,0 +1,1 @@
+# pracovny-dennik
