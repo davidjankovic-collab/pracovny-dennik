@@ -131,8 +131,7 @@ input.tm{width:100%;max-width:120px;font-size:24px;font-weight:700;text-align:ce
 <div class="card date"><button class="ic" id="mp">‹</button><span id="mt" style="flex:1;text-align:center"></span><button class="ic" id="mn">›</button></div>
 <div class="card"><div class="wk wh" id="wh"></div><div class="wk" id="cal"></div>
 <div class="leg" style="margin:12px 0 0;flex-wrap:wrap;gap:8px 14px"><span><i style="background:var(--g)"></i>Odpracované</span><span><i style="background:var(--o)"></i>Nadčas</span><span><i style="background:#a66bff"></i>Dovolenka</span><span><i style="background:#38bdf8"></i>Lekár</span><span><i style="background:#f472b6"></i>Lekár+</span><span><i style="background:#facc15"></i>PN-ka</span><span><i style="background:#f87171"></i>Sviatok</span><span><i style="background:#7dd3fc"></i>Σ týždeň</span></div></div>
-<div class="card"><h2>Súhrn mesiaca</h2><div class="three" style="grid-template-columns:repeat(3,1fr);gap:8px"><div class="stat"><b style="color:var(--g)" id="sh"></b><div>Odpracované</div></div><div class="stat"><b style="color:var(--o)" id="so"></b><div>Nadčas</div></div><div class="stat"><b style="color:#7dd3fc" id="sd"></b><div>Odpracované dni</div></div></div></div>
-<div class="act" style="grid-template-columns:1fr"><button class="add" id="td">Dnešný deň</button></div></div>
+</div>
 <div id="detail" hidden><header><button class="ic" id="prev">‹</button><h1>Pracovný denník</h1><span style="width:34px"></span></header>
 <div class="card date"><span id="dt"></span><span class="badge" id="bd">Odpracovaný deň</span></div>
 <div class="card">
@@ -147,7 +146,7 @@ input.tm{width:100%;max-width:120px;font-size:24px;font-weight:700;text-align:ce
 <div class="abs" id="abs"></div>
 <div class="act"><button class="add" id="ba">Pridať zákazku</button></div></div>
 <div id="prace" hidden><div class="card" style="padding:10px 14px"><input type="search" id="sq" inputmode="numeric" placeholder="Vyhľadať číslo zákazky" autocomplete="off" style="text-align:center;font-size:15px;height:44px"></div><div id="pmc" class="card date"><button class="ic" id="pp">‹</button><span id="pt" style="flex:1;text-align:center"></span><button class="ic" id="pn">›</button></div><h2 id="pth" style="margin:6px 4px 10px;text-align:center">Zapísané zákazky</h2><div id="pl"></div></div></div>
-<div id="other" hidden><header><span style="width:34px"></span><h1>Informácie</h1><span style="width:34px"></span></header><div class="card date"><button class="ic" id="oy1">‹</button><span id="oyt" style="flex:1;text-align:center"></span><button class="ic" id="oy2">›</button></div><div id="ol"></div></div>
+<div id="other" hidden><header><span style="width:34px"></span><h1>Informácie</h1><span style="width:34px"></span></header><div class="card date"><button class="ic" id="oy1">‹</button><span id="oyt" style="flex:1;text-align:center"></span><button class="ic" id="oy2">›</button></div><div class="card"><h2 style="display:flex;justify-content:space-between;align-items:baseline;gap:10px"><span>Súhrn mesiaca</span><small id="smt" style="color:var(--mu);font-weight:500;font-size:13px"></small></h2><div class="three" style="grid-template-columns:repeat(3,1fr);gap:8px"><div class="stat"><b style="color:var(--g)" id="sh"></b><div>Odpracované</div></div><div class="stat"><b style="color:var(--o)" id="so"></b><div>Nadčas</div></div><div class="stat"><b style="color:#7dd3fc" id="sd"></b><div>Odpracované dni</div></div></div></div><div id="ol"></div></div>
 <div id="settings" hidden><header><button class="ic" onclick="closeSet()" aria-label="Späť">‹</button><h1>Nastavenia</h1><span style="width:40px"></span></header>
 <div class="card" style="padding:20px 16px;margin-bottom:16px"><h2 style="text-align:center;margin-bottom:14px">Pracovná doba</h2><label style="text-align:center;margin-top:0">Hodiny za deň</label><input type="number" id="l1" style="text-align:center;display:block;width:130px;max-width:100%;margin:0 auto;font-size:15px;height:44px;padding:10px 4px" step="0.5" inputmode="decimal"></div>
 <div class="card" style="padding:20px 16px"><h2 style="text-align:center;margin-bottom:14px">Jazyk</h2><div class="lg" id="lg" data-nt><button data-l="sk">Slovenčina</button><button data-l="hu">Magyar</button></div></div>
@@ -243,11 +242,11 @@ for(let i=1;i<=n;i++){const dt0=new Date(y,mo,i),hn=holName(dt0),d=store[y+"-"+(
 if(!isOff(dt0)){WD++;if(d&&calc(d,dt0).net)WK++}
 if(dt0.getDay()==0){let W=0;for(let j=0;j<7;j++){const dj=new Date(y,mo,i-j),xj=store[dj.getFullYear()+"-"+(dj.getMonth()+1)+"-"+dj.getDate()];if(xj)W+=calc(xj,dj).net}if(W)sm=`<span style="color:#7dd3fc">Σ${Math.round(W/6)/10}h</span>`}
 if(y==now.getFullYear()&&mo==now.getMonth()&&i==now.getDate())cl+=" t";h+=`<button class="c ${cl}${hn?" h":""}${dt0.getDay()%6==0?" we":""}" title="${hn||""}" style="animation-delay:${i*9}ms" onclick="openDay(${y},${mo},${i})">${i}<small>${sm||"&nbsp;"}</small></button>`}
-$("cal").innerHTML=h;$("sh").textContent=Math.round(N/6)/10+" h";$("so").textContent=Math.round(O/6)/10+" h";$("sd").textContent=WK+"/"+WD}
+$("cal").innerHTML=h;$("sh").textContent=Math.round(N/6)/10+" h";$("so").textContent=Math.round(O/6)/10+" h";$("sd").textContent=WK+"/"+WD;$("smt").textContent=mtl(cm.getFullYear(),cm.getMonth())}
 function openDay(y,mo,i){day=new Date(y,mo,i);$("home").hidden=true;$("detail").hidden=false;render();scrollTo(0,0);anim($("detail"),1)}
 $("prev").onclick=()=>{setTab("h");$("detail").hidden=true;$("home").hidden=false;cm=new Date(day.getFullYear(),day.getMonth(),1);home();anim($("home"),-1)};
 $("mp").onclick=()=>{cm.setMonth(cm.getMonth()-1);home()};$("mn").onclick=()=>{cm.setMonth(cm.getMonth()+1);home()};
-$("td").onclick=()=>{const t=new Date();cm=new Date(t.getFullYear(),t.getMonth(),1);openDay(t.getFullYear(),t.getMonth(),t.getDate())};
+
 const openEdit=()=>{const d=D();$("e1").value=d.s;$("e2").value=d.e;$("e3").value=d.b.join(", ");$("d1").showModal()};
 $("s1").onclick=()=>{const d=D();d.s=$("e1").value;d.e=$("e2").value;d.b=$("e3").value.split(",").map(x=>x.trim().replace(/\s/g,"")).filter(x=>/^\d\d?:\d\d-\d\d?:\d\d$/.test(x));save();$("d1").close();render()};
 let eo=null;
