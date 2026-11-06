@@ -268,8 +268,23 @@ html[data-th=elektro] #nav button.on{background:rgba(255,212,0,.12);color:#ffd40
 html[data-th=elektro] .lg button.on,html[data-th=elektro] .mpk button.on{background:rgba(255,212,0,.15);border-color:#ffd400;color:#ffd400}
 html[data-th=elektro] .abs button span,html[data-th=elektro] .oi{filter:drop-shadow(0 0 6px rgba(56,189,248,.6))}
 @media (prefers-reduced-motion:reduce){html[data-th=elektro] header h1{animation:none}}
+#splash{position:fixed;inset:0;z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;background:radial-gradient(80% 45% at 50% 32%,rgba(52,211,153,.2),transparent 70%),var(--bg,#07090d);transition:opacity .45s ease,transform .45s ease}
+#splash.out{opacity:0;transform:scale(1.05);pointer-events:none}
+#splash svg{width:124px;height:124px;overflow:visible;filter:drop-shadow(0 0 14px var(--g,#34d399))}
+#splash .rg{fill:none;stroke:var(--g,#34d399);stroke-width:5;stroke-linecap:round;stroke-dasharray:302;stroke-dashoffset:302;transform:rotate(-90deg);transform-origin:60px 60px;animation:spd 1.1s cubic-bezier(.6,.1,.2,1) forwards}
+#splash .tk{stroke:var(--g,#34d399);stroke-width:2.4;stroke-linecap:round;opacity:0;animation:spt .5s ease .7s forwards}
+#splash .hh{stroke:var(--tx,#fff);stroke-width:5;stroke-linecap:round;transform-origin:60px 60px;transform:rotate(240deg)}
+#splash .mh{stroke:var(--g,#34d399);stroke-width:4;stroke-linecap:round;transform-origin:60px 60px;animation:spm 1.3s cubic-bezier(.5,.1,.2,1) forwards}
+#splash .cd{fill:var(--g,#34d399)}
+#splash .tt{font-size:18px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--tx,#fff);text-align:center;opacity:0;animation:spf .6s ease .35s forwards}
+#splash .tt .hu{display:none}html[data-lg=hu] #splash .tt .sk{display:none}html[data-lg=hu] #splash .tt .hu{display:inline}
+#splash .ld{width:132px;height:4px;border-radius:4px;background:rgba(255,255,255,.12);overflow:hidden;opacity:0;animation:spf .4s ease .45s forwards}
+#splash .ld i{display:block;height:100%;width:100%;border-radius:4px;background:linear-gradient(90deg,var(--g,#34d399),#fff);transform:translateX(-100%);animation:spl 1.1s cubic-bezier(.5,.1,.2,1) .35s forwards}
+@keyframes spd{to{stroke-dashoffset:0}}@keyframes spt{to{opacity:.55}}@keyframes spf{to{opacity:1}}@keyframes spl{to{transform:none}}
+@keyframes spm{from{transform:rotate(0)}to{transform:rotate(720deg)}}
+@media (prefers-reduced-motion:reduce){#splash .rg,#splash .mh,#splash .ld i,#splash .tk,#splash .tt,#splash .ld{animation:none;stroke-dashoffset:0;opacity:1;transform:none}#splash .rg{transform:rotate(-90deg)}#splash .tk{opacity:.55}}
 .thb:last-child:nth-child(odd){grid-column:1/-1}.thg{display:grid;grid-template-columns:1fr 1fr;gap:10px}.thb{display:flex;flex-direction:column;align-items:center;gap:8px;padding:12px 8px;border-radius:16px;border:1px solid var(--bd);background:var(--card2);color:var(--tx);font-size:14px;font-weight:700;cursor:pointer}.thb i{display:block;width:100%;height:34px;border-radius:10px}.thb.on{border-color:var(--g);box-shadow:0 0 0 1px var(--g)}
-</style></head><body><div class="app">
+</style><script id="early">(function(){try{var d=document.documentElement,t=localStorage.getItem("pdth");if(t){d.dataset.th=t;if(t=="seasons"){var m=new Date().getMonth();d.dataset.season=m==11||m<2?"winter":m<5?"spring":m<8?"summer":"autumn"}}if(localStorage.getItem("pdlang")=="hu")d.dataset.lg="hu"}catch(e){}})()</script></head><body><div id="splash" data-nt><svg viewBox="0 0 120 120"><circle class="rg" cx="60" cy="60" r="48"/><line class="tk" x1="60" y1="14" x2="60" y2="22" transform="rotate(0 60 60)"/><line class="tk" x1="60" y1="14" x2="60" y2="19" transform="rotate(30 60 60)"/><line class="tk" x1="60" y1="14" x2="60" y2="19" transform="rotate(60 60 60)"/><line class="tk" x1="60" y1="14" x2="60" y2="22" transform="rotate(90 60 60)"/><line class="tk" x1="60" y1="14" x2="60" y2="19" transform="rotate(120 60 60)"/><line class="tk" x1="60" y1="14" x2="60" y2="19" transform="rotate(150 60 60)"/><line class="tk" x1="60" y1="14" x2="60" y2="22" transform="rotate(180 60 60)"/><line class="tk" x1="60" y1="14" x2="60" y2="19" transform="rotate(210 60 60)"/><line class="tk" x1="60" y1="14" x2="60" y2="19" transform="rotate(240 60 60)"/><line class="tk" x1="60" y1="14" x2="60" y2="22" transform="rotate(270 60 60)"/><line class="tk" x1="60" y1="14" x2="60" y2="19" transform="rotate(300 60 60)"/><line class="tk" x1="60" y1="14" x2="60" y2="19" transform="rotate(330 60 60)"/><line class="hh" x1="60" y1="60" x2="60" y2="38"/><line class="mh" x1="60" y1="60" x2="60" y2="27"/><circle class="cd" cx="60" cy="60" r="4.5"/></svg><div class="tt"><span class="sk">Pracovný denník</span><span class="hu">Munkanapló</span></div><div class="ld"><i></i></div></div><div class="app">
 <div id="xb" hidden role="button">Exportuj si dáta!</div>
 <div id="info" class="card" data-nt><div class="nd"><svg width="24" height="16" viewBox="0 0 24 16"><rect width="24" height="5.34" fill="#fff"/><rect y="5.33" width="24" height="5.34" fill="#0b4ea2"/><rect y="10.66" width="24" height="5.34" fill="#ee1c25"/><path d="M5 3.2h6.2v5.4c0 2.2-1.6 3.4-3.1 4C6.6 12 5 10.8 5 8.6z" fill="#ee1c25" stroke="#fff" stroke-width=".7"/><path d="M8.1 4.6v6.6M6.4 6.2h3.4M6.7 8h2.8" stroke="#fff" stroke-width=".8"/></svg><span id="nsk"></span></div><div class="tm" id="tm">--:--:--</div><div class="nd"><svg width="24" height="16" viewBox="0 0 24 16"><rect width="24" height="5.34" fill="#ce2939"/><rect y="5.33" width="24" height="5.34" fill="#fff"/><rect y="10.66" width="24" height="5.34" fill="#477050"/></svg><span id="nhu"></span></div></div>
 <div id="work"><div id="home"><header><span style="width:34px"></span><h1>Pracovný denník</h1><button class="ic" onclick="openSet()" aria-label="Nastavenia"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button></header>
@@ -494,7 +509,7 @@ $("bkI").onchange=e=>{const f=e.target.files[0];if(!f)return;const rd=new FileRe
 LSset("pd",JSON.stringify(store));LSset("pdlim",JSON.stringify(LS));
 if(o.lang&&o.lang!==LG)setLang(o.lang);render();home();prace();other();say("Import hotový ✓ ("+Object.keys(o.pd).length+" dní)","#6ee7a0")}catch(x){say("Súbor sa nepodarilo načítať","#ff9b9b")}};rd.onerror=()=>say("Súbor sa nepodarilo prečítať","#ff9b9b");rd.readAsText(f);e.target.value=""}})();
 
-const VER="2.2",VERD="6. 11. 2026";
+const VER="2.3",VERD="6. 11. 2026";
 $("ver").textContent=(LG=="hu"?"Verzió ":"Verzia ")+VER+" · "+VERD;
 let mxI=null,mxC=null;
 function mxStop(){clearInterval(mxI);mxI=null;if(mxC){mxC.remove();mxC=null}}
@@ -532,5 +547,7 @@ setTimeout(()=>{try{$("dR").showModal()}catch(e){}},900);
 $("dRn").onclick=()=>{try{LSset("pdrem",t);LSset("pdpend","1")}catch(e){}xbUpd();$("dR").close()};
 $("dRe").onclick=()=>{try{LSset("pdrem",t);LSset("pdpend","1")}catch(e){}xbUpd();$("dR").close();$("bkE").click();openSet()}}catch(e){}})();
 render();home();langBtns();startTr();
+(function(){const sp=document.getElementById("splash");if(!sp)return;let rm=false;try{rm=matchMedia("(prefers-reduced-motion: reduce)").matches}catch(e){}
+const wait=Math.max(0,(rm?500:1500)-(window.performance?performance.now():0));setTimeout(()=>{sp.classList.add("out");setTimeout(()=>sp.remove(),520)},wait)})();
 if("serviceWorker" in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 </script></body></html>
