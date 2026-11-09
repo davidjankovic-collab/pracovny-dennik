@@ -453,8 +453,8 @@ const d=document.createElement("div");d.id="lp";d.setAttribute("data-nt","");d.s
 d.innerHTML=`<div style="font-size:22px;font-weight:800;text-align:center;line-height:1.3">Vyber jazyk<div style="font-size:15px;font-weight:600;color:var(--mu);margin-top:4px">Válassz nyelvet</div></div><div style="display:flex;flex-direction:column;gap:12px;width:100%;max-width:320px;margin-top:14px">`+[["sk","🇸🇰","Slovenčina"],["hu","🇭🇺","Magyar"]].map(([c,fl,n])=>`<button type="button" data-l="${c}" style="display:flex;align-items:center;gap:14px;padding:18px 20px;border-radius:20px;border:1px solid var(--bd);background:var(--card2);color:var(--tx);font:700 18px inherit;font-family:inherit"><span style="font-size:30px">${fl}</span>${n}</button>`).join("")+"</div>";
 document.body.appendChild(d);requestAnimationFrame(()=>d.style.opacity=1);
 d.querySelectorAll("button").forEach(b=>b.onclick=()=>{setLang(b.dataset.l);d.style.opacity=0;setTimeout(()=>d.remove(),360)})}
-function openSet(){langBtns();$("work").hidden=true;$("other").hidden=true;$("nav").hidden=true;$("settings").hidden=false;anim($("settings"),1);scrollTo(0,0)}
-function closeSet(){$("settings").hidden=true;$("nav").hidden=false;$("work").hidden=false;anim($("work"),-1);render();home();scrollTo(0,0)}
+function openSet(){langBtns();$("work").hidden=true;$("other").hidden=true;$("detail").hidden=true;$("settings").hidden=false;setTab("s");curT="s";anim($("settings"),1);scrollTo(0,0)}
+function closeSet(){$("settings").hidden=true;$("nav").hidden=false;$("work").hidden=false;for(const k in VWS)$(VWS[k]).hidden=k!="h";$("other").hidden=true;setTab("h");curT="h";anim($("work"),-1);render();home();scrollTo(0,0)}
 
 
 const MN=["Január","Február","Marec","Apríl","Máj","Jún","Júl","August","September","Október","November","December"];
@@ -616,7 +616,7 @@ $("pl").innerHTML=h}
 function tp(k){openK=openK==k?"":k;prace()}
 $("pp").onclick=()=>{pm.setMonth(pm.getMonth()-1);openK="";prace()};$("pn").onclick=()=>{pm.setMonth(pm.getMonth()+1);openK="";prace()};
 const VWS={h:"home",w:"prace",d:"odz"};
-document.querySelectorAll("#nav button").forEach(b=>b.onclick=()=>{const t=b.dataset.t;if(t=="s"){openSet();return}$("other").hidden=t!="o";$("work").hidden=t=="o";if(t!="o"){$("detail").hidden=true;for(const k in VWS)$(VWS[k]).hidden=k!=t;if(t=="h")home();if(t=="w")prace();if(t=="d")odz()}if(t=="o")other();setTab(t);scrollTo(0,0);const ni=ord.indexOf(t),pi=ord.indexOf(curT);if(ni!=pi)anim($(t=="o"?"other":VWS[t]),ni>pi?1:-1);curT=t});
+document.querySelectorAll("#nav button").forEach(b=>b.onclick=()=>{const t=b.dataset.t;if(t=="s"){if($("settings").hidden)openSet();return}$("settings").hidden=true;$("other").hidden=t!="o";$("work").hidden=t=="o";if(t!="o"){$("detail").hidden=true;for(const k in VWS)$(VWS[k]).hidden=k!=t;if(t=="h")home();if(t=="w")prace();if(t=="d")odz()}if(t=="o")other();setTab(t);scrollTo(0,0);const ni=ord.indexOf(t),pi=ord.indexOf(curT);if(ni!=pi)anim($(t=="o"?"other":VWS[t]),ni>pi?1:-1);curT=t});
 (function(){const order=["d","w","h","o"],VW={w:"prace",h:"home",d:"odz",o:"other"};let sx=0,sy=0,ok=false,lk=0,busy=false;
 const cur=()=>!$("other").hidden?"o":!$("prace").hidden?"w":!$("odz").hidden?"d":"h";
 const S=(el,x,o)=>{el.style.setProperty("--tx",x+"px");el.style.setProperty("--op",o)};
@@ -655,7 +655,7 @@ $("bkI").onchange=e=>{const f=e.target.files[0];if(!f)return;const rd=new FileRe
 LSset("pd",JSON.stringify(store));LSset("pdlim",JSON.stringify(LS));
 if(o.lang&&o.lang!==LG)setLang(o.lang);render();home();prace();other();say("Import hotový ✓ ("+Object.keys(o.pd).length+" dní)","#6ee7a0")}catch(x){say("Súbor sa nepodarilo načítať","#ff9b9b")}};rd.onerror=()=>say("Súbor sa nepodarilo prečítať","#ff9b9b");rd.readAsText(f);e.target.value=""}})();
 
-const VER="2.51",VERD="6. 11. 2026";
+const VER="2.52",VERD="6. 11. 2026";
 $("ver").textContent=(LG=="hu"?"Verzió ":"Verzia ")+VER+" · "+VERD;
 let mxI=null,mxC=null;
 function mxStop(){clearInterval(mxI);mxI=null;if(mxC){mxC.remove();mxC=null}}
