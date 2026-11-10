@@ -357,7 +357,8 @@ html[data-th=elektro] .abs button span,html[data-th=elektro] .oi{filter:drop-sha
 <label>Číslo zákazky</label><input id="a1" inputmode="numeric"><div id="sg" hidden style="margin-top:8px"></div><label>POZ 1</label><input id="a2" placeholder="POZ 1"><label>POZ 2</label><input id="a4" placeholder="POZ 2"><label>Činnosť</label><input id="a5"><label>Hodiny</label><input type="number" id="a3" step="0.5">
 <div class="mb"><button class="cn" id="d2c" onclick="d2.close()">Zrušiť</button><button class="ok" id="s2">Pridať</button></div><div class="mb"><button class="cn" id="sx" style="color:#ff6b6b" hidden>Odstrániť</button></div></dialog>
 
-<dialog id="dP" data-nt><div class="date" style="display:flex;align-items:center;justify-content:space-between"><button class="ic" id="dPp">‹</button><b id="dPt" style="font-size:18px"></b><button class="ic" id="dPn">›</button></div><div class="dpg" id="dPg"></div><div class="dpl" id="dPl"></div><div class="mb" style="margin-top:12px"><button class="cn" id="dPx">✕</button></div></dialog><dialog id="d4"><h2 id="d4t"></h2><div class="r2"><div><label>Dátum od</label><input type="text" readonly id="v1t" class="dpi" data-nt onclick="dpOpen('v1')"><input type="hidden" id="v1"></div><div><label>Dátum do</label><input type="text" readonly id="v2t" class="dpi" data-nt onclick="dpOpen('v2')"><input type="hidden" id="v2"></div></div><div class="r2"><div><label>Čas od</label><input type="time" id="v3"></div><div><label>Čas do</label><input type="time" id="v4"></div></div><div id="v5w" hidden><label>Poznámka</label><input type="text" id="v5" maxlength="80"></div><div class="mb"><button class="cn" autofocus onclick="d4.close()">Zrušiť</button><button class="ok" id="vs">Uložiť</button></div><div class="mb"><button class="cn" id="vx" style="color:#ff6b6b;border:1px solid #ff6b6b88;background:#ff6b6b1a;font-weight:700">Odstrániť</button></div></dialog>
+<dialog id="dP" data-nt><div class="date" style="display:flex;align-items:center;justify-content:space-between"><button class="ic" id="dPp">‹</button><b id="dPt" style="font-size:18px"></b><button class="ic" id="dPn">›</button></div><div class="dpg" id="dPg"></div><div class="dpl" id="dPl"></div><div class="mb" style="margin-top:12px"><button class="cn" id="dPx">✕</button></div></dialog><dialog id="dNw" data-nt><h2 id="dNwt"></h2><div id="dNwb" style="max-height:60vh;overflow:auto;-webkit-overflow-scrolling:touch"></div><div class="mb"><button class="ok" id="dNwo"></button></div></dialog>
+<dialog id="d4"><h2 id="d4t"></h2><div class="r2"><div><label>Dátum od</label><input type="text" readonly id="v1t" class="dpi" data-nt onclick="dpOpen('v1')"><input type="hidden" id="v1"></div><div><label>Dátum do</label><input type="text" readonly id="v2t" class="dpi" data-nt onclick="dpOpen('v2')"><input type="hidden" id="v2"></div></div><div class="r2"><div><label>Čas od</label><input type="time" id="v3"></div><div><label>Čas do</label><input type="time" id="v4"></div></div><div id="v5w" hidden><label>Poznámka</label><input type="text" id="v5" maxlength="80"></div><div class="mb"><button class="cn" autofocus onclick="d4.close()">Zrušiť</button><button class="ok" id="vs">Uložiť</button></div><div class="mb"><button class="cn" id="vx" style="color:#ff6b6b;border:1px solid #ff6b6b88;background:#ff6b6b1a;font-weight:700">Odstrániť</button></div></dialog>
 <script>
 function LSset(k,v){try{localStorage.setItem(k,v)}catch(e){}}
 const $=i=>document.getElementById(i),DAYS=["Nedeľa","Pondelok","Utorok","Streda","Štvrtok","Piatok","Sobota"],
@@ -655,7 +656,23 @@ $("bkI").onchange=e=>{const f=e.target.files[0];if(!f)return;const rd=new FileRe
 LSset("pd",JSON.stringify(store));LSset("pdlim",JSON.stringify(LS));
 if(o.lang&&o.lang!==LG)setLang(o.lang);render();home();prace();other();say("Import hotový ✓ ("+Object.keys(o.pd).length+" dní)","#6ee7a0")}catch(x){say("Súbor sa nepodarilo načítať","#ff9b9b")}};rd.onerror=()=>say("Súbor sa nepodarilo prečítať","#ff9b9b");rd.readAsText(f);e.target.value=""}})();
 
-const VER="2.52",VERD="6. 11. 2026";
+const CL=[["2.43",[["Odstránený Zoznam (skener textu)","A Lista (szövegszkenner) eltávolítva"]]],
+["2.44",[["Nový dizajn Sims (neskôr nahradený)","Új Sims dizájn (később lecserélve)"]]],
+["2.45",[["Nový futuristický dizajn Futuro","Új futurisztikus dizájn: Futuro"]]],
+["2.47",[["Nový dizajn Príroda – živá krajina, ktorá sa mení počas dňa","Új dizájn: Természet – élő tájkép, amely a nap folyamán változik"]]],
+["2.48",[["Séria zapisovania – koľko dní po sebe máš zapísané","Rögzítési sorozat – hány napja rögzítesz egymás után"]]],
+["2.49",[["Nová záložka Odznaky – 26 odznakov za hodiny, nadčasy, zákazky a sériu","Új fül: Jelvények – 26 jelvény óráért, túlóráért, megrendelésért és sorozatért"]]],
+["2.50",[["Nová dolná lišta: Odznaky, Práca, Domov, Informácie, Nastavenia","Új alsó sáv: Jelvények, Munka, Kezdőlap, Infó, Beállítások"]]],
+["2.51",[["Séria presunutá do záložky Odznaky","A sorozat átkerült a Jelvények fülre"]]],
+["2.52",[["Dolná lišta je vidieť aj v Nastaveniach","Az alsó sáv a Beállításokban is látszik"]]],
+["2.53",[["Pri zapnutí aplikácie sa ukáže, čo je nové","Az alkalmazás indításakor megjelenik, mi az új"]]]];
+function wnew(){try{let sn=null;try{sn=localStorage.getItem("pdseen")}catch(e){}const sv=v=>{try{localStorage.setItem("pdseen",v)}catch(e){}};
+if($("lp")){sv(VER);return}if(sn==VER)return;const cv=v=>v.split(".").map(Number),gt=(a,b)=>{const x=cv(a),y=cv(b);return x[0]!=y[0]?x[0]>y[0]:x[1]>y[1]};
+let L=sn?CL.filter(c=>gt(c[0],sn)):CL.slice(-4);if(!L.length){sv(VER);return}const hu=LG=="hu",E=x=>String(x).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+$("dNwt").textContent=hu?"Újdonságok":"Čo je nové";$("dNwo").textContent=hu?"Rendben":"Rozumiem";
+$("dNwb").innerHTML=L.slice().reverse().map(c=>`<div style="margin:10px 0"><div style="font-size:12px;color:var(--mu);font-weight:700;letter-spacing:.04em">${hu?"VERZIÓ":"VERZIA"} ${c[0]}</div>${c[1].map(t=>`<div style="display:flex;gap:8px;margin-top:4px;font-size:15px;line-height:1.35"><span style="color:var(--g)">●</span><span>${E(t[hu?1:0])}</span></div>`).join("")}</div>`).join("");
+$("dNwo").onclick=()=>{sv(VER);$("dNw").close()};$("dNw").addEventListener("cancel",()=>sv(VER),{once:true});$("dNw").showModal()}catch(e){}}
+const VER="2.53",VERD="6. 11. 2026";
 $("ver").textContent=(LG=="hu"?"Verzió ":"Verzia ")+VER+" · "+VERD;
 let mxI=null,mxC=null;
 function mxStop(){clearInterval(mxI);mxI=null;if(mxC){mxC.remove();mxC=null}}
@@ -741,6 +758,6 @@ const n=se=="winter"?44:se=="summer"?34:24,P=Array.from({length:n},()=>({x:R(0,W
 for(const p of P){p.t+=.04;p.ph+=.06;p.y+=p.vy;p.x+=Math.sin(p.t)*p.sw;p.rot+=p.vr;if(p.y>H+20)p.y=-20;if(p.y<-20)p.y=H+10;
 if(se=="summer"){x.shadowColor="rgba(255,215,90,.95)";x.shadowBlur=10;x.fillStyle="rgba(255,228,110,"+(.35+.65*Math.abs(Math.sin(p.ph)))+")";x.beginPath();x.arc(p.x,p.y,p.r,0,6.283);x.fill();x.shadowBlur=0}
 else{x.save();x.translate(p.x,p.y);x.rotate(p.rot);x.font=p.sz+"px serif";if(se=="winter")x.fillStyle="rgba(255,255,255,.92)";x.fillText(p.g,0,0);x.restore()}}})()}catch(e){}}
-const wait=Math.max(0,(rm?500:se?2200:1500)-(window.performance?performance.now():0));setTimeout(()=>{sp.classList.add("out");setTimeout(()=>{sp.remove();try{langPick()}catch(e){}},520)},wait)})();
+const wait=Math.max(0,(rm?500:se?2200:1500)-(window.performance?performance.now():0));setTimeout(()=>{sp.classList.add("out");setTimeout(()=>{sp.remove();try{langPick()}catch(e){}try{wnew()}catch(e){}},520)},wait)})();
 if("serviceWorker" in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 </script></body></html>
