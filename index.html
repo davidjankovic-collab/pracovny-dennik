@@ -380,6 +380,7 @@ let day=new Date(new Date().getFullYear(),new Date().getMonth(),new Date().getDa
 
 {const x=store["2026-11-3"];if(x&&x.s=="05:30"&&x.e=="16:15"&&x.o&&x.o.length==2&&x.o[0].n==125&&x.o[1].n==128){delete store["2026-11-3"];try{LSset("pd",JSON.stringify(store))}catch(e){}}}
 const key=()=>day.toISOString().slice(0,10).replace(/T.*/,"")&&day.getFullYear()+"-"+(day.getMonth()+1)+"-"+day.getDate();
+{let dn=0;try{dn=localStorage.getItem("pdbrc")}catch(e){}if(!dn){const n=new Date(),t0=new Date(n.getFullYear(),n.getMonth(),n.getDate());let ch=0;for(const k in store){const q=k.split("-").map(Number);if(new Date(q[0],q[1]-1,q[2])>t0&&store[k].b&&store[k].b.length){store[k].b=[];ch=1}}if(ch)LSset("pd",JSON.stringify(store));LSset("pdbrc","1")}}
 const D=()=>store[key()]||(store[key()]={s:"",e:"",b:[],rate:10,o:[],a:[]});
 const save=()=>{try{LSset("pd",JSON.stringify(store))}catch(e){}};
 const m=t=>{const[a,b]=t.split(":").map(Number);return a*60+b},hm=x=>Math.floor(x/60)+" h"+(x%60?" "+x%60+" min":"");
@@ -696,14 +697,15 @@ const CL=[["2.43",[["Odstránený Zoznam (skener textu)","A Lista (szövegszkenn
 ["2.56",[["Vlastné: v jeden deň môžeš pridať viac záznamov","Saját: egy napra több bejegyzést is felvehetsz"]]],
 ["2.57",[["Nové dizajny Terraria a Starfield; dizajn Futuro nahradila Aurora so žiariacou polárnou žiarou","Új dizájnok: Terraria és Starfield; a Futurót az Aurora váltotta fel mozgó sarki fénnyel"]]],
 ["2.58",[["Dizajn Terraria nahradil dizajn Agent 007","A Terraria dizájnt az Agent 007 váltotta fel"]]],
-["2.59",[["Dizajn Agent 007 bol odstránený (kto ho mal zapnutý, prepne sa na Predvolený)","Az Agent 007 dizájn el lett távolítva (akinél be volt kapcsolva, az Alapértelmezettre vált)"]]]];
+["2.59",[["Dizajn Agent 007 bol odstránený (kto ho mal zapnutý, prepne sa na Predvolený)","Az Agent 007 dizájn el lett távolítva (akinél be volt kapcsolva, az Alapértelmezettre vált)"]]],
+["2.60",[["Z nasledujúcich dní sa odstránili zapísané prestávky – dopĺňaš ich ručne každý deň","A következő napokról törölve lettek a rögzített szünetek – naponta kézzel adod hozzá őket"]]]];
 function wnew(){try{let sn=null;try{sn=localStorage.getItem("pdseen")}catch(e){}const sv=v=>{try{localStorage.setItem("pdseen",v)}catch(e){}};
 if($("lp")){sv(VER);return}if(sn==VER)return;const cv=v=>v.split(".").map(Number),gt=(a,b)=>{const x=cv(a),y=cv(b);return x[0]!=y[0]?x[0]>y[0]:x[1]>y[1]};
 let L=sn?CL.filter(c=>gt(c[0],sn)):CL.slice(-4);if(!L.length){sv(VER);return}const hu=LG=="hu",E=x=>String(x).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
 $("dNwt").textContent=hu?"Újdonságok":"Čo je nové";$("dNwo").textContent=hu?"Rendben":"Rozumiem";
 $("dNwb").innerHTML=L.slice().reverse().map(c=>`<div style="margin:10px 0"><div style="font-size:12px;color:var(--mu);font-weight:700;letter-spacing:.04em">${hu?"VERZIÓ":"VERZIA"} ${c[0]}</div>${c[1].map(t=>`<div style="display:flex;gap:8px;margin-top:4px;font-size:15px;line-height:1.35"><span style="color:var(--g)">●</span><span>${E(t[hu?1:0])}</span></div>`).join("")}</div>`).join("");
 $("dNwo").onclick=()=>{sv(VER);$("dNw").close()};$("dNw").addEventListener("cancel",()=>sv(VER),{once:true});$("dNw").showModal()}catch(e){}}
-const VER="2.59",VERD="6. 11. 2026";
+const VER="2.60",VERD="6. 11. 2026";
 $("ver").textContent=(LG=="hu"?"Verzió ":"Verzia ")+VER+" · "+VERD;
 let mxI=null,mxC=null;
 function mxStop(){clearInterval(mxI);mxI=null;if(mxC){mxC.remove();mxC=null}}
