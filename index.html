@@ -505,9 +505,19 @@ const BG=[["s","🔥",["Rozbeh","Bemelegítés"],["Séria 3 dní","3 napos soroz
 ["d","🔁",["Pripomínač","Emlékeztető"],["Poznámka s opakovaním","Ismétlődő jegyzet"],1,"rp"],
 ["d","🗒️",["Poznámkár","Jegyzetelő mester"],["25 poznámok","25 jegyzet"],25,"nt"],
 ["d","🗓️",["Veterán","Veterán"],["250 zapísaných dní","250 rögzített nap"],250,"dn"],
-["x","📊",["Analytik","Elemző"],["Otvoril si porovnanie mesiacov alebo rokov","Megnyitottad a hónapok vagy évek összehasonlítását"],1,"cmp"]];
-const BGC={s:["Za sériu","Sorozatért"],h:["Odpracované hodiny","Ledolgozott órák"],o:["Nadčasy","Túlóra"],z:["Zákazky","Megrendelések"],p:["Výplata","Fizetés"],d:["Denník","Napló"],x:["Špeciálne","Különleges"]};
-function bdgVals(){strk(1);const V={pa:Object.values(PAY).filter(v=>v>0).length,eye:(()=>{try{return localStorage.getItem("pdeye")?1:0}catch(e){return 0}})(),cmp:(()=>{try{return localStorage.getItem("pdcmp")?1:0}catch(e){return 0}})(),rp:0,sx:(window.STK&&window.STK.best)||0,hr:0,ot:0,zk:0,dn:0,nt:0,pm:0,er:0,ni:0,wk:0,ho:0,lg:0,va:0},M={};
+["x","📊",["Analytik","Elemző"],["Otvoril si porovnanie mesiacov alebo rokov","Megnyitottad a hónapok vagy évek összehasonlítását"],1,"cmp"],
+["l","🗓️",["Týždeň s appkou","Egy hét az appal"],["7 dní otvorenia appky","7 napi megnyitás"],7,"lv"],
+["l","📆",["Pravidelný návštevník","Rendszeres látogató"],["25 dní otvorenia appky","25 napi megnyitás"],25,"lv"],
+["l","💚",["Verný používateľ","Hűséges felhasználó"],["75 dní otvorenia appky","75 napi megnyitás"],75,"lv"],
+["l","🎂",["Rok s appkou","Egy év az appal"],["365 dní otvorenia appky","365 napi megnyitás"],365,"lv"],
+["x","🎓",["Absolvent","Végzett"],["Prešiel si tutoriál až do konca","Végigcsináltad a bemutatót"],1,"tu"],
+["x","😎",["Prezývka","Becenév"],["Nastavil si si prezývku","Beállítottad a becenevet"],1,"nk"],
+["x","⛅",["Meteorológ","Meteorológus"],["Otvoril si 7-dňovú predpoveď počasia","Megnyitottad a 7 napos előrejelzést"],1,"wxo"],
+["x","🍽️",["Gurmán","Gurmand"],["Otvoril si obedy z gratis.sk","Megnyitottad az ebédeket a gratis.sk-ról"],1,"ob"],
+["x","🎨",["Štylista","Stílusos"],["Zmenil si vzhľad appky","Megváltoztattad az app megjelenését"],1,"th"],
+["x","💾",["Zálohár","Mentő"],["Urobil si export dát","Exportáltad az adataidat"],1,"bk"]];
+const BGC={s:["Za sériu","Sorozatért"],h:["Odpracované hodiny","Ledolgozott órák"],o:["Nadčasy","Túlóra"],z:["Zákazky","Megrendelések"],p:["Výplata","Fizetés"],d:["Denník","Napló"],l:["Levely","Szintek"],x:["Špeciálne","Különleges"]};
+function bdgVals(){strk(1);const V={pa:Object.values(PAY).filter(v=>v>0).length,eye:(()=>{try{return localStorage.getItem("pdeye")?1:0}catch(e){return 0}})(),cmp:(()=>{try{return localStorage.getItem("pdcmp")?1:0}catch(e){return 0}})(),rp:0,lv:(typeof lvCalc=="function"?lvCalc():0),nk:nick()?1:0,tu:(()=>{try{return localStorage.getItem("pdtutd")?1:0}catch(e){return 0}})(),wxo:(()=>{try{return localStorage.getItem("pdwxo")?1:0}catch(e){return 0}})(),ob:(()=>{try{return localStorage.getItem("pdobo")?1:0}catch(e){return 0}})(),th:(()=>{try{return localStorage.getItem("pdth")?1:0}catch(e){return 0}})(),bk:(()=>{try{return localStorage.getItem("pdexp")?1:0}catch(e){return 0}})(),sx:(window.STK&&window.STK.best)||0,hr:0,ot:0,zk:0,dn:0,nt:0,pm:0,er:0,ni:0,wk:0,ho:0,lg:0,va:0},M={};
 for(const k in store){const d=store[k],q=k.split("-").map(Number),dt=new Date(q[0],q[1]-1,q[2]);let c;try{c=calc(d,dt)}catch(e){continue}
 const lg=!!(d.s||d.e||(d.o&&d.o.length)||(d.a&&d.a.length));if(lg){V.dn++;const mk=q[0]+"-"+q[1];(M[mk]=M[mk]||new Set()).add(q[2])}
 V.zk+=(d.o||[]).length;if(d.a&&d.a.includes(0))V.va++;for(const t of CU(d)){if(t&&String(t.n||"").trim())V.nt++;if(t&&t.r&&t.r!="o")V.rp++}
@@ -560,22 +570,24 @@ el.innerHTML=`<div style="display:flex;align-items:center;gap:16px"><div style="
 document.addEventListener("visibilitychange",()=>{if(!document.hidden){try{lvTouch()}catch(e){}}});
 function nick(){try{return(localStorage.getItem("pdnick")||"").trim()}catch(e){return""}}
 function hiRender(){const el=$("hi");if(!el)return;const n=nick();if(!n){el.hidden=true;return}const hu=LG=="hu",h=new Date().getHours();el.textContent=(hu?(h<10?"Jó reggelt":h<18?"Jó napot":"Jó estét"):(h<10?"Dobré ráno":h<18?"Dobrý deň":"Dobrý večer"))+", "+n+" 👋";el.hidden=false}
-(function(){const nk=$("nk");if(nk){nk.value=nick();nk.addEventListener("input",()=>{LSset("pdnick",nk.value.trim());hiRender()})}
+(function(){const nk=$("nk");if(nk){nk.value=nick();nk.addEventListener("input",()=>{LSset("pdnick",nk.value.trim());hiRender()});nk.addEventListener("change",()=>{try{bdgSoon()}catch(e){}})}
 ["a2","a4","a5"].forEach(i=>{const a5=$(i);if(a5)a5.addEventListener("input",()=>{const p=a5.selectionStart;a5.value=a5.value.toLocaleUpperCase(LG=="hu"?"hu":"sk");try{a5.setSelectionRange(p,p)}catch(e){}})})})();
 const TUT=[
 ["h",null,["Vitaj v appke","Üdv az appban"],["Krátko ti ukážem, čo všetko appka vie. Ďalej prejdeš tlačidlom, kedykoľvek môžeš skončiť.","Röviden megmutatom, mit tud az app. A gombbal lépsz tovább, bármikor kiléphetsz."]],
-["h","#cal",["Kalendár","Naptár"],["Ťukni na deň a zapíš začiatok, koniec, prestávky a zákazky. Pridať môžeš aj Dovolenku, Lekára, PN-ku alebo Poznámku. Farby dní vysvetľuje legenda nad kalendárom.","Koppints egy napra, és rögzítsd a kezdést, végét, szüneteket és megrendeléseket. Felvehetsz szabadságot, orvost, betegszabadságot vagy jegyzetet is. A színeket a naptár feletti jelmagyarázat mutatja."]],
+["h","#wx",["Počasie","Időjárás"],["Počasie pre Komárno: ikonka, aktuálna teplota a minimum ↓ a maximum ↑ dňa. Ťuknutím sa otvorí podrobná predpoveď na 24 hodín a 7 dní.","Komárno időjárása: ikon, aktuális hőmérséklet, a nap minimuma ↓ és maximuma ↑. Koppintásra részletes 24 órás és 7 napos előrejelzés nyílik."]],
+["h","#cal",["Kalendár","Naptár"],["Ťukni na deň a zapíš začiatok, koniec, prestávky a zákazky. Číslo zákazky, POZ a činnosť sa píšu veľkými písmenami. Pridať môžeš aj Dovolenku, Lekára, PN-ku alebo viac Poznámok, ktoré sa dajú opakovať (iba raz, denne, týždenne, mesačne, ročne). Farby dní vysvetľuje legenda pod kalendárom.","Koppints egy napra, és rögzítsd a kezdést, végét, szüneteket és megrendeléseket. A megrendelésszám, a POZ és a tevékenység nagybetűvel íródik. Felvehetsz szabadságot, orvost, betegszabadságot vagy több jegyzetet, amelyek ismételhetők (egyszer, naponta, hetente, havonta, évente). A színeket a naptár alatti jelmagyarázat mutatja."]],
+["h","#obc",["Obedy","Ebédek"],["Tlačidlo otvorí stránku gratis.sk s denným menu reštaurácie Fiesta.","A gomb megnyitja a gratis.sk oldalt a Fiesta étterem napi menüjével."]],
 ["h","#pay",["Výplata v čistom","Nettó fizetés"],["Zapíš výplatu za mesiac. Ukazuje sa vždy výplata za predchádzajúci mesiac. Ikonka oka skryje sumy všade v appke.","Rögzítsd a havi fizetést. Mindig az előző hónap fizetése látszik. A szem ikon mindenhol elrejti az összegeket."]],
 ["h",()=>$("sh").closest(".card"),["Súhrn mesiaca","Havi összesítő"],["Odpracované hodiny, nadčasy a dni vybraného mesiaca. Tlačidlom dole porovnáš mesiace.","A kiválasztott hónap ledolgozott óráit, túlóráit és napjait mutatja. Az alsó gombbal hónapokat hasonlíthatsz össze."]],
 ["h","#yst",["Ročné štatistiky","Éves statisztika"],["Súčty za celý rok, graf po mesiacoch a porovnanie rokov.","Az egész év összegei, havi grafikon és évek összehasonlítása."]],
 ["w",()=>$("sq").closest(".card"),["Práca – zákazky","Munka – megrendelések"],["Tu nájdeš všetky zapísané zákazky mesiaca. Vyhľadať ich môžeš podľa čísla zákazky. Zákazku pridáš v detaile dňa.","Itt látod a hónap rögzített megrendeléseit, szám alapján kereshetsz. Megrendelést a nap részleteinél adhatsz hozzá."]],
-["d","#lvc",["Level","Szint"],["Každý deň, keď otvoríš appku, získaš 1 level. Levely nemajú koniec a menia sa s nimi tituly.","Minden nap, amikor megnyitod az appot, kapsz 1 szintet. A szinteknek nincs vége, a címek változnak velük."]],
-["d","#str",["Séria a odznaky","Sorozat és jelvények"],["Séria počíta dni po sebe, čo máš zapísané. Nižšie sú odznaky za hodiny, nadčasy, zákazky a ďalšie výzvy. Nový odznak ti appka oslávi na celej obrazovke.","A sorozat az egymás utáni rögzített napokat számolja. Lejjebb jelvények vannak órákért, túlóráért, megrendelésekért és más kihívásokért. Új jelvényt az app teljes képernyőn ünnepel."]],
+["d","#lvc",["Level","Szint"],["Každý deň, keď otvoríš appku, získaš 1 level. Levely nemajú koniec, menia sa s nimi tituly (Nováčik až Titán) a za niektoré levely dostaneš odznak.","Minden nap, amikor megnyitod az appot, kapsz 1 szintet. A szinteknek nincs vége, a címek változnak velük (Újonctól Titánig), és egyes szintekért jelvényt is kapsz."]],
+["d","#str",["Séria a odznaky","Sorozat és jelvények"],["Séria počíta dni po sebe, čo máš zapísané. Nižšie je 47 odznakov: za hodiny, nadčasy, zákazky, výplatu, levely a špeciálne výzvy (napríklad tutoriál, prezývka, počasie, záloha). Nový odznak ti appka oslávi na celej obrazovke.","A sorozat az egymás utáni rögzített napokat számolja. Lejjebb 47 jelvény van: órákért, túlóráért, megrendelésekért, fizetésért, szintekért és különleges kihívásokért (pl. bemutató, becenév, időjárás, mentés). Új jelvényt az app teljes képernyőn ünnepel."]],
 ["o",()=>$("oyt").parentElement,["Informácie","Információk"],["Prehľad za rok: sviatky, dovolenky, lekár, PN-ky a poznámky.","Éves áttekintés: ünnepnapok, szabadságok, orvos, betegszabadság és jegyzetek."]],
-["s",()=>$("lg").closest(".card"),["Nastavenia","Beállítások"],["Tu zmeníš jazyk, prezývku, vzhľad appky a spustíš tento tutoriál. Dole je záloha: Export uloží dáta do súboru, Import ich načíta späť.","Itt válthatsz nyelvet, megadhatsz becenevet, módosíthatod a megjelenést és újra elindíthatod ezt a bemutatót. Lent a mentés: az Export fájlba menti az adatokat, az Import visszatölti."]],
+["s",()=>$("lg").closest(".card"),["Nastavenia","Beállítások"],["Tu zmeníš jazyk, nastavíš prezývku (appka ťa ňou osloví na Domove), vyberieš vzhľad a spustíš tento tutoriál. Dole je záloha: Export uloží dáta do súboru, Import ich načíta späť.","Itt válthatsz nyelvet, megadhatod a becenevedet (az app ezzel köszönt a Kezdőlapon), kiválaszthatod a megjelenést és újraindíthatod ezt a bemutatót. Lent a mentés: az Export fájlba menti az adatokat, az Import visszatölti."]],
 ["h",null,["Hotovo","Kész"],["To je všetko. Tutoriál môžeš kedykoľvek spustiť znova v Nastaveniach.","Ennyi. A bemutatót bármikor újraindíthatod a Beállításokban."]]];
 let tutI=-1;
-function tutEnd(){const o=$("tutO");if(o)o.remove();tutI=-1;try{LSset("pdtut","1");document.querySelector('#nav [data-t="h"]').click()}catch(e){}}
+function tutEnd(){const fin=tutI==TUT.length-1;const o=$("tutO");if(o)o.remove();tutI=-1;if(fin){LSset("pdtutd","1");setTimeout(()=>{try{bdgSoon()}catch(e){}},900)}try{LSset("pdtut","1");document.querySelector('#nav [data-t="h"]').click()}catch(e){}}
 function tutGo(i){if(i<0)i=0;if(i>=TUT.length){tutEnd();return}tutI=i;const T=TUT[i],hu=LG=="hu",L=hu?1:0;
 try{document.querySelector('#nav [data-t="'+T[0]+'"]').click()}catch(e){}
 let o=$("tutO");if(!o){o=document.createElement("div");o.id="tutO";o.setAttribute("data-nt","");o.style.cssText="position:fixed;inset:0;z-index:99990;touch-action:none";o.innerHTML='<div id="tutH" style="position:fixed;border-radius:16px;border:2px solid var(--g);box-shadow:0 0 0 9999px rgba(0,0,0,.74);transition:all .35s ease;pointer-events:none"></div><div id="tutC" style="position:fixed;left:14px;right:14px;max-width:420px;margin:0 auto;padding:16px;border-radius:20px;background:#0f1b22;color:#eef6f3;border:1px solid var(--g);box-shadow:0 12px 40px rgba(0,0,0,.55);font-family:inherit"></div>';document.body.appendChild(o)}
@@ -616,7 +628,7 @@ h+=`<div class="card"><h2 style="margin:0 0 6px">${hu?"7 napos előrejelzés":"P
 for(let i=0;i<dl.time.length;i++){const d=new Date(dl.time[i]+"T12:00:00");let nm=d.toLocaleDateString(loc,{weekday:"long"});nm=nm.charAt(0).toUpperCase()+nm.slice(1);if(i==0)nm=hu?"Ma":"Dnes";else if(i==1)nm=hu?"Holnap":"Zajtra";const q=wxIc(dl.weather_code[i],1),l=(dl.temperature_2m_min[i]-mn)/sp*100,w=(dl.temperature_2m_max[i]-dl.temperature_2m_min[i])/sp*100,pp=dl.precipitation_probability_max[i];
 h+=`<div class="dy"><div class="n">${nm}<div style="font-weight:500;color:var(--mu);font-size:11px">${d.getDate()}.${d.getMonth()+1}.</div></div><div class="e">${q[0]}</div><div class="p">${pp>=10?"💧"+pp+"%":""}</div><div class="r"><span class="mn">${r(dl.temperature_2m_min[i])}°</span><div class="bar"><i style="left:${l.toFixed(1)}%;width:${Math.max(6,w).toFixed(1)}%"></i></div><span class="mx">${r(dl.temperature_2m_max[i])}°</span></div><div class="dd">${q[hu?2:1]}${dl.precipitation_sum[i]>=0.1?" · "+dl.precipitation_sum[i].toFixed(1)+" mm":""} · ${hu?"szél":"vietor"} ${r(dl.wind_speed_10m_max[i])} km/h</div></div>`}
 h+=`</div><div style="text-align:center;font-size:11px;color:var(--mu);margin-bottom:10px">Open-Meteo.com</div>`;B.innerHTML=h}
-async function wxOpen(){const hu=LG=="hu",v=$("wxv");$("wxT").textContent=hu?"Időjárás":"Počasie";v.hidden=false;v.scrollTop=0;wxO=1;const B=$("wxB");
+async function wxOpen(){LSset("pdwxo","1");try{bdgSoon()}catch(e){}const hu=LG=="hu",v=$("wxv");$("wxT").textContent=hu?"Időjárás":"Počasie";v.hidden=false;v.scrollTop=0;wxO=1;const B=$("wxB");
 const pos={la:47.76,lo:18.13,n:"Komárno"};
 let cache=null;try{cache=JSON.parse(localStorage.getItem("pdwx7")||"null")}catch(e){}
 if(cache&&cache.j){try{wxFill(cache.j,cache.n)}catch(e){B.innerHTML=""}}else B.innerHTML=`<div class="card" style="text-align:center;color:var(--mu)">${hu?"Betöltés…":"Načítavam…"}</div>`;
@@ -625,7 +637,7 @@ if(typeof j.current.temperature_2m=="number"){wxD=Object.assign(wxD||{},{c:j.cur
 catch(e){if(!(cache&&cache.j))B.innerHTML=`<div class="card" style="text-align:center;color:#ff9b9b">${hu?"Nem sikerült betölteni. Ellenőrizd a kapcsolatot.":"Nepodarilo sa načítať. Skontroluj pripojenie."}<div style="font-size:11px;color:var(--mu);margin-top:8px">${String(e&&e.message||e||"").replace(/[<>&]/g,"").slice(0,120)}</div></div>`}}
 (function(){const b=$("wxBk");if(b)b.onclick=wxClose;const n=$("nav");if(n)n.addEventListener("click",wxClose,true)})();
 function obTxt(){const b=$("obB");if(b)b.textContent="🍽️ "+(LG=="hu"?"Ebédek – Fiesta (H–P)":"Obedy – Fiesta (Po–Pi)")}
-obTxt();
+obTxt();(function(){const b=$("obB");if(b)b.addEventListener("click",()=>{LSset("pdobo","1");try{bdgSoon()}catch(e){}})})();
 function wxInit(){try{const c=JSON.parse(localStorage.getItem("pdwx")||"null");if(c&&Date.now()-c.ts<10800000){wxD=c;wxRender()}}catch(e){}wxLoad();setInterval(wxLoad,1800000);const el=$("wx");if(el)el.onclick=wxOpen;document.addEventListener("visibilitychange",()=>{if(!document.hidden&&(!wxD||Date.now()-wxD.ts>900000))wxLoad()})}
 function bdgVals0(){if(bdgVals0.l)return {};bdgVals0.l=1;try{return bdgVals()}finally{bdgVals0.l=0}}
 function odz(){lvRender();const hu=LG=="hu",V=bdgVals(),er=bdgEarned(V);let sn=bdgSeen();if(!sn){sn=er.slice();try{localStorage.setItem("pdbs",JSON.stringify(sn))}catch(e){}}
@@ -821,15 +833,21 @@ kb.onclick=()=>{if(document.activeElement)document.activeElement.blur();kb.hidde
 setInterval(()=>{if(!kb.hidden)pos()},150)})();
 
 (function(){const M=$("bkM");const say=(t,c)=>{M.style.color=c||"var(--mu)";M.textContent=t};
-const tk=()=>{const d=new Date();return d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate()};function mark(){try{LSset("pdexp",tk());localStorage.removeItem("pdpend")}catch(e){}xbUpd()}
-function data(){const o={};for(const k in store){const d=store[k];if(d&&(d.s||d.e||(d.o&&d.o.length)||(d.a&&d.a.length)))o[k]=d}return JSON.stringify({app:"pracovny-dennik",v:1,pd:o,lim:LIM,ls:LS,lang:LG,pay:PAY,nick:nick()})}
+const tk=()=>{const d=new Date();return d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate()};function mark(){try{LSset("pdexp",tk());localStorage.removeItem("pdpend")}catch(e){}xbUpd();try{bdgSoon()}catch(e){}}
+const EXK=["pdlim","pdlang","pdth","pdrem","pdst","pdpayh","pdseen","pdbs","pdbc","pdeye","pdcmp","pdbrc","pdlv","pdlvl","pdnick","pdtut","pdtutd","pdwxo","pdobo","pdpay2"];
+function data(){const o={};for(const k in store){const d=store[k];if(d&&(d.s||d.e||(d.b&&d.b.length)||(d.o&&d.o.length)||(d.a&&d.a.length)||(d.cu&&d.cu.length)))o[k]=d}
+const all={};try{for(const k of EXK){const v=localStorage.getItem(k);if(v!==null)all[k]=v}all.pdexp=tk()}catch(e){}
+return JSON.stringify({app:"pracovny-dennik",v:2,pd:o,lim:LIM,ls:LS,lang:LG,pay:PAY,nick:nick(),all})}
+function impAll(a){const U=k=>{let x=[],y=[];try{x=JSON.parse(localStorage.getItem(k)||"[]")}catch(e){}try{y=JSON.parse(a[k]||"[]")}catch(e){}return JSON.stringify([...new Set([].concat(Array.isArray(x)?x:[],Array.isArray(y)?y:[]))])};
+for(const k of EXK){if(!(k in a)||typeof a[k]!="string")continue;if(k=="pdlv"||k=="pdbc"||k=="pdbs")LSset(k,U(k));else if(k!="pdlvl")LSset(k,a[k])}
+try{LSset("pdlvl",String(JSON.parse(localStorage.getItem("pdlv")||"[]").length))}catch(e){}if(a.pdexp)LSset("pdexp",a.pdexp)}
 $("bkE").onclick=async()=>{const d=new Date(),nm="pracovny-dennik-"+d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")+".json",txt=data();
 try{const f=new File([txt],nm,{type:"application/json"});if(navigator.canShare&&navigator.canShare({files:[f]})){await navigator.share({files:[f],title:nm});mark();say("Export hotový ✓","#6ee7a0");return}}catch(e){if(e&&e.name=="AbortError"){say("Zrušené");return}}
 try{const u=URL.createObjectURL(new Blob([txt],{type:"application/json"})),a=document.createElement("a");a.href=u;a.download=nm;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),4000);mark();say("Export hotový ✓","#6ee7a0")}catch(e){say("Export sa nepodaril","#ff9b9b")}};
 $("bkL").onclick=()=>$("bkI").click();
 $("bkI").onchange=e=>{const f=e.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{try{const o=JSON.parse(String(rd.result).trim());if(!o||!o.pd||typeof o.pd!="object")throw 0;Object.assign(store,o.pd);if(o.ls)Object.assign(LS,o.ls);if(o.pay&&typeof o.pay=="object"){Object.assign(PAY,o.pay);paySave()}
 LSset("pd",JSON.stringify(store));LSset("pdlim",JSON.stringify(LS));
-if(o.nick){LSset("pdnick",String(o.nick).slice(0,20));try{$("nk").value=nick()}catch(e){}}if(o.lang&&o.lang!==LG)setLang(o.lang);render();home();prace();other();say("Import hotový ✓ ("+Object.keys(o.pd).length+" dní)","#6ee7a0")}catch(x){say("Súbor sa nepodarilo načítať","#ff9b9b")}};rd.onerror=()=>say("Súbor sa nepodarilo prečítať","#ff9b9b");rd.readAsText(f);e.target.value=""}})();
+if(o.nick){LSset("pdnick",String(o.nick).slice(0,20));try{$("nk").value=nick()}catch(e){}}if(o.lang&&o.lang!==LG)setLang(o.lang);render();home();prace();other();say("Import hotový ✓ ("+Object.keys(o.pd).length+" dní)","#6ee7a0");if(o.all&&typeof o.all=="object"){impAll(o.all);setTimeout(()=>location.reload(),1100)}}catch(x){say("Súbor sa nepodarilo načítať","#ff9b9b")}};rd.onerror=()=>say("Súbor sa nepodarilo prečítať","#ff9b9b");rd.readAsText(f);e.target.value=""}})();
 
 const CL=[["2.43",[["Odstránený Zoznam (skener textu)","A Lista (szövegszkenner) eltávolítva"]]],
 ["2.44",[["Nový dizajn Sims (neskôr nahradený)","Új Sims dizájn (később lecserélve)"]]],
@@ -876,14 +894,16 @@ const CL=[["2.43",[["Odstránený Zoznam (skener textu)","A Lista (szövegszkenn
 ["2.86",[["Obedy sa sťahujú cez GitHub (súbor obedy.html), nie cez cudzie služby","Az ebédek GitHubon keresztül töltődnek be (obedy.html), nem külső szolgáltatásokon át"]]],
 ["2.87",[["Obedy – Fiesta: tlačidlo otvorí stránku gratis.sk","Ebédek – Fiesta: a gomb megnyitja a gratis.sk oldalt"]]],
 ["2.88",[["Obedy – Fiesta sa otvoria priamo v appke (tlačidlo ↗ otvorí stránku v prehliadači)","Ebédek – Fiesta közvetlenül az appban nyílik meg (a ↗ gomb a böngészőben nyitja meg)"]]],
-["2.89",[["Obedy – Fiesta: tlačidlo opäť otvára stránku gratis.sk v prehliadači","Ebédek – Fiesta: a gomb ismét a böngészőben nyitja meg a gratis.sk oldalt"]]]];
+["2.89",[["Obedy – Fiesta: tlačidlo opäť otvára stránku gratis.sk v prehliadači","Ebédek – Fiesta: a gomb ismét a böngészőben nyitja meg a gratis.sk oldalt"]]],
+["2.90",[["Odznaky: 10 nových (levely, tutoriál, prezývka, počasie, obedy, vzhľad, záloha), spolu 47","Jelvények: 10 új (szintek, bemutató, becenév, időjárás, ebédek, megjelenés, mentés), összesen 47"],["Tutoriál rozšírený o počasie, obedy a nové funkcie","A bemutató bővítve az időjárással, ebédekkel és az új funkciókkal"]]],
+["2.91",[["Export zálohuje všetko: dni (aj len s prestávkou), výplaty, vzhľad, odznaky, levely, prezývku a nastavenia","A mentés mindent tartalmaz: napokat (a csak szünettel rendelteket is), fizetéseket, megjelenést, jelvényeket, szinteket, becenevet és beállításokat"]]]];
 function wnew(){try{let sn=null;try{sn=localStorage.getItem("pdseen")}catch(e){}const sv=v=>{try{localStorage.setItem("pdseen",v)}catch(e){}};
 if($("lp")){sv(VER);return}if(sn==VER)return;const cv=v=>v.split(".").map(Number),gt=(a,b)=>{const x=cv(a),y=cv(b);return x[0]!=y[0]?x[0]>y[0]:x[1]>y[1]};
 let L=sn?CL.filter(c=>gt(c[0],sn)):CL.slice(-4);if(!L.length){sv(VER);return}const hu=LG=="hu",E=x=>String(x).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
 $("dNwt").textContent=hu?"Újdonságok":"Čo je nové";$("dNwo").textContent=hu?"Rendben":"Rozumiem";
 $("dNwb").innerHTML=L.slice().reverse().map(c=>`<div style="margin:10px 0"><div style="font-size:12px;color:var(--mu);font-weight:700;letter-spacing:.04em">${hu?"VERZIÓ":"VERZIA"} ${c[0]}</div>${c[1].map(t=>`<div style="display:flex;gap:8px;margin-top:4px;font-size:15px;line-height:1.35"><span style="color:var(--g)">●</span><span>${E(t[hu?1:0])}</span></div>`).join("")}</div>`).join("");
 $("dNwo").onclick=()=>{sv(VER);$("dNw").close();try{bdgSoon()}catch(e){}};$("dNw").addEventListener("cancel",()=>sv(VER),{once:true});$("dNw").showModal()}catch(e){}}
-const VER="2.89",VERD="6. 11. 2026";
+const VER="2.91",VERD="6. 11. 2026";
 $("ver").textContent=(LG=="hu"?"Verzió ":"Verzia ")+VER+" · "+VERD;
 let mxI=null,mxC=null;
 function mxStop(){clearInterval(mxI);mxI=null;if(mxC){mxC.remove();mxC=null}}
@@ -964,7 +984,7 @@ if(kind=="aurora"){x.globalCompositeOperation="lighter";RB.forEach((b,i)=>{const
 for(let px=-8;px<W+8;px+=7){const y0=H*(b.h+i*.04)+Math.sin(px*b.f+t*b.s+i*2)*H*.05+Math.sin(px*b.f*2.6-t*.5*Math.abs(b.s)+i)*H*.02,hh=H*(.22+.1*Math.sin(px*.005+t*.4+i*1.7)),ap=.55+.45*Math.sin(px*.013+t*.7+i);x.save();x.globalAlpha=ap;x.translate(px,y0);x.scale(1,hh);x.fillRect(0,0,8,1);x.restore()}});x.globalCompositeOperation="source-over";
 x.fillStyle="#020912";x.beginPath();x.moveTo(0,H);for(let px=0;px<=W;px+=10)x.lineTo(px,H*.9-Math.abs(Math.sin(px*.008+1))*H*.07-Math.sin(px*.021)*H*.02);x.lineTo(W,H);x.fill();x.fillStyle="#041420";x.beginPath();x.moveTo(0,H);for(let px=0;px<=W;px+=10)x.lineTo(px,H*.95-Math.abs(Math.sin(px*.013+3))*H*.04);x.lineTo(W,H);x.fill()}}
 fxI=requestAnimationFrame(f)}
-function setTh(t){const h=document.documentElement;h.dataset.lg=LG;if(t=="seasons")seStart();else seStop();if(t=="priroda")prStart();else prStop();if(t=="aurora"||t=="starfield")fxStart(t);else fxStop();if(t=="terminal")mxStart();else mxStop();if(t)h.dataset.th=t;else delete h.dataset.th;try{LSset("pdth",t||"")}catch(e){}document.querySelectorAll(".thb").forEach(b=>b.classList.toggle("on",b.dataset.th==(t||"")))}
+function setTh(t){const h=document.documentElement;h.dataset.lg=LG;if(t=="seasons")seStart();else seStop();if(t=="priroda")prStart();else prStop();if(t=="aurora"||t=="starfield")fxStart(t);else fxStop();if(t=="terminal")mxStart();else mxStop();if(t)h.dataset.th=t;else delete h.dataset.th;try{LSset("pdth",t||"")}catch(e){}try{bdgSoon()}catch(e){}document.querySelectorAll(".thb").forEach(b=>b.classList.toggle("on",b.dataset.th==(t||"")))}
 document.querySelectorAll(".thb").forEach(b=>b.onclick=()=>setTh(b.dataset.th));
 setTh((()=>{try{const t=localStorage.getItem("pdth")||"";if(t=="ziara"||t=="sims"||t=="futuro")return "aurora";if(t=="terraria"||t=="bond")return "";if(t=="neon"||t=="hack")return "priroda";return ["ruza","aurora","priroda","starfield","terminal","miami","seasons","elektro"].includes(t)?t:""}catch(e){return ""}})());
 function xbUpd(){try{$("xb").hidden=localStorage.getItem("pdpend")!="1"}catch(e){}}
