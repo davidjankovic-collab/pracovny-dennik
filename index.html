@@ -629,8 +629,9 @@ catch(e){if(!(cache&&cache.j))B.innerHTML=`<div class="card" style="text-align:c
 (function(){const b=$("wxBk");if(b)b.onclick=wxClose;const n=$("nav");if(n)n.addEventListener("click",wxClose,true)})();
 const OBU="https://www.gratis.sk/obedy/cely-tyzden?idRestauracia=11",OBD=["Pondelok","Utorok","Streda","Štvrtok","Piatok"],OBH={Pondelok:"Hétfő",Utorok:"Kedd",Streda:"Szerda",Štvrtok:"Csütörtök",Piatok:"Péntek"};
 function obTO(p,ms){return Promise.race([p,new Promise((_,j)=>setTimeout(()=>j(new Error("timeout")),ms))])}
-async function obGet(){const P=[u=>u,u=>"https://api.allorigins.win/raw?url="+encodeURIComponent(u),u=>"https://corsproxy.io/?url="+encodeURIComponent(u),u=>"https://api.codetabs.com/v1/proxy?quest="+encodeURIComponent(u)];let err="";
-for(const f of P){try{const r=await obTO(fetch(f(OBU)),10000);if(!r.ok)throw new Error("HTTP "+r.status);const t=await r.text();if(t.length>1500&&/€/.test(t)&&/(Streda|Piatok|Pondelok|Utorok|Štvrtok)/.test(t))return t;throw new Error("prázdna odpoveď")}catch(e){err=String(e&&e.message||e)}}throw new Error(err||"load")}
+async function obGet(){let r;try{r=await obTO(fetch("obedy.html?t="+Date.now(),{cache:"no-store"}),10000)}catch(e){throw new Error("Load failed")}
+if(r.status==404)throw new Error("NOFILE");if(!r.ok)throw new Error("HTTP "+r.status);const t=await r.text();if(t.length<500)throw new Error("NOFILE");return{t,ts:Date.parse(r.headers.get("last-modified")||"")||0}}
+let obDbg="";
 function obParse(html){const doc=new DOMParser().parseFromString(html,"text/html");doc.querySelectorAll("script,style,noscript").forEach(e=>e.remove());doc.querySelectorAll("td,th").forEach(e=>e.append(" | "));doc.querySelectorAll("br,p,div,tr,li,h1,h2,h3,h4,h5,h6,section,table,caption").forEach(e=>e.append("\n"));
 const L=(doc.body.textContent||"").split("\n").map(x=>x.replace(/\s+/g," ").trim()).filter(Boolean),RX=/^(Pondelok|Utorok|Streda|Štvrtok|Piatok|Sobota|Nedeľa)\s*,?\s*(\d{1,2})\.\s*([A-Za-zÀ-žá-ž]+)/i,days=[];let cur=null,skip=false;
 for(const l of L){const m=l.length<70&&l.match(RX);if(m){const nm=m[1][0].toUpperCase()+m[1].slice(1).toLowerCase();cur={d:nm.replace("Stvrtok","Štvrtok").replace("Nedela","Nedeľa"),n:+m[2],mo:m[3],soups:[],items:[]};days.push(cur);skip=false;continue}
@@ -638,7 +639,7 @@ if(!cur||skip)continue;if(/^\W*(Rozvoz|Oznamy?|Donáška)\b/i.test(l)){skip=true
 const cells=l.split("|").map(x=>x.trim()).filter(Boolean);if(!cells.length)continue;const pm=cells.join(" ").match(/(\d+[,.]\d{2})\s*€/);
 if(pm){const nm=cells.filter(c=>!/^\d+[.)]?$/.test(c)&&!/^\d+[,.]\d{2}\s*€$/.test(c)).sort((a,b)=>b.length-a.length)[0]||"";const t=nm.replace(/^\d+\s*[.)]\s*/,"").replace(/\d+[,.]\d{2}\s*€/,"").trim();if(t){const num=(cells[0].match(/^(\d+)[.)]?$/)||[])[1]||"";cur.items.push({t,p:pm[1].replace(".",",")+" €",n:num})}}
 else{const t=cells.filter(c=>!/^polievk[ay]?:?$/i.test(c)).join(" • ");if(/polievk|vývar|boršč|krém|bujón|čorba|gulášová/i.test(t)&&t.length<160)cur.soups.push(t)}}
-return days.filter(d=>OBD.includes(d.d)&&(d.items.length||d.soups.length))}
+obDbg=L.filter(x=>x.length<140).slice(0,60).join(" ¦ ").slice(0,700);return days.filter(d=>OBD.includes(d.d)&&(d.items.length||d.soups.length))}
 let obOpen=0;
 function obRender(days,ts,msg){const hu=LG=="hu",B=$("obBd"),esc=x=>String(x||"").replace(/[<>&]/g,""),now=new Date(),wd=["Nedeľa","Pondelok","Utorok","Streda","Štvrtok","Piatok","Sobota"][now.getDay()];let h="";
 const lnk=`<div style="text-align:center;font-size:12px;color:var(--mu);margin:6px 0 12px">Fiesta · gratis.sk · <a href="${OBU}" target="_blank" rel="noopener">${hu?"Megnyitás az oldalon":"Otvoriť na gratis.sk"}</a>${ts?`<br>${hu?"Frissítve":"Aktualizované"}: ${new Date(ts).toLocaleTimeString(hu?"hu-HU":"sk-SK",{hour:"2-digit",minute:"2-digit"})}`:""}</div>`;
@@ -648,8 +649,8 @@ for(const d of days||[]){const td=d.d==wd&&d.n==now.getDate();h+=`<div class="ca
 B.innerHTML=h+lnk}
 async function obOpenV(){const hu=LG=="hu",v=$("obv");$("obT").textContent=hu?"Ebédek (H–P)":"Obedy (Po–Pi)";v.hidden=false;v.scrollTop=0;obOpen=1;let c=null;try{c=JSON.parse(localStorage.getItem("pdob")||"null")}catch(e){}
 if(c&&c.days)obRender(c.days,c.ts);else $("obBd").innerHTML=`<div class="card" style="text-align:center;color:var(--mu)">${hu?"Betöltés…":"Načítavam…"}</div>`;
-try{const html=await obGet(),days=obParse(html);if(!days.length)throw new Error("parse:"+obParse.length);LSset("pdob",JSON.stringify({days,ts:Date.now()}));obRender(days,Date.now())}
-catch(e){const m=(hu?"Nem sikerült betölteni az ebédeket. ":"Obedy sa nepodarilo načítať. ")+String(e&&e.message||e).replace(/[<>&]/g,"").slice(0,100);if(c&&c.days)obRender(c.days,c.ts,m);else obRender([],0,m)}}
+try{const g=await obGet(),days=obParse(g.t);if(!days.length&&!(g.t.length>500&&/Sobota|Nedeľa/.test(g.t)&&!/Pondelok|Utorok|Streda|Štvrtok|Piatok/.test(g.t.replace(/<[^>]*>/g,""))))throw new Error("PARSE");LSset("pdob",JSON.stringify({days,ts:g.ts}));obRender(days,g.ts)}
+catch(e){const k=String(e&&e.message||e);let m;if(k=="NOFILE")m=hu?"Az ebéd-fájl még nincs a GitHubon. Futtasd le az „Obedy” workflow-t az Actions fülön.":"Súbor s obedmi ešte nie je na GitHube. Spusti workflow „Obedy“ v záložke Actions.";else if(k=="PARSE")m=(hu?"Az oldalt nem sikerült feldolgozni.":"Stránku sa nepodarilo spracovať.")+`<div style="font-size:10px;color:var(--mu);margin-top:8px;text-align:left;word-break:break-word">${obDbg.replace(/[<>&]/g,"")}</div>`;else m=(hu?"Nem sikerült betölteni az ebédeket. ":"Obedy sa nepodarilo načítať. ")+k.replace(/[<>&]/g,"").slice(0,100);if(c&&c.days)obRender(c.days,c.ts,m);else obRender([],0,m)}}
 (function(){const b=$("obB");if(b){b.textContent="🍽️ "+(LG=="hu"?"Ebédek – Fiesta (H–P)":"Obedy – Fiesta (Po–Pi)");b.onclick=obOpenV}const k=$("obBk");if(k)k.onclick=()=>{$("obv").hidden=true;obOpen=0};const n=$("nav");if(n)n.addEventListener("click",()=>{$("obv").hidden=true;obOpen=0},true)})();
 function wxInit(){try{const c=JSON.parse(localStorage.getItem("pdwx")||"null");if(c&&Date.now()-c.ts<10800000){wxD=c;wxRender()}}catch(e){}wxLoad();setInterval(wxLoad,1800000);const el=$("wx");if(el)el.onclick=wxOpen;document.addEventListener("visibilitychange",()=>{if(!document.hidden&&(!wxD||Date.now()-wxD.ts>900000))wxLoad()})}
 function bdgVals0(){if(bdgVals0.l)return {};bdgVals0.l=1;try{return bdgVals()}finally{bdgVals0.l=0}}
@@ -897,14 +898,15 @@ const CL=[["2.43",[["Odstránený Zoznam (skener textu)","A Lista (szövegszkenn
 ["2.82",[["Oprava načítania počasia na iPhone","Az időjárás betöltésének javítása iPhone-on"]]],
 ["2.83",[["Opravené orámovanie ikoniek v hodinovej predpovedi počasia","Az óránkénti előrejelzés ikonjainak keretezése javítva"]]],
 ["2.84",[["Obedy: nové tlačidlo na Domove – denné menu z gratis.sk (Fiesta) od pondelka do piatka","Ebédek: új gomb a Kezdőlapon – napi menü a gratis.sk-ról (Fiesta) hétfőtől péntekig"]]],
-["2.85",[["Obedy: už sa nezobrazuje cena","Ebédek: az ár már nem jelenik meg"]]]];
+["2.85",[["Obedy: už sa nezobrazuje cena","Ebédek: az ár már nem jelenik meg"]]],
+["2.86",[["Obedy sa sťahujú cez GitHub (súbor obedy.html), nie cez cudzie služby","Az ebédek GitHubon keresztül töltődnek be (obedy.html), nem külső szolgáltatásokon át"]]]];
 function wnew(){try{let sn=null;try{sn=localStorage.getItem("pdseen")}catch(e){}const sv=v=>{try{localStorage.setItem("pdseen",v)}catch(e){}};
 if($("lp")){sv(VER);return}if(sn==VER)return;const cv=v=>v.split(".").map(Number),gt=(a,b)=>{const x=cv(a),y=cv(b);return x[0]!=y[0]?x[0]>y[0]:x[1]>y[1]};
 let L=sn?CL.filter(c=>gt(c[0],sn)):CL.slice(-4);if(!L.length){sv(VER);return}const hu=LG=="hu",E=x=>String(x).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
 $("dNwt").textContent=hu?"Újdonságok":"Čo je nové";$("dNwo").textContent=hu?"Rendben":"Rozumiem";
 $("dNwb").innerHTML=L.slice().reverse().map(c=>`<div style="margin:10px 0"><div style="font-size:12px;color:var(--mu);font-weight:700;letter-spacing:.04em">${hu?"VERZIÓ":"VERZIA"} ${c[0]}</div>${c[1].map(t=>`<div style="display:flex;gap:8px;margin-top:4px;font-size:15px;line-height:1.35"><span style="color:var(--g)">●</span><span>${E(t[hu?1:0])}</span></div>`).join("")}</div>`).join("");
 $("dNwo").onclick=()=>{sv(VER);$("dNw").close();try{bdgSoon()}catch(e){}};$("dNw").addEventListener("cancel",()=>sv(VER),{once:true});$("dNw").showModal()}catch(e){}}
-const VER="2.85",VERD="6. 11. 2026";
+const VER="2.86",VERD="6. 11. 2026";
 $("ver").textContent=(LG=="hu"?"Verzió ":"Verzia ")+VER+" · "+VERD;
 let mxI=null,mxC=null;
 function mxStop(){clearInterval(mxI);mxI=null;if(mxC){mxC.remove();mxC=null}}
