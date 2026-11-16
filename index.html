@@ -447,7 +447,12 @@ html[data-ui=md] .lg button.on,html[data-ui=md] .mpk button.on{background:var(--
 html[data-ui=md] .lg button{border-radius:999px!important}
 html[data-ui=md] #tutC .bb{font-family:Roboto,system-ui,sans-serif}
 
-#uig button{flex:1}html[data-ui] :is(#tutC,#dR) .bb{background:var(--card)!important;border-color:var(--ac)!important;box-shadow:0 10px 30px rgba(0,0,0,.25)!important}
+#uig button{flex:1}html[data-ui=ios] #splash{--g:#0a84ff;background:radial-gradient(80% 45% at 50% 32%,rgba(10,132,255,.22),transparent 70%),var(--bg)!important}
+html[data-ui=md] #splash{--g:#34c759;background:radial-gradient(80% 45% at 50% 32%,rgba(52,199,89,.22),transparent 70%),var(--bg)!important}
+html[data-ui] #splash .ld{background:var(--card2)!important}
+html[data-ui] #splash .ld i{background:linear-gradient(90deg,var(--g),color-mix(in srgb,var(--g) 40%,var(--bg)))!important}
+html[data-ui] #splash svg{filter:drop-shadow(0 0 12px color-mix(in srgb,var(--g) 55%,transparent))}
+html[data-ui] :is(#tutC,#dR) .bb{background:var(--card)!important;border-color:var(--ac)!important;box-shadow:0 10px 30px rgba(0,0,0,.25)!important}
 html[data-ui] :is(#tutC,#dR) .bb::before{border-right-color:var(--ac)!important}
 html[data-ui] :is(#tutC,#dR) .bb::after{border-right-color:var(--card)!important}
 html[data-ui] :is(#tutC,#dR) .bt{color:var(--tx)!important}
@@ -1164,14 +1169,15 @@ const CL=[["2.43",[["Odstránený Zoznam (skener textu)","A Lista (szövegszkenn
 ["3.04",[["Nové rozhranie pre Android (Material) – Nastavenia → Rozhranie","Új Android (Material) felület – Beállítások → Felület"]]],
 ["3.05",[["Ikony podľa systému – iOS a Android majú vlastné ikony v lište aj tlačidlo Späť","Rendszerhez illő ikonok – az iOS és az Android saját ikonokat kap"]]],
 ["3.06",[["Android rozhranie má rovnaké farby ako iOS, len so zelenou","Az Android felület az iOS színeit kapta, zöld kiemeléssel"]]],
-["3.07",[["Pri prvom spustení si vyberieš rozhranie (Klasické, iOS, Android)","Első indításkor kiválaszthatod a felületet (Klasszikus, iOS, Android)"],["Tutoriál vysvetľuje nové rozhranie, kartu dnešnej zmeny a výber rozhrania","A bemutató elmagyarázza az új felületet, a mai műszak kártyát és a felületválasztást"]]]];
+["3.07",[["Pri prvom spustení si vyberieš rozhranie (Klasické, iOS, Android)","Első indításkor kiválaszthatod a felületet (Klasszikus, iOS, Android)"],["Tutoriál vysvetľuje nové rozhranie, kartu dnešnej zmeny a výber rozhrania","A bemutató elmagyarázza az új felületet, a mai műszak kártyát és a felületválasztást"]]],
+["3.08",[["Úvodná obrazovka je pri iOS modrá a pri Android zelená","Az indítóképernyő iOS-en kék, Androidon zöld"]]]];
 function wnew(){try{try{localStorage.setItem("pdseen",VER)}catch(e){}return;let sn=null;try{sn=localStorage.getItem("pdseen")}catch(e){}const sv=v=>{try{localStorage.setItem("pdseen",v)}catch(e){}};
 if($("lp")){sv(VER);return}if(sn==VER)return;const cv=v=>v.split(".").map(Number),gt=(a,b)=>{const x=cv(a),y=cv(b);return x[0]!=y[0]?x[0]>y[0]:x[1]>y[1]};
 let L=sn?CL.filter(c=>gt(c[0],sn)):CL.slice(-4);if(!L.length){sv(VER);return}const hu=LG=="hu",E=x=>String(x).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
 $("dNwt").textContent=hu?"Újdonságok":"Čo je nové";$("dNwo").textContent=hu?"Rendben":"Rozumiem";
 $("dNwb").innerHTML=L.slice().reverse().map(c=>`<div style="margin:10px 0"><div style="font-size:12px;color:var(--mu);font-weight:700;letter-spacing:.04em">${hu?"VERZIÓ":"VERZIA"} ${c[0]}</div>${c[1].map(t=>`<div style="display:flex;gap:8px;margin-top:4px;font-size:15px;line-height:1.35"><span style="color:var(--g)">●</span><span>${E(t[hu?1:0])}</span></div>`).join("")}</div>`).join("");
 $("dNwo").onclick=()=>{sv(VER);$("dNw").close();try{bdgSoon()}catch(e){}};$("dNw").addEventListener("cancel",()=>sv(VER),{once:true});$("dNw").showModal()}catch(e){}}
-const VER="3.07",VERD="13. 11. 2026";
+const VER="3.08",VERD="13. 11. 2026";
 $("ver").textContent=(LG=="hu"?"Verzió ":"Verzia ")+VER+" · "+VERD;
 let mxI=null,mxC=null;
 function mxStop(){clearInterval(mxI);mxI=null;if(mxC){mxC.remove();mxC=null}}
