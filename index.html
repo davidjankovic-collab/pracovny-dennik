@@ -447,7 +447,18 @@ html[data-ui=md] .lg button.on,html[data-ui=md] .mpk button.on{background:var(--
 html[data-ui=md] .lg button{border-radius:999px!important}
 html[data-ui=md] #tutC .bb{font-family:Roboto,system-ui,sans-serif}
 
-#uig button{flex:1}html[data-ui=ios] #splash{--g:#0a84ff;background:radial-gradient(80% 45% at 50% 32%,rgba(10,132,255,.22),transparent 70%),var(--bg)!important}
+#uig button{flex:1}html[data-ui] .c.w{background:color-mix(in srgb,#34d399 22%,transparent)!important}
+html[data-ui] .c.o{background:color-mix(in srgb,var(--o) 22%,transparent)!important}
+html[data-ui] .c.m{background:linear-gradient(135deg,color-mix(in srgb,#34d399 22%,transparent) 50%,color-mix(in srgb,var(--o) 24%,transparent) 50%)!important}
+html[data-ui] .c.v{background:color-mix(in srgb,#a66bff 22%,transparent)!important}
+html[data-ui] .c.v1{background:color-mix(in srgb,#38bdf8 22%,transparent)!important}
+html[data-ui] .c.v2{background:color-mix(in srgb,#f472b6 22%,transparent)!important}
+html[data-ui] .c.v3{background:color-mix(in srgb,#facc15 26%,transparent)!important}
+html[data-ui] .c.v4{background:color-mix(in srgb,#cbd5e1 30%,transparent)!important}
+html[data-ui] .c.h,html[data-ui] .c.h.we{color:#f87171!important}
+html[data-ui] .c.w small{color:#34d399}html[data-ui] .c.v small{color:#a66bff}html[data-ui] .c.v1 small{color:#38bdf8}html[data-ui] .c.v2 small{color:#f472b6}html[data-ui] .c.v3 small{color:#e0b400}html[data-ui] .c.v4 small{color:#94a3b8}
+html[data-ui] .c.t{background:var(--ac)!important}
+html[data-ui=ios] #splash{--g:#0a84ff;background:radial-gradient(80% 45% at 50% 32%,rgba(10,132,255,.22),transparent 70%),var(--bg)!important}
 html[data-ui=md] #splash{--g:#34c759;background:radial-gradient(80% 45% at 50% 32%,rgba(52,199,89,.22),transparent 70%),var(--bg)!important}
 html[data-ui] #splash .ld{background:var(--card2)!important}
 html[data-ui] #splash .ld i{background:linear-gradient(90deg,var(--g),color-mix(in srgb,var(--g) 40%,var(--bg)))!important}
@@ -1177,7 +1188,7 @@ let L=sn?CL.filter(c=>gt(c[0],sn)):CL.slice(-4);if(!L.length){sv(VER);return}con
 $("dNwt").textContent=hu?"Újdonságok":"Čo je nové";$("dNwo").textContent=hu?"Rendben":"Rozumiem";
 $("dNwb").innerHTML=L.slice().reverse().map(c=>`<div style="margin:10px 0"><div style="font-size:12px;color:var(--mu);font-weight:700;letter-spacing:.04em">${hu?"VERZIÓ":"VERZIA"} ${c[0]}</div>${c[1].map(t=>`<div style="display:flex;gap:8px;margin-top:4px;font-size:15px;line-height:1.35"><span style="color:var(--g)">●</span><span>${E(t[hu?1:0])}</span></div>`).join("")}</div>`).join("");
 $("dNwo").onclick=()=>{sv(VER);$("dNw").close();try{bdgSoon()}catch(e){}};$("dNw").addEventListener("cancel",()=>sv(VER),{once:true});$("dNw").showModal()}catch(e){}}
-const VER="3.08",VERD="13. 11. 2026";
+const VER="3.09",VERD="13. 11. 2026";
 $("ver").textContent=(LG=="hu"?"Verzió ":"Verzia ")+VER+" · "+VERD;
 let mxI=null,mxC=null;
 function mxStop(){clearInterval(mxI);mxI=null;if(mxC){mxC.remove();mxC=null}}
