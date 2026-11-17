@@ -447,7 +447,15 @@ html[data-ui=md] .lg button.on,html[data-ui=md] .mpk button.on{background:var(--
 html[data-ui=md] .lg button{border-radius:999px!important}
 html[data-ui=md] #tutC .bb{font-family:Roboto,system-ui,sans-serif}
 
-#uig button{flex:1}html[data-ui] .c.w{background:color-mix(in srgb,#34d399 22%,transparent)!important}
+#uig button{flex:1}
+/* iba tmavý režim */
+html[data-ui=ios]{--bg:#000;--card:#1c1c1e;--card2:#2c2c2e;--bd:rgba(84,84,88,.45);--tx:#fff;--mu:#98989f;--g:#30d158;--o:#ff9f0a;--ac:#0a84ff;--pu:#bf5af2;--sep:rgba(84,84,88,.6);color-scheme:dark}
+html[data-ui=md]{--bg:#000;--card:#1c1c1e;--card2:#2c2c2e;--tx:#fff;--mu:#98989f;--g:#30d158;--o:#ff9f0a;--ac:#30d158;--onac:#fff;--pc:#30d158;--onpc:#fff;--sc:rgba(48,209,88,.22);--onsc:#5ee07f;--pu:#bf5af2;--sep:rgba(84,84,88,.6);color-scheme:dark}
+/* iOS: sklenená plávajúca lišta */
+html[data-ui=ios] #nav{transform:none!important;left:12px!important;right:12px!important;bottom:calc(env(safe-area-inset-bottom,0px) + 8px)!important;width:auto!important;max-width:520px;margin:0 auto;border-radius:30px!important;padding:6px 6px!important;background:rgba(40,40,48,.45)!important;border:1px solid rgba(255,255,255,.14)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 12px 34px rgba(0,0,0,.5)!important;backdrop-filter:blur(28px) saturate(1.8)!important;-webkit-backdrop-filter:blur(28px) saturate(1.8)!important}
+html[data-ui=ios] #nav button.on{background:rgba(255,255,255,.1)!important;border-radius:22px}
+html[data-ui=ios] #nav button.on svg .k{stroke:#33343c}
+html[data-ui] .c.w{background:color-mix(in srgb,#34d399 22%,transparent)!important}
 html[data-ui] .c.o{background:color-mix(in srgb,var(--o) 22%,transparent)!important}
 html[data-ui] .c.m{background:linear-gradient(135deg,color-mix(in srgb,#34d399 22%,transparent) 50%,color-mix(in srgb,var(--o) 24%,transparent) 50%)!important}
 html[data-ui] .c.v{background:color-mix(in srgb,#a66bff 22%,transparent)!important}
@@ -1188,7 +1196,7 @@ let L=sn?CL.filter(c=>gt(c[0],sn)):CL.slice(-4);if(!L.length){sv(VER);return}con
 $("dNwt").textContent=hu?"Újdonságok":"Čo je nové";$("dNwo").textContent=hu?"Rendben":"Rozumiem";
 $("dNwb").innerHTML=L.slice().reverse().map(c=>`<div style="margin:10px 0"><div style="font-size:12px;color:var(--mu);font-weight:700;letter-spacing:.04em">${hu?"VERZIÓ":"VERZIA"} ${c[0]}</div>${c[1].map(t=>`<div style="display:flex;gap:8px;margin-top:4px;font-size:15px;line-height:1.35"><span style="color:var(--g)">●</span><span>${E(t[hu?1:0])}</span></div>`).join("")}</div>`).join("");
 $("dNwo").onclick=()=>{sv(VER);$("dNw").close();try{bdgSoon()}catch(e){}};$("dNw").addEventListener("cancel",()=>sv(VER),{once:true});$("dNw").showModal()}catch(e){}}
-const VER="3.09",VERD="13. 11. 2026";
+const VER="3.10",VERD="13. 11. 2026";
 $("ver").textContent=(LG=="hu"?"Verzió ":"Verzia ")+VER+" · "+VERD;
 let mxI=null,mxC=null;
 function mxStop(){clearInterval(mxI);mxI=null;if(mxC){mxC.remove();mxC=null}}
