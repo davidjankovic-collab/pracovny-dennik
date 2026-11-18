@@ -447,10 +447,10 @@ html[data-ui=md] .lg button.on,html[data-ui=md] .mpk button.on{background:var(--
 html[data-ui=md] .lg button{border-radius:999px!important}
 html[data-ui=md] #tutC .bb{font-family:Roboto,system-ui,sans-serif}
 
-#cdn{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:2px 0 4px;margin:0 0 12px}#cdn::-webkit-scrollbar{display:none}
-#cdn .cd{flex:none;min-width:104px;background:var(--card2,rgba(255,255,255,.06));border:1px solid var(--bd);border-radius:16px;padding:10px 12px;display:flex;flex-direction:column;gap:2px}
-#cdn .cd .e{font-size:20px;line-height:1}#cdn .cd b{font-size:20px;font-weight:800;font-variant-numeric:tabular-nums;margin-top:4px}#cdn .cd span{font-size:11px;color:var(--mu);font-weight:600;line-height:1.25}
-html[data-ui] #cdn .cd{background:var(--card)!important;border:0}
+#cdn{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:10px;padding:0;margin:0 0 12px}#cdn::-webkit-scrollbar{display:none}
+#cdn.g4{grid-auto-flow:row;grid-template-columns:1fr 1fr}#cdn .cd{min-width:0;align-items:center;justify-content:flex-start;text-align:center;min-height:96px;padding-top:12px!important;background:var(--card2,rgba(255,255,255,.06));border:1px solid var(--bd);border-radius:16px;padding:10px 12px;display:flex;flex-direction:column;gap:2px}
+#cdn .cd .e{font-size:20px;line-height:1}#cdn .cd b{font-size:20px;font-weight:800;font-variant-numeric:tabular-nums;margin-top:4px}#cdn .cd span{overflow-wrap:anywhere;font-size:11px;color:var(--mu);font-weight:600;line-height:1.25}
+html[data-ui] #cdn .cd{background:var(--card)!important;border:0}html[data-ui=ios] #cdn .cd{border-radius:16px}html[data-ui=md] #cdn .cd{border-radius:24px}
 #pali{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 92px);z-index:6;width:min(calc(100% - 24px),420px);display:flex;align-items:flex-end;gap:4px;transform:translate(-50%,30px);opacity:0;transition:transform .45s cubic-bezier(.2,1.4,.4,1),opacity .3s;pointer-events:none}
 #pali.on{transform:translate(-50%,0);opacity:1;pointer-events:auto}
 #pali img{width:62px;flex:none;margin-bottom:-6px;filter:drop-shadow(0 6px 12px rgba(0,0,0,.5))}
@@ -788,7 +788,7 @@ function hiRender(){const el=$("hi");if(!el)return;const n=nick();if(!n){el.hidd
 const TUT=[
 ["h",null,["Vitaj v appke","Üdv az appban"],["Krátko ti ukážem, čo všetko appka vie. Ďalej prejdeš tlačidlom, kedykoľvek môžeš skončiť.","Röviden megmutatom, mit tud az app. A gombbal lépsz tovább, bármikor kiléphetsz."]],
 ["h","#ioh",["Dnešná zmena","Mai műszak"],["Karta ukazuje dnešnú zmenu: od kedy do kedy, koľko z nej už prešlo (krúžok) a kedy začína nadčas. Ťuknutím na kartu alebo na tlačidlo + Zapísať deň dole otvoríš dnešný deň.","A kártya a mai műszakot mutatja: mettől meddig, mennyi telt el belőle (kör) és mikor kezdődik a túlóra. A kártyára vagy a lenti + gombra koppintva megnyílik a mai nap."],()=>!!document.documentElement.dataset.ui],
-["h","#cdn",["Odpočítavanie","Visszaszámlálás"],["Hore vidíš, koľko dní ostáva do víkendu, najbližšieho sviatku, dovolenky a v decembri aj do Vianoc. Posúvaš ho prstom do strán.","Fent látod, hány nap van hátra a hétvégéig, a következő ünnepig, a szabadságig, decemberben pedig karácsonyig. Ujjal oldalra görgethető."]],
+["h","#cdn",["Odpočítavanie","Visszaszámlálás"],["Hore vidíš, koľko dní ostáva do víkendu, najbližšieho sviatku, dovolenky a v decembri aj do Vianoc. ","Fent látod, hány nap van hátra a hétvégéig, a következő ünnepig, a szabadságig, decemberben pedig karácsonyig."]],
 ["h","#wx",["Počasie","Időjárás"],["Počasie pre Komárno: ikonka, aktuálna teplota a minimum ↓ a maximum ↑ dňa. Ťuknutím sa otvorí podrobná predpoveď na 24 hodín a 7 dní.","Komárno időjárása: ikon, aktuális hőmérséklet, a nap minimuma ↓ és maximuma ↑. Koppintásra részletes 24 órás és 7 napos előrejelzés nyílik."]],
 ["h","#cal",["Kalendár","Naptár"],["Ťukni na deň a zapíš začiatok, koniec, prestávky a zákazky. Číslo zákazky, POZ a činnosť sa píšu veľkými písmenami. Pridať môžeš aj Dovolenku, Lekára, PN-ku alebo viac Poznámok, ktoré sa dajú opakovať (iba raz, denne, týždenne, mesačne, ročne). Farby dní vysvetľuje legenda pod kalendárom.","Koppints egy napra, és rögzítsd a kezdést, végét, szüneteket és megrendeléseket. A megrendelésszám, a POZ és a tevékenység nagybetűvel íródik. Felvehetsz szabadságot, orvost, betegszabadságot vagy több jegyzetet, amelyek ismételhetők (egyszer, naponta, hetente, havonta, évente). A színeket a naptár alatti jelmagyarázat mutatja."]],
 ["h","#obc",["Obedy","Ebédek"],["Tlačidlo otvorí stránku gratis.sk s denným menu reštaurácie Fiesta.","A gomb megnyitja a gratis.sk oldalt a Fiesta étterem napi menüjével."]],
@@ -1237,14 +1237,15 @@ const CL=[["2.43",[["Odstránený Zoznam (skener textu)","A Lista (szövegszkenn
 ["3.12",[["Odstránená Veta dňa","A nap mondata eltávolítva"]]],
 ["3.13",[["Pali dostáva doplnky podľa levelu: prilba, okuliare, reťaz, medaila, korunka, žiara","Pali kiegészítőket kap a szint szerint: sisak, napszemüveg, lánc, érem, korona, ragyogás"],["Konfety pri 100, 250, 500, 750, 1000… hodinách v roku","Konfetti 100, 250, 500, 750, 1000… óránál az évben"],["Sezónne ozdoby: v decembri sneh, v lete slniečko","Évszakos díszek: decemberben hó, nyáron napsütés"],["Mini hra Pali chytá skrutky v Odznakoch + odznak Chytač","Minijáték: Pali elkapja a csavarokat a Jelvényeknél + Elkapó jelvény"],["Výber hlavnej farby pre iOS a Android rozhranie","Fő szín választása az iOS és Android felülethez"],["Veľkosť písma: Malé, Stredné, Veľké","Betűméret: Kicsi, Közepes, Nagy"]]],
 ["3.14",[["Záloha obsahuje aj dátum posledného exportu a stav preškrtnutých poznámok","A mentés az utolsó export dátumát és az áthúzott jegyzetek állapotát is tartalmazza"]]],
-["3.15",[["Mini hra presunutá v Odznakoch hore pod Sériu","A minijáték feljebb került a Jelvényeknél, a Sorozat alá"]]]];
+["3.15",[["Mini hra presunutá v Odznakoch hore pod Sériu","A minijáték feljebb került a Jelvényeknél, a Sorozat alá"]]],
+["3.16",[["Políčka odpočítavania majú rovnakú veľkosť","A visszaszámlálás mezői egyforma méretűek"]]]];
 function wnew(){try{try{localStorage.setItem("pdseen",VER)}catch(e){}return;let sn=null;try{sn=localStorage.getItem("pdseen")}catch(e){}const sv=v=>{try{localStorage.setItem("pdseen",v)}catch(e){}};
 if($("lp")){sv(VER);return}if(sn==VER)return;const cv=v=>v.split(".").map(Number),gt=(a,b)=>{const x=cv(a),y=cv(b);return x[0]!=y[0]?x[0]>y[0]:x[1]>y[1]};
 let L=sn?CL.filter(c=>gt(c[0],sn)):CL.slice(-4);if(!L.length){sv(VER);return}const hu=LG=="hu",E=x=>String(x).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
 $("dNwt").textContent=hu?"Újdonságok":"Čo je nové";$("dNwo").textContent=hu?"Rendben":"Rozumiem";
 $("dNwb").innerHTML=L.slice().reverse().map(c=>`<div style="margin:10px 0"><div style="font-size:12px;color:var(--mu);font-weight:700;letter-spacing:.04em">${hu?"VERZIÓ":"VERZIA"} ${c[0]}</div>${c[1].map(t=>`<div style="display:flex;gap:8px;margin-top:4px;font-size:15px;line-height:1.35"><span style="color:var(--g)">●</span><span>${E(t[hu?1:0])}</span></div>`).join("")}</div>`).join("");
 $("dNwo").onclick=()=>{sv(VER);$("dNw").close();try{bdgSoon()}catch(e){}};$("dNw").addEventListener("cancel",()=>sv(VER),{once:true});$("dNw").showModal()}catch(e){}}
-const VER="3.15",VERD="18. 11. 2026";
+const VER="3.16",VERD="18. 11. 2026";
 $("ver").textContent=(LG=="hu"?"Verzió ":"Verzia ")+VER+" · "+VERD;
 let mxI=null,mxC=null;
 function mxStop(){clearInterval(mxI);mxI=null;if(mxC){mxC.remove();mxC=null}}
@@ -1336,7 +1337,7 @@ let nv=null;for(const k in store){const r=store[k];if(!r||!r.a||!r.a.includes(0)
 const tk=t0.getFullYear()+"-"+(t0.getMonth()+1)+"-"+t0.getDate();
 if(store[tk]&&store[tk].a&&store[tk].a.includes(0))C.push(["🌴",hu?"Szabadság":"Dovolenka",hu?"ma 🥳":"dnes 🥳"]);else if(nv){const x=Math.round((nv-t0)/864e5);C.push(["🌴",dd(x),hu?"a szabadságig":"do dovolenky"])}
 const xm=new Date(t0.getFullYear(),11,24);if(t0<=xm&&!(nh&&nh.getTime()==xm.getTime())){const x=Math.round((xm-t0)/864e5);if(x>0&&x<=60)C.push(["🎄",dd(x),hu?"karácsonyig":"do Vianoc"])}
-el.innerHTML=C.map(c=>`<div class="cd"><div class="e">${c[0]}</div><b>${c[1]}</b><span>${c[2]}</span></div>`).join("")}
+el.classList.toggle("g4",C.length>3);el.innerHTML=C.map(c=>`<div class="cd"><div class="e">${c[0]}</div><b>${c[1]}</b><span>${c[2]}</span></div>`).join("")}
 let paliT=0;
 
 function paliAcc(){let lv=0;try{lv=lvCalc()}catch(e){}const A=[];
