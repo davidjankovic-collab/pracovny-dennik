@@ -454,8 +454,8 @@ html[data-ui] #cdn .cd{background:var(--card)!important;border:0}html[data-ui=io
 #pali{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 92px);z-index:6;width:min(calc(100% - 24px),420px);display:flex;align-items:flex-end;gap:4px;transform:translate(-50%,30px);opacity:0;transition:transform .45s cubic-bezier(.2,1.4,.4,1),opacity .3s;pointer-events:none}
 #pali.on{transform:translate(-50%,0);opacity:1;pointer-events:auto}
 #pali img{width:62px;flex:none;margin-bottom:-6px;filter:drop-shadow(0 6px 12px rgba(0,0,0,.5))}
-#pali .pb{position:relative;flex:1;background:var(--card,#16212a);color:var(--tx,#fff);border:1.5px solid var(--g);border-radius:18px;padding:11px 14px;font-size:14.5px;line-height:1.4;font-weight:600;box-shadow:0 10px 26px rgba(0,0,0,.45);margin-bottom:14px}
-html[data-ui] #pali .pb{border-color:var(--ac)}
+#pali .pb{position:relative;flex:1;background:linear-gradient(color-mix(in srgb,var(--g) 10%,transparent),color-mix(in srgb,var(--g) 10%,transparent)),#121a20;color:var(--tx,#fff);border:1.5px solid var(--g);border-radius:18px;padding:11px 14px;font-size:14.5px;line-height:1.4;font-weight:600;box-shadow:0 10px 26px rgba(0,0,0,.45);margin-bottom:14px}
+html[data-ui] #pali .pb{border-color:var(--g)}
 #pali .pb small{display:block;font-size:11px;font-weight:800;letter-spacing:.06em;color:var(--g);margin-bottom:2px}html[data-ui] #pali .pb small{color:var(--ac)}
 #pali .pb::before{content:"";position:absolute;left:-9px;bottom:14px;border:8px solid transparent;border-right:9px solid var(--g);border-left:0}html[data-ui] #pali .pb::before{border-right-color:var(--ac)}
 html[data-ui=ios] #pali{bottom:calc(env(safe-area-inset-bottom,0px) + 100px)}
@@ -1330,14 +1330,15 @@ const CL=[["2.43",[["Odstránený Zoznam (skener textu)","A Lista (szövegszkenn
 ["3.35",[["V Pexese s náradím Pali tlieska a poskočí pri každom páre","A Szerszám-memóriában Pali tapsol, és minden párnál ugrik egyet"]]],
 ["3.36",[["V hre Zapoj to správne je Pali – pri zlom zapojení si zakryje oči","A Kösd be helyesen játékban ott van Pali – rossz bekötésnél eltakarja a szemét"]]],
 ["3.37",[["Podržanie prsta na obrázku Paliho už neotvára ponuku Uložiť/Kopírovať","Pali képén hosszan nyomva már nem jelenik meg a Mentés/Másolás menü"]]],
-["3.38",[["Opravená hra Pali skáče – na telefóne sa nedala spustiť","Javítva a Pali ugrik játék – telefonon nem lehetett elindítani"]]]];
+["3.38",[["Opravená hra Pali skáče – na telefóne sa nedala spustiť","Javítva a Pali ugrik játék – telefonon nem lehetett elindítani"]]],
+["3.39",[["Bublina s Paliho hláškou už nie je priesvitná","Pali szövegbuborékja már nem átlátszó"]]]];
 function wnew(){try{try{localStorage.setItem("pdseen",VER)}catch(e){}return;let sn=null;try{sn=localStorage.getItem("pdseen")}catch(e){}const sv=v=>{try{localStorage.setItem("pdseen",v)}catch(e){}};
 if($("lp")){sv(VER);return}if(sn==VER)return;const cv=v=>v.split(".").map(Number),gt=(a,b)=>{const x=cv(a),y=cv(b);return x[0]!=y[0]?x[0]>y[0]:x[1]>y[1]};
 let L=sn?CL.filter(c=>gt(c[0],sn)):CL.slice(-4);if(!L.length){sv(VER);return}const hu=LG=="hu",E=x=>String(x).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
 $("dNwt").textContent=hu?"Újdonságok":"Čo je nové";$("dNwo").textContent=hu?"Rendben":"Rozumiem";
 $("dNwb").innerHTML=L.slice().reverse().map(c=>`<div style="margin:10px 0"><div style="font-size:12px;color:var(--mu);font-weight:700;letter-spacing:.04em">${hu?"VERZIÓ":"VERZIA"} ${c[0]}</div>${c[1].map(t=>`<div style="display:flex;gap:8px;margin-top:4px;font-size:15px;line-height:1.35"><span style="color:var(--g)">●</span><span>${E(t[hu?1:0])}</span></div>`).join("")}</div>`).join("");
 $("dNwo").onclick=()=>{sv(VER);$("dNw").close();try{bdgSoon()}catch(e){}};$("dNw").addEventListener("cancel",()=>sv(VER),{once:true});$("dNw").showModal()}catch(e){}}
-const VER="3.38",VERD="18. 11. 2026";
+const VER="3.39",VERD="18. 11. 2026";
 $("ver").textContent=(LG=="hu"?"Verzió ":"Verzia ")+VER+" · "+VERD;
 let mxI=null,mxC=null;
 function mxStop(){clearInterval(mxI);mxI=null;if(mxC){mxC.remove();mxC=null}}
