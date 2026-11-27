@@ -698,7 +698,7 @@ const MN=["Január","Február","Marec","Apríl","Máj","Jún","Júl","August","S
 let cm=new Date(new Date().getFullYear(),new Date().getMonth(),1);
 function bov(d,a,b){let t=0;for(const x of d.b||[]){const[p,q]=x.split("-").map(v=>m(v));t+=Math.max(0,Math.min(b,q)-Math.max(a,p))}return t}
 function calc(d,dt){let E=390+LIM*60,F;for(let n=0;n<6;n++){const v=390+LIM*60+bov(d,390,E);if(v==E)break;E=v}F=E+120;for(let n=0;n<6;n++){const v=E+120+bov(d,E,F);if(v==F)break;F=v}const r={net:0,ot:0,nt:0,reg:0,span:0,E,F};if(!d.s||!d.e||m(d.e)<=m(d.s))return r;const s=m(d.s),e=m(d.e);r.span=e-s;if(dt&&isOff(dt)){let t=e-s;for(const x of d.b){const[p,q]=x.split("-").map(v=>m(v));t-=Math.max(0,Math.min(e,q)-Math.max(s,p))}r.ot=Math.max(0,t);r.net=r.ot;return r}
-for(const[a,b,k]of[[270,390,"ot"],[390,E,"reg"],[E,F,"ot"]]){const lo=Math.max(a,s),hi=Math.min(b,e);if(hi<=lo)continue;let t=hi-lo;for(const x of d.b){const[p,q]=x.split("-").map(v=>m(v));t-=Math.max(0,Math.min(hi,q)-Math.max(lo,p))}r[k]+=Math.max(0,t)}
+for(const[a,b,k]of[[0,390,"ot"],[390,E,"reg"],[E,1440,"ot"]]){const lo=Math.max(a,s),hi=Math.min(b,e);if(hi<=lo)continue;let t=hi-lo;for(const x of d.b){const[p,q]=x.split("-").map(v=>m(v));t-=Math.max(0,Math.min(hi,q)-Math.max(lo,p))}r[k]+=Math.max(0,t)}
 r.net=r.nt+r.ot+r.reg;return r}
 const BG=[];
 const BGC={};
@@ -1211,14 +1211,15 @@ const CL=[["2.43",[["Odstránený Zoznam (skener textu)","A Lista (szövegszkenn
 ["3.43",[["Pri Lekár a Lekár+ sa dá vybrať druh vyšetrenia (zubár, očný, ortopéd…); v Informáciách je prehľad podľa vyšetrenia","Orvos és Orvos+ esetén kiválasztható a vizsgálat típusa (fogorvos, szemész, ortopéd…); az Infóban vizsgálat szerinti összesítés"]]],
 ["3.44",[["Pri Lekár a Lekár+ sa dá zapísať čas vyšetrenia (len informačne)","Orvos és Orvos+ esetén megadható a vizsgálat időpontja (csak tájékoztató)"]]],
 ["3.45",[["Políčko Čas vyšetrenia sa zmestí do okna","A vizsgálat időpontja mező belefér az ablakba"]]],
-["3.46",[["Lekár a Lekár+ sa zobrazujú v zozname pod kalendárom spolu s poznámkami","Az Orvos és Orvos+ a naptár alatti listában is megjelenik a jegyzetekkel együtt"]]]];
+["3.46",[["Lekár a Lekár+ sa zobrazujú v zozname pod kalendárom spolu s poznámkami","Az Orvos és Orvos+ a naptár alatti listában is megjelenik a jegyzetekkel együtt"]]],
+["3.47",[["Opravený výpočet: nadčas sa počíta celý, nie len prvé 2 hodiny","Javított számítás: a teljes túlóra beleszámít, nem csak az első 2 óra"]]]];
 function wnew(){try{try{localStorage.setItem("pdseen",VER)}catch(e){}return;let sn=null;try{sn=localStorage.getItem("pdseen")}catch(e){}const sv=v=>{try{localStorage.setItem("pdseen",v)}catch(e){}};
 if($("lp")){sv(VER);return}if(sn==VER)return;const cv=v=>v.split(".").map(Number),gt=(a,b)=>{const x=cv(a),y=cv(b);return x[0]!=y[0]?x[0]>y[0]:x[1]>y[1]};
 let L=sn?CL.filter(c=>gt(c[0],sn)):CL.slice(-4);if(!L.length){sv(VER);return}const hu=LG=="hu",E=x=>String(x).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
 $("dNwt").textContent=hu?"Újdonságok":"Čo je nové";$("dNwo").textContent=hu?"Rendben":"Rozumiem";
 $("dNwb").innerHTML=L.slice().reverse().map(c=>`<div style="margin:10px 0"><div style="font-size:12px;color:var(--mu);font-weight:700;letter-spacing:.04em">${hu?"VERZIÓ":"VERZIA"} ${c[0]}</div>${c[1].map(t=>`<div style="display:flex;gap:8px;margin-top:4px;font-size:15px;line-height:1.35"><span style="color:var(--g)">●</span><span>${E(t[hu?1:0])}</span></div>`).join("")}</div>`).join("");
 $("dNwo").onclick=()=>{sv(VER);$("dNw").close();try{bdgSoon()}catch(e){}};$("dNw").addEventListener("cancel",()=>sv(VER),{once:true});$("dNw").showModal()}catch(e){}}
-const VER="3.46",VERD="18. 11. 2026";
+const VER="3.47",VERD="18. 11. 2026";
 $("ver").textContent=(LG=="hu"?"Verzió ":"Verzia ")+VER+" · "+VERD;
 let mxI=null,mxC=null;
 function mxStop(){clearInterval(mxI);mxI=null;if(mxC){mxC.remove();mxC=null}}
